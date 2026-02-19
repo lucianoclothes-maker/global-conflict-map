@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>Global Conflict Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+    <header>
+        <h1>🌐 Global Conflict Dashboard</h1>
+        <div id="dashboard">
+            <span id="active-events">Active events: 0</span>
+            <span id="total-fatalities">Total fatalities: 0</span>
+            <span id="countries-affected">Countries affected: 0</span>
+            <span id="last-update">Last update: N/A</span>
+        </div>
+        <div id="filters">
+            <label>Year: <select id="filter-year"></select></label>
+            <label>Region: <select id="filter-region"><option value="all">All</option></select></label>
+        </div>
+    </header>
+
+    <div id="map" style="height: 700px;"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
