@@ -1,38 +1,86 @@
+/* 1. Пълно запълване на екрана */
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden; 
-    background-color: #1c1c1c;
-    font-family: Arial, sans-serif;
+    overflow: hidden; /* Спираме скролването на целия сайт */
+    background-color: #111;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* 2. Хедър с фиксирана височина */
 header {
-    height: 100px; /* Намаляваме малко височината за повече място */
-    background: #111;
+    height: 100px;
+    background: #000;
     color: white;
-    padding: 10px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-bottom: 2px solid #333;
     box-sizing: border-box;
 }
 
-.main-container {
-    height: calc(100vh - 100px); 
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+#dashboard {
     display: flex;
+    gap: 15px;
+    font-size: 14px;
+    color: #bbb;
+    margin-top: 5px;
+}
+
+/* 3. Контейнерът - ТУК СЕ СЛУЧВА МАГИЯТА */
+.main-container {
+    display: flex;
+    height: calc(100vh - 100px); /* Заема всичко под хедъра */
     width: 100%;
 }
 
+/* 4. Картата (75% от ширината) */
 #map {
     flex: 3;
-    height: 100% !important; /* Усилваме командата */
-    min-height: 400px;
+    height: 100% !important; /* Принуждаваме я да се разпъне */
+    background: #1a1a1a;
 }
 
+/* 5. Панелът за новини (25% от ширината) */
 #news-sidebar {
     flex: 1;
-    height: 100%;
-    background: #222;
+    background: #1c1c1c;
+    color: #e0e0e0;
     padding: 20px;
-    border-left: 2px solid #444;
-    overflow-y: auto;
+    overflow-y: auto; /* Позволява скролване само вътре в новините */
+    border-left: 2px solid #333;
     box-sizing: border-box;
+}
+
+#news-sidebar h3 {
+    border-bottom: 1px solid #444;
+    padding-bottom: 10px;
+    color: #fff;
+}
+
+#news-content {
+    line-height: 1.6;
+}
+
+/* Легендата на картата */
+.legend {
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 5px;
+    line-height: 20px;
+}
+.legend i {
+    width: 15px;
+    height: 15px;
+    float: left;
+    margin-right: 8px;
+    border-radius: 50%;
 }
