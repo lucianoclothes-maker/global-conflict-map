@@ -1,16 +1,23 @@
-body {
+/* 1. Глобални настройки за цялата страница */
+html, body {
+    height: 100%;
     margin: 0;
+    padding: 0;
     font-family: Arial, sans-serif;
     background-color: #1c1c1c;
     color: #f0f0f0;
+    overflow: hidden; /* Спира излишното скролване */
 }
 
+/* 2. Горна лента (Dashboard) */
 header {
+    height: 120px; /* Фиксирана височина */
     padding: 10px;
     background-color: #111;
     display: flex;
     flex-direction: column;
     gap: 5px;
+    box-sizing: border-box; /* Важно, за да не се разширява от padding-а */
 }
 
 #dashboard {
@@ -20,27 +27,39 @@ header {
     font-weight: bold;
 }
 
-#filters label {
-    margin-right: 20px;
+/* 3. Контейнерът за картата и новините */
+.main-container {
+    height: calc(100vh - 120px); /* Заема остатъка от екрана */
+    display: flex;
 }
 
-.leaflet-popup-content {
-    background-color: #222;
-    color: #fff;
-}
-
-.leaflet-container {
+#map {
+    height: 100%;
+    flex: 3; /* Картата е по-широка */
     background: #111;
 }
+
+#news-sidebar {
+    height: 100%;
+    flex: 1; /* Панелът е по-тесен */
+    background: #222;
+    color: white;
+    padding: 15px;
+    overflow-y: auto; /* Скролване само в панела */
+    border-left: 2px solid #444;
+    box-sizing: border-box;
+}
+
+/* 4. Легенда и други детайли */
 .legend {
     padding: 10px;
-    background: white;
     background: rgba(255, 255, 255, 0.9);
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     line-height: 24px;
     color: #333;
 }
+
 .legend i {
     width: 18px;
     height: 18px;
