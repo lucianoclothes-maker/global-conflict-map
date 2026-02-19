@@ -3,49 +3,56 @@ import json
 from geopy.geocoders import Nominatim
 import time
 
-# Глобален източник на новини
-RSS_URL = "https://reliefweb.int/updates/rss.xml"
+# Списък с източници (ReliefWeb и Politico)
+SOURCES = [
+    "https://reliefweb.int/updates/rss.xml",
+    "https://www.politico.eu/rss-source/defense/" # Секцията за отбрана и конфликти на Politico
+]
 
-geolocator = Nominatim(user_agent="global_conflict_tracker_v3")
+geolocator = Nominatim(user_agent="politico_conflict_tracker")
 
 def fetch_news():
-    feed = feedparser.parse(RSS_URL)
     new_data = []
-    
-    # Разширен списък с държави
-    hotspots = ["Ukraine", "Sudan", "Gaza", "Israel", "Syria", "Yemen", "Congo", "Myanmar", "Somalia", "Nigeria", "Ethiopia", "Afghanistan", "Haiti", "Mali"]
+    hotspots = ["Ukraine", "Russia", "Sudan", "Gaza", "Israel", "Syria", "Yemen", "Congo", "Myanmar", "Taiwan", "Iran"]
 
-    for entry in feed.entries[:30]: # Проверяваме повече новини (30)
-        title = entry.title
-        found_country = None
-        
-        for country in hotspots:
-            if country.lower() in title.lower():
-                found_country = country
-                break
-        
-        if found_country:
-            location = geolocator.geocode(found_country)
-            if location:
-                new_data.append({
-                    "country": found_country,
-                    "date": time.strftime("%Y-%m-%d"),
-                    "fatalities": 10, # Слагаме число, за да се запълнят броячите горе
-                    "type": "News Alert",
-                    "lat": location.latitude,
-                    "lon": location.longitude,
-                    "title": title[:80] + "..."
-                })
+    for url in SOURCES:
+        feed = feedparser.parse(url)
+        print(f"Проверка на източник: {url}")
 
-    # Ако все пак няма новини в момента, добавяме 2 автоматични точки, за да не е празна картата
+        for entry in feed.entries[:15]:
+            title = entry.title
+            found_country = None
+            
+            for country in hotspots:
+                if country.lower() in title.lower():
+                    found_country = country
+                    break
+            
+            if found_country:
+                location = geolocator.geocode(found_country)
+                if location:
+                    # Разпознаваме дали новината е от Politico за по-интересен Popup
+                    source_name = "Politico" if "politico" in url else "ReliefWeb"
+                    
+                    new_data.append({
+                        "country": found_country,
+                        "date": time.strftime("%Y-%m-%d"),
+                        "fatalities": 10,
+                        "type": "News Alert",
+                        "lat": location.latitude,
+                        "lon": location.longitude,
+                        "title": f"[{source_name}] {title[:80]}..."
+                    })
+
+    # Защита: ако няма новини, връщаме примерни данни
     if not new_data:
-        new_data = [
-            {"country": "Ukraine", "date": "2026-02-20", "fatalities": 5, "type": "Explosion", "lat": 48.37, "lon": 31.16},
-            {"country": "Sudan", "date": "2026-02-20", "fatalities": 15, "type": "Armed clash", "lat": 12.86, "lon": 30.21}
-        ]
+        new_data = [{"country": "Global", "date": "2026-02-20", "fatalities": 0, "type": "Other", "lat": 20, "lon": 0, "title": "No news found"}]
 
     with open('conflicts.json', 'w', encoding='utf-8') as f:
         json.dump(new_data, f, indent=4)
+
+if __name__ == "__main__":
+    fetch_news()
 
 if __name__ == "__main__":
     fetch_news()
