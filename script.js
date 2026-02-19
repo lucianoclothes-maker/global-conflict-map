@@ -1,31 +1,31 @@
 window.onload = function() {
-    // 1. Инициализиране на картата (Dark Mode)
+    // 1. Инициализиране на картата
     var map = L.map('map', {
         worldCopyJump: true,
         minZoom: 2
     }).setView([20, 0], 2);
 
+    // Добавяме основния тъмен слой
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; CartoDB'
     }).addTo(map);
 
-    // --- НОВО: Добавяне на зелени очертания на границите ---
+    // 2. ДОБАВЯНЕ НА ЗЕЛЕНИ ГРАНИЦИ (Countries Borders)
     fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson')
         .then(response => response.json())
         .then(geojsonData => {
             L.geoJson(geojsonData, {
                 style: {
-                    color: '#00ff00', // Ярко зелено за границите
+                    color: '#00ff00', // Зелен цвят
                     weight: 1,        // Дебелина на линията
-                    opacity: 0.4,     // Леко прозрачно, за да не пречи на точките
-                    fillOpacity: 0    // Без запълване, за да останат държавите черни
+                    opacity: 0.3,     // Прозрачност
+                    fillOpacity: 0    // Без запълване
                 }
             }).addTo(map);
         })
-        .catch(err => console.error("Грешка при зареждане на границите:", err));
-    // -------------------------------------------------------
+        .catch(err => console.log("Границите ще заредят след малко..."));
 
-    // 2. Функция за цветовете
+    // 3. Функция за цветовете на точките
     function getColor(type) {
         const colors = {
             'Explosion': '#ff4d4d',
@@ -36,7 +36,7 @@ window.onload = function() {
         return colors[type] || '#3388ff';
     }
 
-    // 3. Зареждане на данни
+    // 4. Зареждане на новините от JSON
     fetch('conflicts.json')
         .then(response => response.json())
         .then(data => {
@@ -46,6 +46,7 @@ window.onload = function() {
             let countries = new Set();
 
             data.forEach(point => {
+                // Създаваме точка на картата
                 let marker = L.circleMarker([point.lat, point.lon], {
                     radius: 10,
                     fillColor: getColor(point.type),
@@ -55,6 +56,7 @@ window.onload = function() {
                     fillOpacity: 0.9
                 }).addTo(map);
 
+                // Какво става при клик върху точката
                 marker.on('click', function() {
                     document.getElementById('news-content').innerHTML = `
                         <div style="padding-top: 10px; border-bottom: 2px solid #444; padding-bottom: 10px; margin-bottom: 15px;">
@@ -79,5 +81,16 @@ window.onload = function() {
                 if (point.country) countries.add(point.country);
             });
 
-            // Обновяване на броячите
-            document.getElementById('active-
+            // Обновяваме цифрите в хедъра
+            document.getElementById('active-events').innerText = `Active events: ${data.length}`;
+            document.getElementById('total-fatalities').innerText = `Total fatalities: ${totalFatalities}`;
+            document.getElementById('countries-affected').innerText = `Countries affected: ${countries.size}`;
+            document.getElementById('last-update').innerText = `Last update: ${new Date().toLocaleDateString()}`;
+        })
+        .catch(err => console.error("Грешка при новините:", err));
+
+    // 5. ОПРАВЯНЕ НА ЧЕРНИЯ ЕКРАН (Refresh на размера)
+    setTimeout(function() {
+        map.invalidateSize();
+    }, 800);
+};
