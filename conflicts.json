@@ -1,29 +1,42 @@
 [
-    {
-        "country": "Sudan",
-        "date": "2026-02-19",
-        "fatalities": 10,
-        "type": "News Alert",
-        "lat": 14.5844444,
-        "lon": 29.4917691,
-        "title": "[ReliefWeb] Briefing to the Security Council on the humanitarian situation in Sudan by Ms. E..."
-    },
-    {
-        "country": "Sudan",
-        "date": "2026-02-19",
-        "fatalities": 10,
-        "type": "News Alert",
-        "lat": 14.5844444,
-        "lon": 29.4917691,
-        "title": "[ReliefWeb] Sudan CCPM Action Plan and Survey Results 2025..."
-    },
-    {
-        "country": "Congo",
-        "date": "2026-02-19",
-        "fatalities": 10,
-        "type": "News Alert",
-        "lat": -2.9814344,
-        "lon": 23.8222636,
-        "title": "[ReliefWeb] DR Congo: East Consortium: Research on climate-sensitive programming and social ..."
-    }
+  {
+    "country": "Ukraine (Donbas)",
+    "lat": 48.1366,
+    "lon": 37.7491,
+    "date": "20.02.2026",
+    "type": "Armed clash",
+    "title": "[Liveuamap] Интензивни боеве в сектора на Авдеевка. Руските сили се опитват да пробият защитната линия.",
+    "fatalities": 0,
+    "link": "https://liveuamap.com/"
+  },
+  {
+    "country": "Ukraine (Kharkiv)",
+    "lat": 49.9935,
+    "lon": 36.2304,
+    "date": "20.02.2026",
+    "type": "Airstrike",
+    "title": "[Liveuamap] Съобщения за експлозии в покрайнините на Харков. Активирана е противовъздушната отбрана.",
+    "fatalities": 0,
+    "link": "https://liveuamap.com/"
+  },
+  {
+    "country": "Iran (Hormuz)",
+    "lat": 26.5912,
+    "lon": 56.4521,
+    "date": "20.02.2026",
+    "type": "News Alert",
+    "title": "[Liveuamap] САЩ засилват морското присъствие в Ормузкия проток след заплахи от страна на Техеран.",
+    "fatalities": 0,
+    "link": "https://middleeast.liveuamap.com/"
+  },
+  {
+    "country": "Iran (Tehran)",
+    "lat": 35.6892,
+    "lon": 51.3890,
+    "date": "20.02.2026",
+    "type": "News Alert",
+    "title": "[Liveuamap] Иранските военни обявиха мащабни учения с балистични ракети в централната част на страната.",
+    "fatalities": 0,
+    "link": "https://middleeast.liveuamap.com/"
+  }
 ]
