@@ -26,3 +26,10 @@ jobs:
       - name: Fetch ACLED data
         run: python fetch_acled_oauth.py
 
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add conflicts.json
+          git commit -m "Update conflict data" || exit 0
+          git push
