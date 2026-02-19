@@ -1,0 +1,29 @@
+[
+  {
+    "country": "Ukraine",
+    "date": "2026-02-18",
+    "fatalities": 12,
+    "actor1": "Ukraine Army",
+    "actor2": "Russia",
+    "lat": 50.45,
+    "lon": 30.523
+  },
+  {
+    "country": "Syria",
+    "date": "2026-02-17",
+    "fatalities": 35,
+    "actor1": "Syrian Govt",
+    "actor2": "Rebels",
+    "lat": 34.8021,
+    "lon": 38.9968
+  },
+  {
+    "country": "Somalia",
+    "date": "2026-02-16",
+    "fatalities": 8,
+    "actor1": "Al-Shabaab",
+    "actor2": "Somali Forces",
+    "lat": 2.0469,
+    "lon": 45.3182
+  }
+]
