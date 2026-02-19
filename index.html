@@ -21,7 +21,12 @@
         </div>
     </header>
 
-    <div id="map" style="height: 700px;"></div>
+    <div class="main-container" style="display: flex; height: 100vh;">
+    <div id="map" style="flex: 3;"></div> <div id="news-sidebar" style="flex: 1; background: #222; color: white; padding: 15px; overflow-y: auto; border-left: 2px solid #444;">
+        <h3>Детайли за събитието</h3>
+        <div id="news-content">Кликнете върху точка от картата, за да видите новината тук.</div>
+    </div>
+</div>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="script.js"></script>
