@@ -1,18 +1,21 @@
-name: Update Conflicts Data via OAuth
+name: Update ACLED Conflicts
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Всеки ден в 00:00 UTC
-  workflow_dispatch:      # Позволява ръчно стартиране
+    - cron: '0 0 * * *' # всеки ден в полунощ
+  workflow_dispatch:
 
 jobs:
-  update:
+  fetch_conflicts:
     runs-on: ubuntu-latest
-
+    env:
+      ACLED_EMAIL: ${{ secrets.ACLED_EMAIL }}
+      ACLED_PASSWORD: ${{ secrets.ACLED_PASSWORD }}
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
@@ -20,17 +23,6 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Fetch ACLED data via OAuth
-        env:
-          ACLED_EMAIL: ${{ secrets.ACLED_EMAIL }}
-          ACLED_PASSWORD: ${{ secrets.ACLED_PASSWORD }}
-        run: |
-          python fetch_acled_oauth.py
+      - name: Fetch ACLED data
+        run: python fetch_acled_oauth.py
 
-      - name: Commit updated conflicts.json
-        run: |
-          git config --local user.name "github-actions[bot]"
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git add conflicts.json
-          git commit -m "Auto-update via OAuth" || echo "No changes"
-          git push
