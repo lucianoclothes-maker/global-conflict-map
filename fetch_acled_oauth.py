@@ -9,3 +9,4 @@ data = [
 with open("conflicts.json", "w", encoding="utf-8") as f:
     json.dump(data, f, indent=2, ensure_ascii=False)
 print("Файлът conflicts.json е готов!")
+{"country": "Bulgaria", "date": "2024-05-21", "fatalities": 0, "type": "Event", "lat": 42.69, "lon": 23.32},
