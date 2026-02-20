@@ -420,3 +420,9 @@ header h1 {
     cursor: pointer;
     font-size: 1.2rem;
 }
+#news-sidebar {
+    max-height: 80vh; /* Ограничава височината до 80% от екрана */
+    overflow-y: auto; /* Добавя плъзгач, ако текстът е дълъг */
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.9);
+}
