@@ -99,8 +99,17 @@ window.onload = function() {
         document.getElementById('active-events').innerText = "Active events: " + data.length;
         document.getElementById('total-fatalities').innerText = "Total fatalities: " + deaths;
         document.getElementById('countries-affected').innerText = "Countries affected: " + countries.size;
+        document.getElementById('news-ticker').innerText = data.map(p => `[${p.country.toUpperCase()}: ${p.title}]`).join(' +++ ');
         document.getElementById('last-update').innerText = "Last update: " + new Date().toLocaleDateString();
     });
 
     setTimeout(() => map.invalidateSize(), 600);
 };
+// Функция за часовник в реално време
+setInterval(() => {
+    const now = new Date();
+    const timeStr = now.getUTCHours().toString().padStart(2, '0') + ":" + 
+                    now.getUTCMinutes().toString().padStart(2, '0') + ":" + 
+                    now.getUTCSeconds().toString().padStart(2, '0') + " UTC";
+    document.getElementById('utc-clock').innerText = timeStr;
+}, 1000);
