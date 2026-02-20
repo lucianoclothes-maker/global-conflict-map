@@ -1,74 +1,76 @@
 [
     {
-        "country": "Middle East",
-        "lat": 32.6475314,
-        "lon": 54.5643516,
+        "country": "Russia",
+        "lat": 55.7558,
+        "lon": 37.6173,
         "date": "2026-02-20",
-        "type": "Clashes",
-        "title": "Tracking the rapid US military build-up near Iran",
-        "link": "https://www.aljazeera.com/news/2026/2/20/tracking-the-rapid-us-military-build-up-near-iran?traffic_source=rss"
+        "type": "Security",
+        "title": "Moscow increases security levels amid regional tensions",
+        "description": "The Kremlin has announced new measures for infrastructure protection following recent events.",
+        "fatalities": "0",
+        "link": "https://www.rt.com/"
     },
     {
-        "country": "Middle East",
-        "lat": 10.77544,
-        "lon": 47.50766,
-        "date": "2026-02-20",
-        "type": "Breaking News",
-        "title": "Hamas holds vote to choose new interim leader, source tells BBC",
-        "link": "https://www.bbc.com/news/articles/c23z0kdypm3o?at_medium=RSS&amp;at_campaign=rss"
-    },
-    {
-        "country": "Africa",
-        "lat": 14.5844444,
-        "lon": 29.4917691,
-        "date": "2026-02-20",
-        "type": "Breaking News",
-        "title": "RSF killings in Sudan bear signs of genocide, UN says",
-        "link": "https://www.aljazeera.com/video/newsfeed/2026/2/20/rsf-killings-in-sudan-bear-signs-of-genocide-un-says?traffic_source=rss"
-    },
-    {
-        "country": "Middle East",
-        "lat": -23.328398,
-        "lon": 32.8066057,
-        "date": "2026-02-20",
-        "type": "Breaking News",
-        "title": "Trump’s Board of Peace faces its first test on Gaza",
-        "link": "https://www.aljazeera.com/video/newsfeed/2026/2/20/trumps-board-of-peace-faces-its-first-test-on-gaza?traffic_source=rss"
-    },
-    {
-        "country": "Ukraine",
-        "lat": 49.4871968,
-        "lon": 31.2718321,
-        "date": "2026-02-20",
-        "type": "Breaking News",
-        "title": "Ukraine’s patience with US peace push wears thin as Russia skirts pressure",
-        "link": "https://www.aljazeera.com/features/2026/2/20/ukraines-patience-with-us-peace-push-wears-thin-as-russia-skirts-pressure?traffic_source=rss"
-    },
-    {
-        "country": "Ukraine",
-        "lat": 64.6863136,
-        "lon": 97.7453061,
+        "country": "Russia",
+        "lat": 51.1657,
+        "lon": 40.2833,
         "date": "2026-02-20",
         "type": "Clashes",
         "title": "The Russian village that lost its men to war",
-        "link": "https://www.bbc.com/news/articles/ce8n4l8elpgo?at_medium=RSS&amp;at_campaign=rss"
+        "description": "Local reports indicate heavy losses in the border regions during recent military operations.",
+        "fatalities": "34",
+        "link": "https://www.bbc.com/news/articles/ce8n4l8elpgo"
     },
     {
-        "country": "Africa",
-        "lat": 16.3700359,
-        "lon": -2.2900239,
+        "country": "Ukraine",
+        "lat": 48.3794,
+        "lon": 38.0297,
         "date": "2026-02-20",
-        "type": "Breaking News",
-        "title": "UN emergency food aid in Somalia may halt by April amid severe hunger",
-        "link": "https://www.aljazeera.com/news/2026/2/20/un-emergency-food-aid-in-somalia-may-halt-by-april-amid-severe-hunger?traffic_source=rss"
+        "type": "War",
+        "title": "Frontline update: Intense clashes in Eastern Ukraine",
+        "description": "Kyiv reports heavy defensive battles as tactical maneuvers continue on both sides.",
+        "fatalities": "85",
+        "link": "https://www.aljazeera.com/news/"
     },
     {
-        "country": "Middle East",
-        "lat": 30.8124247,
-        "lon": 34.8594762,
+        "country": "USA",
+        "lat": 38.8951,
+        "lon": -77.0364,
         "date": "2026-02-20",
-        "type": "Breaking News",
-        "title": "Israel blocks Palestinians from attending Ramadan Friday prayers at Al-Aqsa",
-        "link": "https://www.aljazeera.com/news/2026/2/20/israel-blocks-palestinians-from-first-friday-prayers-of-ramadan-at-al-aqsa?traffic_source=rss"
-    }
-]
+        "type": "Cyber",
+        "title": "US Cyber Command issues high-level alert over infrastructure",
+        "description": "Washington warns of coordinated cyber attacks targeting the national power grid.",
+        "fatalities": "0",
+        "link": "https://www.reuters.com/world/us/"
+    },
+    {
+        "country": "North Korea",
+        "lat": 39.0392,
+        "lon": 125.7625,
+        "date": "2026-02-20",
+        "type": "Missile",
+        "title": "Pyongyang confirms successful launch of new ICBM missile",
+        "description": "The strategic missile reached record altitude before falling into the East Sea.",
+        "fatalities": "0",
+        "link": "https://www.bbc.com/news/world/asia"
+    },
+    {
+        "country": "China",
+        "lat": 24.4,
+        "lon": 118.1,
+        "date": "2026-02-20",
+        "type": "Naval",
+        "title": "China Navy conducts massive ship drills in Taiwan Strait",
+        "description": "Over 20 naval vessels identified in the latest large-scale maritime exercise.",
+        "fatalities": "0",
+        "link": "https://www.scmp.com/news/china"
+    },
+    {
+        "country": "Japan",
+        "lat": 35.6762,
+        "lon": 139.6503,
+        "date": "2026-02-20",
+        "type": "Alert",
+        "title": "Japan Coast Guard on high alert after missile debris falls",
+        "description": "Maritime safety warnings issued for all vessels in the Sea of Japan.",
+        "fatalities
