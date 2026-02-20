@@ -315,3 +315,47 @@ header h1 {
     background: #00ff00;
     color: #000;
 }
+/* Liveuamap Стил икони */
+.live-icon-container {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 8px rgba(0,0,0,0.5);
+    transition: transform 0.2s;
+}
+
+.live-icon-container:hover {
+    transform: scale(1.2);
+}
+
+/* Надписи върху картата */
+.front-text-label {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 11px;
+    text-shadow: 2px 2px 4px #000;
+    text-align: center;
+    pointer-events: none;
+    border: none !important;
+    background: none !important;
+}
+
+/* Стил за информационната карта */
+.news-card {
+    padding: 10px;
+    background: #1a1a1a;
+    border-left: 4px solid #ff4d4d;
+}
+
+.news-link {
+    display: block;
+    margin-top: 10px;
+    color: #ff4d4d;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 12px;
+}
