@@ -169,7 +169,7 @@ if (data.link.includes("zerohedge") || data.link.includes("halturner")) {
 }
 
 // И го вмъкни в заглавието
-panel.innerHTML = `<h3>${data.title} ${statusTag}</h3> ...`;
+panel.innerHTML = `<h3>${data.title} ${statusTag}</h3> `;
         
         // 2. Съкращаване, ако е твърде дълго
         if (cleanDescription.length > 400) {
