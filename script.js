@@ -1,9 +1,9 @@
 window.onload = function() {
-    // 1. Инициализиране на картата - Връщаме стандартния изглед
+    // 1. Инициализиране на картата
     var map = L.map('map', {
         worldCopyJump: true,
         minZoom: 2
-    }).setView([20, 0], 2);
+    }).setView([48.3, 35.5], 5); // Фокус върху Украйна при зареждане
 
     // ОСНОВЕН СЛОЙ: Тъмен фон
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
@@ -12,16 +12,10 @@ window.onload = function() {
 
     // СЛОЙ ЗА ЕТИКЕТИ: Държави и градове
     var labels = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png', {
-        opacity: 0.4,
+        opacity: 0.6,
         pane: 'shadowPane'
     }).addTo(map);
 
-    // Динамичен зуум за ярки градове
-    map.on('zoomend', function() {
-        labels.setOpacity(map.getZoom() >= 5 ? 1 : 0.4);
-    });
-
-    // Функция за цветовете на точките
     function getColor(type) {
         const colors = {
             'Explosion': '#ff4d4d',
@@ -32,40 +26,47 @@ window.onload = function() {
         return colors[type] || '#3388ff';
     }
 
-    // 2. ЗЕЛЕНИ ГРАНИЦИ С ХОВЪР ЕФЕКТ
+    // 2. ЗЕЛЕНИ ГРАНИЦИ (Държави)
     fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson')
         .then(response => response.json())
         .then(geojsonData => {
             L.geoJson(geojsonData, {
-                style: {
-                    color: '#00ff00',
-                    weight: 1,
-                    opacity: 0.3,
-                    fillOpacity: 0
-                },
-                onEachFeature: function(feature, layer) {
-                    layer.on('mouseover', function() { this.setStyle({ opacity: 0.8, weight: 2 }); });
-                    layer.on('mouseout', function() { this.setStyle({ opacity: 0.3, weight: 1 }); });
-                }
+                style: { color: '#00ff00', weight: 1, opacity: 0.3, fillOpacity: 0 }
             }).addTo(map);
         });
 
-    // 2.1 ЧЕРВЕНА ЛИНИЯ НА ФРОНТА (Украйна)
-    fetch('https://raw.githubusercontent.com/uaminna/ukraine-war-data/main/data/frontline.geojson')
-        .then(response => response.json())
-        .then(frontlineData => {
-            L.geoJson(frontlineData, {
-                style: {
-                    color: '#ff0000',
-                    weight: 3,
-                    opacity: 0.8,
-                    dashArray: '5, 10'
-                }
-            }).addTo(map);
-        })
-        .catch(err => console.log("Фронтовата линия не е заредена, но картата продължава."));
+    // --- НОВО: ЛИНИЯ НА ФРОНТА И ОКУПИРАНИ ЗОНИ (Директно в кода) ---
+    
+    // Координати за фронтовата линия (през ключови точки)
+    var frontLineCoords = [
+        [46.5, 32.3], [46.8, 33.5], [47.5, 35.3], [48.0, 37.6], 
+        [48.6, 38.0], [49.5, 38.0], [50.1, 37.8]
+    ];
+    
+    // Червена прекъсната линия (Tactical Line)
+    L.polyline(frontLineCoords, {
+        color: '#ff0000',
+        weight: 4,
+        opacity: 0.9,
+        dashArray: '8, 12'
+    }).addTo(map).bindTooltip("АКТИВЕН ФРОНТ");
 
-    // 3. ЗАРЕЖДАНЕ НА КОНФЛИКТИТЕ ОТ conflicts.json
+    // Червена зона (Окупирана територия - Крим и Донбас)
+    var occupationZone = [
+        [46.0, 33.0], [46.8, 34.5], [47.2, 37.8], [48.5, 39.5], 
+        [50.0, 38.5], [50.0, 40.0], [44.0, 40.0], [44.0, 33.0]
+    ];
+    
+    L.polygon(occupationZone, {
+        color: 'red',
+        fillColor: '#ff0000',
+        fillOpacity: 0.15, // Бледо червено фоново оцветяване
+        weight: 1
+    }).addTo(map);
+
+    // -----------------------------------------------------------
+
+    // 3. ЗАРЕЖДАНЕ НА КОНФЛИКТИТЕ (conflicts.json)
     fetch('conflicts.json')
         .then(response => response.json())
         .then(data => {
@@ -76,21 +77,20 @@ window.onload = function() {
 
             data.forEach(point => {
                 let marker = L.circleMarker([point.lat, point.lon], {
-                    radius: 10,
+                    radius: 12, // Малко по-големи точки за видимост
                     fillColor: getColor(point.type),
                     color: "#fff",
                     weight: 2,
                     opacity: 1,
-                    fillOpacity: 0.8,
-                    className: 'pulse' // За анимацията в CSS
+                    fillOpacity: 0.9,
+                    className: 'pulse'
                 }).addTo(map);
 
                 marker.bindTooltip(point.country);
 
                 marker.on('click', function(e) {
-                    map.setView(e.target.getLatLng(), map.getZoom());
+                    map.setView(e.target.getLatLng(), 6);
 
-                    // Показваме жертви само ако са над 0
                     let fatalitiesHTML = (point.fatalities && point.fatalities > 0) 
                         ? `<p style="font-size: 16px; color: #eee; margin: 10px 0;">💀 <strong>Жертви:</strong> ${point.fatalities}</p>` 
                         : "";
@@ -114,7 +114,6 @@ window.onload = function() {
                 if (point.country) countries.add(point.country);
             });
 
-            // Обновяване на хедъра
             document.getElementById('active-events').innerText = `Active events: ${data.length}`;
             document.getElementById('total-fatalities').innerText = `Total fatalities: ${totalFatalities}`;
             document.getElementById('countries-affected').innerText = `Countries affected: ${countries.size}`;
@@ -122,8 +121,8 @@ window.onload = function() {
         })
         .catch(err => {
             console.error("Грешка:", err);
-            document.getElementById('news-content').innerHTML = "<p style='color:red;'>Грешка в conflicts.json! Провери структурата на файла.</p>";
+            document.getElementById('news-content').innerHTML = "<p style='color:red;'>Провери conflicts.json за грешки!</p>";
         });
 
-    setTimeout(function() { map.invalidateSize(); }, 800);
+    setTimeout(function() { map.invalidateSize(); }, 500);
 };
