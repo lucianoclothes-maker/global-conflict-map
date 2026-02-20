@@ -1,9 +1,17 @@
 window.onload = function() {
-    // --- 1. ИНИЦИАЛИЗИРАНЕ НА КАРТАТА ---
+    // --- 1. ИНИЦИАЛИЗИРАНЕ НА ЗВУК И ПРОМЕНЛИВИ ---
+    const alertSound = new Audio('alert.mp3');
+    let previousEventCount = 0; 
+    let allConflictData = [];
+    let markersLayer = L.layerGroup();
+
+    // --- 2. ИНИЦИАЛИЗИРАНЕ НА КАРТАТА ---
     var map = L.map('map', { 
         worldCopyJump: true, 
         minZoom: 2 
     }).setView([35.0, 30.0], 4); 
+
+    markersLayer.addTo(map);
 
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
         attribution: '&copy; CartoDB'
@@ -13,7 +21,7 @@ window.onload = function() {
         opacity: 0.4, pane: 'shadowPane'
     }).addTo(map);
 
-    // --- 2. ДЕФИНИРАНЕ НА НЕОНОВИТЕ SVG ИКОНИ ---
+    // --- 3. ДЕФИНИРАНЕ НА НЕОНОВИТЕ SVG ИКОНИ ---
     const createNeonIcon = (svgPath, color) => {
         return L.divIcon({
             html: `<div style="filter: drop-shadow(0 0 6px ${color}); display: flex; justify-content: center;">
@@ -35,10 +43,10 @@ window.onload = function() {
     const cyberPath = '<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>';
 
     const iconExplosion = createNeonIcon(explosionPath, '#e67e22'); 
-    const iconClash = createNeonIcon(clashPath, '#ff4d4d');     
+    const iconClash = createNeonIcon(clashPath, '#ff4d4d');      
     const iconShip = createNeonIcon(shipPath, '#5dade2');      
-    const iconAlert = createNeonIcon(alertPath, '#f1c40f');     
-    const iconDrone = createNeonIcon(dronePath, '#a569bd');     
+    const iconAlert = createNeonIcon(alertPath, '#f1c40f');      
+    const iconDrone = createNeonIcon(dronePath, '#a569bd');      
     const iconAirstrike = createNeonIcon(airstrikePath, '#ec7063'); 
     const iconNuclear = createNeonIcon(nuclearPath, '#39FF14'); 
     const iconCyber = createNeonIcon(cyberPath, '#00FFFF');
@@ -53,6 +61,8 @@ window.onload = function() {
         if (type === 'Cyber') return iconCyber;
         return iconAlert; 
     }
+
+    // --- 4. ЗАРЕЖДАНЕ НА ГРАНИЦИ ---
     fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson')
         .then(res => res.json()).then(data => {
             L.geoJson(data, {
@@ -64,27 +74,31 @@ window.onload = function() {
             }).addTo(map);
         });
 
+    // Декоративни линии и зони (Украйна пример)
     var fLine = [[46.5, 32.3], [48.0, 37.6], [50.1, 37.8]];
     L.polyline(fLine, { color: '#ff0000', weight: 3, opacity: 0.5, dashArray: '10, 15' }).addTo(map);
 
     var oZone = [[46.0, 33.0], [47.2, 37.8], [50.0, 38.5], [44.0, 40.0], [44.0, 33.0]];
     L.polygon(oZone, { color: '#ff4d4d', fillColor: '#ff0000', fillOpacity: 0.08, weight: 1 }).addTo(map);
 
-    let allConflictData = [];
-    let markersLayer = L.layerGroup().addTo(map);
-
+    // --- 5. ОСНОВНА ФУНКЦИЯ ЗА ДАННИТЕ ---
     function loadMapData() {
         fetch('conflicts.json?t=' + new Date().getTime())
             .then(res => res.json())
             .then(data => {
+                // ПРОВЕРКА ЗА ЗВУК: Изпълнява се само при увеличение на събитията
+                if (previousEventCount !== 0 && data.length > previousEventCount) {
+                    alertSound.play().catch(e => console.log("Sound autoplay blocked. Wait for user interaction."));
+                }
+                previousEventCount = data.length;
+
                 allConflictData = data;
                 markersLayer.clearLayers(); 
                 
                 let countries = new Set();
-                let totalDeaths = 0; // Започваме брояча от 0
+                let totalDeaths = 0;
 
                 data.forEach(p => {
-                    // Добавяме броя на жертвите, ако съществува такова поле в JSON
                     if (p.fatalities) {
                         totalDeaths += parseInt(p.fatalities);
                     }
@@ -110,7 +124,7 @@ window.onload = function() {
                     countries.add(p.country);
                 });
 
-                // Обновяване на всички полета в Dashboard-а
+                // Обновяване на UI
                 document.getElementById('active-events').innerText = "Active events: " + data.length;
                 document.getElementById('total-fatalities').innerText = "Total fatalities: " + totalDeaths;
                 document.getElementById('countries-affected').innerText = "Countries affected: " + countries.size;
@@ -118,8 +132,12 @@ window.onload = function() {
                 document.getElementById('news-ticker').innerText = data.map(p => `[${p.country.toUpperCase()}: ${p.title}]`).join(' +++ ');
             });
     }
+
+    // Стартиране и интервал за опресняване
     loadMapData();
     setInterval(loadMapData, 60000);
+
+    // --- 6. ТЪРСЕНЕ ---
     const searchInput = document.getElementById('map-search');
     const resultsDiv = document.getElementById('search-results');
     if (searchInput && resultsDiv) {
@@ -142,6 +160,7 @@ window.onload = function() {
     }
 };
 
+// --- 7. UTC ЧАСОВНИК ---
 setInterval(() => {
     const clockEl = document.getElementById('utc-clock');
     if (clockEl) {
