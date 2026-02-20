@@ -255,3 +255,31 @@ setInterval(() => {
         clock.innerText = `${h}:${m}:${s} UTC`;
     }
 }, 1000);
+// Логика за тактическия чат
+const chatInput = document.getElementById('chat-input');
+const sendBtn = document.getElementById('send-btn');
+const chatBox = document.getElementById('chat-box');
+
+function handleSendMessage() {
+    const text = chatInput.value.trim();
+    if (text !== "") {
+        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const newMessage = document.createElement('div');
+        newMessage.className = 'msg';
+        newMessage.innerHTML = `<span style="color: #666;">[${time}]</span> <span style="color: #fff;">User:</span> ${text}`;
+        
+        chatBox.appendChild(newMessage);
+        chatInput.value = ""; // Изчиства полето
+        chatBox.scrollTop = chatBox.scrollHeight; // Скролва автоматично до най-новото
+    }
+}
+
+// Слушател за клик на бутона
+sendBtn.addEventListener('click', handleSendMessage);
+
+// Слушател за натискане на Enter
+chatInput.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        handleSendMessage();
+    }
+});
