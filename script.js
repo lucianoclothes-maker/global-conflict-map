@@ -155,9 +155,19 @@ window.onload = function() {
         });
     }
 
-   function displayNewsDetails(data) {
+function displayNewsDetails(data) {
     const panel = document.getElementById('news-content');
     if (panel) {
+        // 1. Почистване на текста от HTML тагове и линкове
+        let cleanDescription = (data.description || "Няма допълнително описание.")
+            .replace(/<\/?[^>]+(>|$)/g, "") // Премахва <a href...>, <p> и т.н.
+            .trim();
+
+        // 2. Съкращаване, ако е твърде дълго
+        if (cleanDescription.length > 400) {
+            cleanDescription = cleanDescription.substring(0, 400) + "...";
+        }
+
         panel.innerHTML = `
             <div class="news-card animated-fade-in">
                 <div class="tag-row">
@@ -165,12 +175,17 @@ window.onload = function() {
                     <span class="date-tag">${data.date || new Date().toLocaleDateString()}</span>
                 </div>
                 <h3>${data.title}</h3>
-                <p style="line-height: 1.6; font-size: 14px; color: #ddd;">
-                    ${data.description || "Няма допълнително описание."}
+                <p style="line-height: 1.6; font-size: 14px; color: #ddd; margin-bottom: 15px;">
+                    ${cleanDescription}
                 </p>
+                <div style="margin-top: 10px;">
+                     <a href="${data.link || '#'}" target="_blank" style="color: #00ff00; text-decoration: none; font-weight: bold; font-size: 13px;">
+                        🔗 READ MORE
+                     </a>
+                </div>
                 <hr style="border:0; border-top:1px solid #333; margin:15px 0;">
                 <div class="meta-info">Жертви: <strong style="color: #ff4d4d;">${data.fatalities || 0}</strong></div>
-                </div>`;
+            </div>`;
     }
 }
 
