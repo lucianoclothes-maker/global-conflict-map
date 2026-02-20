@@ -40,9 +40,9 @@
         "lat": 49.4871968,
         "lon": 31.2718321,
         "date": "2026-02-20",
-        "type": "Clashes",
-        "title": "Musk cuts Starlink access for Russian forces - giving Ukraine an edge at the front",
-        "link": "https://www.bbc.com/news/articles/c0q3ndj7052o?at_medium=RSS&amp;at_campaign=rss"
+        "type": "Breaking News",
+        "title": "Ukraine’s patience with US peace push wears thin as Russia skirts pressure",
+        "link": "https://www.aljazeera.com/features/2026/2/20/ukraines-patience-with-us-peace-push-wears-thin-as-russia-skirts-pressure?traffic_source=rss"
     },
     {
         "country": "Ukraine",
@@ -54,6 +54,15 @@
         "link": "https://www.bbc.com/news/articles/ce8n4l8elpgo?at_medium=RSS&amp;at_campaign=rss"
     },
     {
+        "country": "Africa",
+        "lat": 16.3700359,
+        "lon": -2.2900239,
+        "date": "2026-02-20",
+        "type": "Breaking News",
+        "title": "UN emergency food aid in Somalia may halt by April amid severe hunger",
+        "link": "https://www.aljazeera.com/news/2026/2/20/un-emergency-food-aid-in-somalia-may-halt-by-april-amid-severe-hunger?traffic_source=rss"
+    },
+    {
         "country": "Middle East",
         "lat": 30.8124247,
         "lon": 34.8594762,
@@ -61,14 +70,5 @@
         "type": "Breaking News",
         "title": "Israel blocks Palestinians from attending Ramadan Friday prayers at Al-Aqsa",
         "link": "https://www.aljazeera.com/news/2026/2/20/israel-blocks-palestinians-from-first-friday-prayers-of-ramadan-at-al-aqsa?traffic_source=rss"
-    },
-    {
-        "country": "Middle East",
-        "lat": 16.3471243,
-        "lon": 47.8915271,
-        "date": "2026-02-20",
-        "type": "Breaking News",
-        "title": "Is southern Yemen’s next phase being decided on the ground?",
-        "link": "https://www.aljazeera.com/opinions/2026/2/20/is-southern-yemens-next-phase-being-decided-on-the-ground?traffic_source=rss"
     }
 ]
