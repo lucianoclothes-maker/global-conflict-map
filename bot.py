@@ -11,25 +11,23 @@ FEEDS = [
     "https://www.militarytimes.com/arc/outboundfeeds/rss/", "https://www.longwarjournal.org/feed"
 ]
 
-geolocator = Nominatim(user_agent="conflict_map_final_v10")
+geolocator = Nominatim(user_agent="conflict_map_final_v11")
 
 def extract_info(text):
     t = text.lower()
-    # Локации
     locations = {
-        "Ukraine": ["kyiv", "kharkiv", "donetsk", "crimea", "odesa", "ukraine", "russia", "donbas"],
+        "Ukraine": ["kyiv", "kharkiv", "donetsk", "crimea", "odesa", "ukraine", "russia", "donbas", "kursk"],
         "Middle East": ["gaza", "israel", "lebanon", "iran", "yemen", "tehran", "tel aviv", "beirut", "red sea", "hamas", "idf"],
-        "Africa": ["sudan", "mali", "congo", "khartoum", "darfur", "somalia"]
+        "Africa": ["sudan", "mali", "congo", "khartoum", "darfur", "somalia", "el fasher"]
     }
     
-    # КЛЮЧОВИ ДУМИ, КОИТО ВЕЧЕ СЪВПАДАТ СЪС SCRIPT.JS
-    # Добавих общи думи като 'attack' и 'killed', за да се сменят иконите по-често
+    # ТЕЗИ ДУМИ ДИРЕКТНО АКТИВИРАТ ИКОНКИТЕ В SCRIPT.JS
     event_map = {
-        "Naval": ["ship", "vessel", "navy", "sea", "maritime", "boat", "port", "water"],
-        "Airstrike": ["airstrike", "missile", "rocket", "bombing", "strikes", "attack", "hit", "targeted"],
+        "Naval": ["ship", "vessel", "navy", "sea", "maritime", "boat", "port"],
+        "Airstrike": ["airstrike", "missile", "rocket", "bombing", "strikes", "attack", "hit"],
         "Explosion": ["explosion", "blast", "shelling", "artillery", "fire", "killed", "dead", "destroyed"],
-        "Drone": ["drone", "uav", "shahed", "quadcopter", "air"],
-        "Clashes": ["clashes", "fighting", "battle", "siege", "forces", "military", "war", "army", "offensive"]
+        "Drone": ["drone", "uav", "shahed", "quadcopter"],
+        "Clashes": ["clashes", "fighting", "battle", "siege", "forces", "military", "war", "clash"]
     }
 
     found_city, found_region = None, "World"
