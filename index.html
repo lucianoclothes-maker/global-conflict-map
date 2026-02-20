@@ -30,8 +30,8 @@
         .tactical-panel {
             position: fixed !important;
             z-index: 1000;
-            background: rgba(10, 10, 10, 0.3) !important; /* Намалена плътност за повече прозрачност */
-            backdrop-filter: blur(15px) saturate(160%); /* По-силно замъгляване */
+            background: rgba(10, 10, 10, 0.3) !important; 
+            backdrop-filter: blur(15px) saturate(160%); 
             -webkit-backdrop-filter: blur(15px);
             border: 1px solid rgba(57, 255, 20, 0.2);
             border-radius: 4px;
@@ -78,14 +78,20 @@
         <div class="panel-header">📡 ТАКТИЧЕСКИ ЧАТ</div>
         <iframe src="https://www5.cbox.ws/box/?boxid=961439&boxtag=rRC1cC" 
                 width="100%" height="100%" frameborder="0" scrolling="auto" 
-                style="filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(1.1); 
-                       mix-blend-mode: screen; background: transparent;"></iframe>
+                style="filter: brightness(1.2) contrast(1.1); 
+                       mix-blend-mode: screen; background: transparent !important;"></iframe>
     </div>
 
     <div id="news-container" class="tactical-panel">
         <div class="panel-header">📑 ТАКТИЧЕСКИ ДЕЙТА ФИЙД</div>
         <div id="news-content">
-            <p style="font-style: italic; color: #888;">Изберете маркер на картата или изчакайте актуализация на фийда...</p>
+            <script async src="https://telegram.org/js/telegram-widget.js?22" 
+                    data-telegram-post="liveuamap/25447" 
+                    data-width="100%" 
+                    data-dark="1"></script>
+            <p style="font-size: 10px; color: #555; margin-top: 10px; font-style: italic;">
+                * Автоматично обновяване на разузнавателни данни...
+            </p>
         </div>
     </div>
 
