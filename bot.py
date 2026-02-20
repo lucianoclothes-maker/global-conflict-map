@@ -20,7 +20,15 @@ def extract_info(text):
         "Middle East": ["gaza", "israel", "lebanon", "iran", "yemen", "tehran", "tel aviv", "beirut", "red sea", "hamas", "idf"],
         "Africa": ["sudan", "mali", "congo", "khartoum", "darfur", "somalia", "el fasher"]
     }
-    
+    event_map = {
+        "Naval": ["ship", "vessel", "navy", "sea", "maritime", "boat", "port", "black sea", "carrier"],
+        "Airstrike": ["airstrike", "missile", "rocket", "bombing", "strikes", "attack", "hit", "intercepted"],
+        "Explosion": ["explosion", "blast", "shelling", "artillery", "fire", "killed", "dead", "destroyed", "casualty"],
+        "Drone": ["drone", "uav", "shahed", "quadcopter", "unmanned", "fpv"],
+        "Clashes": ["clashes", "fighting", "battle", "siege", "forces", "military", "war", "clash", "offensive", "soldier"],
+        "Nuclear": ["nuclear", "atomic", "radiation", "zaporizhzhia", "npp", "icbm", "warhead", "plutonium"],
+        "Cyber": ["cyber", "hacking", "hacker", "ddos", "malware", "ransomware", "cyberattack", "it army"]
+    }
     # ТЕЗИ ДУМИ ДИРЕКТНО АКТИВИРАТ ИКОНКИТЕ В SCRIPT.JS
     event_map = {
         "Naval": ["ship", "vessel", "navy", "sea", "maritime", "boat", "port"],
@@ -78,3 +86,4 @@ def run_bot():
 
 if __name__ == "__main__":
     run_bot()
+
