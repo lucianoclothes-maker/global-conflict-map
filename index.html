@@ -1,70 +1,120 @@
-<style>
-    .main-container {
-        display: flex;
-        height: calc(100vh - 100px);
-        overflow: hidden;
-        background: #000;
-    }
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>Global Conflict Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        /* Основен контейнер */
+        .main-container {
+            display: flex;
+            flex-direction: row-reverse; /* Панел вляво, Карта вдясно */
+            height: calc(100vh - 80px); /* Напасване спрямо хедъра */
+            overflow: hidden;
+            background: #000;
+        }
 
-    /* ЛЯВА СЕКЦИЯ: Само за чата (тясна и малка) */
-    #left-chat-sidebar {
-        width: 300px; /* Свиваме го значително */
-        min-width: 300px;
-        display: flex;
-        flex-direction: column;
-        border-right: 2px solid #39FF14;
-        background: #050505;
-    }
+        /* Картата заема останалото място */
+        #map { 
+            flex: 1; 
+            position: relative; 
+            z-index: 1;
+        }
 
-    /* СРЕДНА СЕКЦИЯ: Картата */
-    #map { 
-        flex: 1; 
-        position: relative;
-    }
+        /* ЛЕВИЯТ ПАНЕЛ - фиксирана ширина, за да не е огромен */
+        #news-sidebar {
+            width: 320px; /* По-тесен и компактен панел */
+            min-width: 320px;
+            background: #111;
+            border-right: 2px solid #39FF14;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
 
-    /* ДЯСНА СЕКЦИЯ: Новините (връщаме ги вдясно) */
-    #news-sidebar {
-        width: 350px;
-        min-width: 350px;
-        background: #111;
-        border-left: 2px solid #39FF14;
-        display: flex;
-        flex-direction: column;
-        overflow-y: auto;
-    }
+        /* Новините отгоре */
+        #news-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            color: #ccc;
+            font-size: 14px;
+        }
 
-    /* Стил за легендата вътре в картата */
-    .map-legend {
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
-        z-index: 1000;
-        background: rgba(0, 0, 0, 0.9);
-        padding: 10px;
-        border: 1px solid #39FF14;
-        color: #39FF14;
-        font-family: monospace;
-        font-size: 12px;
-    }
-</style>
+        /* ЧАТЪТ ОТДОЛУ - фиксирана височина */
+        #cbox-wrapper {
+            height: 350px; /* Фиксираме чата да не заема целия панел */
+            border-top: 2px solid #39FF14;
+            background: #000;
+        }
 
-<div class="main-container">
-    <div id="left-chat-sidebar">
-        <div style="padding: 10px; background: #222; color: #39FF14; font-size: 12px; font-weight: bold;">📡 ТАКТИЧЕСКИ ЧАТ</div>
-        <iframe src="https://www5.cbox.ws/box/?boxid=961439&boxtag=rRC1cC" width="100%" height="100%" allowtransparency="yes" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
-    </div>
+        /* ЛЕГЕНДАТА - Ясно видима в долния десен ъгъл на картата */
+        .map-legend {
+            position: absolute;
+            bottom: 30px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 12px;
+            border: 1px solid #39FF14;
+            border-radius: 5px;
+            color: #39FF14; /* Зелен текст */
+            font-family: monospace;
+            pointer-events: none;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+        }
 
-    <div id="map">
-        <div class="map-legend">
-            <strong style="border-bottom: 1px solid #39FF14; display: block; margin-bottom: 5px;">ЛЕГЕНДА</strong>
-            ⚔️ Сражения<br>🚀 Удари<br>🚢 Флот<br>☢️ Ядрена<br>💻 Кибер<br>⚠️ Други
+        .legend-title {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            border-bottom: 1px solid #39FF14;
+            padding-bottom: 4px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <header style="background: #000; border-bottom: 1px solid #333; padding: 10px;">
+        <h1 style="margin:0; font-size: 20px;">🌐 Global Conflict Dashboard</h1>
+        <div id="dashboard" style="font-size: 12px; color: #888; margin-top: 5px;">
+            Active events: <span id="active-events" style="color:#39FF14">0</span> | 
+            Fatalities: <span id="total-fatalities" style="color:#ff4d4d">0</span> | 
+            <span style="color: #39FF14;">ONLINE: 1</span>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div id="map">
+            <div class="map-legend">
+                <div class="legend-title">Легенда:</div>
+                <div style="font-size: 13px; line-height: 1.8;">
+                    ⚔️ Сражения / Война<br>
+                    🚀 Ракети / Удари<br>
+                    🚢 Флот / Море<br>
+                    ☢️ Ядрена заплаха<br>
+                    💻 Кибер атака<br>
+                    ⚠️ Други инциденти
+                </div>
+            </div>
+        </div>
+        
+        <div id="news-sidebar">
+            <div style="padding: 10px; background: #222; color: #39FF14; font-weight: bold; font-size: 13px; border-bottom: 1px solid #333;">
+                📑 ТАКТИЧЕСКИ ДЕЙТА ФИЙД
+            </div>
+            
+            <div id="news-content">
+                <p style="font-style: italic; color: #666;">Изберете инцидент от картата...</p>
+            </div>
+
+            <div id="cbox-wrapper">
+                <iframe src="https://www5.cbox.ws/box/?boxid=961439&boxtag=rRC1cC" width="100%" height="100%" allowtransparency="yes" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
+            </div>
         </div>
     </div>
 
-    <div id="news-sidebar">
-        <div style="padding: 10px; background: #222; color: #39FF14; font-weight: bold;">📑 ТАКТИЧЕСКИ ДЕЙТА ФИЙД</div>
-        <div id="news-content" style="padding: 15px;">
-            <p>Изберете инцидент от картата...</p>
-        </div>
-    </div>
-</div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
