@@ -1,30 +1,48 @@
 /**
  * GLOBAL CONFLICT DASHBOARD v4.0 - FULL SCALE PRODUCTION CODE
- * Всичко е тук: Карта, Зона Украйна, Статистика, Търсачка с подменю и Икони.
+ * Обновен с тактическо оцветяване на зони с напрежение.
  */
 
 window.onload = function() {
-    // --- 1. ИНИЦИАЛИЗАЦИЯ НА КАРТАТА И ОСНОВНИТЕ СЛОЕВЕ ---
-    // Настройваме центъра и зуума за глобален преглед
+    // --- 1. ИНИЦИАЛИЗАЦИЯ НА КАРТАТА ---
     const map = L.map('map', {
         worldCopyJump: true,
         minZoom: 2,
         zoomControl: true,
-        attributionControl: false // ТОВА ПРЕМАХВА НАДПИСИТЕ, КЪДЕТО БЯХА СТРЕЛКИТЕ
+        attributionControl: false 
     }).setView([30.0, 15.0], 3);
 
-    // Слой за маркерите - чистим го и го пълним динамично
     const markersLayer = L.layerGroup().addTo(map);
 
-    // Базова тъмна карта (CartoDB Dark Matter)
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
         attribution: '© OpenStreetMap contributors, © CartoDB'
     }).addTo(map);
 
-    // Глобална променлива, в която ще държим данните от JSON за търсачката
+    // --- [НОВО] ТАКТИЧЕСКО ОЦВЕТЯВАНЕ НА ДЪРЖАВИ ---
+    const warZones = ['Russia', 'Ukraine', 'Israel', 'Palestine', 'Sudan', 'Syria', 'Yemen'];
+    const tensionZones = ['United States of America', 'Iran', 'North Korea', 'South Korea', 'China', 'Taiwan'];
+
+    fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson')
+        .then(res => res.json())
+        .then(geoData => {
+            L.geoJson(geoData, {
+                style: function(feature) {
+                    const name = feature.properties.name;
+                    if (warZones.includes(name)) {
+                        return { fillColor: "#ff0000", weight: 1, opacity: 1, color: '#ff3333', fillOpacity: 0.2 };
+                    }
+                    if (tensionZones.includes(name)) {
+                        return { fillColor: "#ff8c00", weight: 1, opacity: 1, color: '#ff8c00', fillOpacity: 0.15 };
+                    }
+                    return { fillColor: "transparent", weight: 0.5, color: "#222", fillOpacity: 0 };
+                },
+                interactive: false
+            }).addTo(map);
+        });
+
     let globalConflictData = [];
 
-    // --- 2. ВОЕННА ЗОНА (УКРАЙНА) - ПОДРЕДЕН МАСИВ ---
+    // --- 2. ВОЕННА ЗОНА (УКРАЙНА - ФРОНТОВА ЛИНИЯ) ---
     const ukraineFrontline = [
         [51.5, 34.0], [50.1, 38.5], [49.2, 39.8], [48.5, 39.5], 
         [47.1, 38.2], [46.5, 37.0], [45.3, 36.6], [44.4, 34.0], 
@@ -34,227 +52,113 @@ window.onload = function() {
 
     L.polygon(ukraineFrontline, {
         color: '#ff3333',
-        weight: 1,
+        weight: 2,
         fillColor: '#ff0000',
-        fillOpacity: 0.15,
-        interactive: false // Да не пречи на кликането по маркерите под него
+        fillOpacity: 0.3, // По-плътно за фронта
+        interactive: false
     }).addTo(map);
 
-    // Слой с етикети на държавите (над червената зона)
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png', { 
-        opacity: 0.5, 
+        opacity: 0.6, 
         pane: 'shadowPane' 
     }).addTo(map);
 
-    // --- 3. СИСТЕМА ЗА ГЕНЕРИРАНЕ НА ТАКТИЧЕСКИ ИКОНИ ---
+    // --- 3. СИСТЕМА ЗА ИКОНИ ---
     function createCustomIcon(symbol, color, shouldPulse = true) {
         return L.divIcon({
-            html: `<div style="
-                color: ${color}; 
-                font-size: 22px; 
-                text-shadow: 0 0 10px ${color}, 0 0 5px #000; 
-                display: flex; 
-                align-items: center; 
-                justify-content: center; 
-                ${shouldPulse ? 'animation: pulse 1.5s infinite;' : ''}">
-                ${symbol}
-            </div>`,
+            html: `<div style="color: ${color}; font-size: 22px; text-shadow: 0 0 10px ${color}; display: flex; align-items: center; justify-content: center; ${shouldPulse ? 'animation: pulse 1.5s infinite;' : ''}">${symbol}</div>`,
             className: '',
             iconSize: [30, 30],
             iconAnchor: [15, 15]
         });
     }
 
-    // Определяне на иконата според съдържанието на новината
     function getIconForEvent(title, description) {
         const text = (title + " " + (description || "")).toLowerCase();
-        
-        if (text.includes('missile') || text.includes('strike') || text.includes('drone')) {
-            return createCustomIcon('🚀', '#a366ff'); // Лилаво за ракети
-        }
-        if (text.includes('ship') || text.includes('sea') || text.includes('navy')) {
-            return createCustomIcon('🚢', '#3498db'); // Синьо за кораби
-        }
-        if (text.includes('aid') || text.includes('food') || text.includes('humanitarian')) {
-            return createCustomIcon('📦', '#2ecc71'); // Зелено за помощ
-        }
-        if (text.includes('nuclear') || text.includes('atomic') || text.includes('radiation')) {
-            return createCustomIcon('☢️', '#ffea00'); // Ядрена заплаха
-        }
-        if (text.includes('cyber') || text.includes('hack') || text.includes('it army')) {
-            return createCustomIcon('💻', '#00ff00'); // Кибер атака
-        }
-        if (text.includes('war') || text.includes('village') || text.includes('clash') || text.includes('lost men')) {
-            return createCustomIcon('⚔️', '#ff4d4d'); // Червено за бой
-        }
-        if (text.includes('warning') || text.includes('alert') || text.includes('threat')) {
-            return createCustomIcon('⚠️', '#ffcc00'); // Жълто за напрежение
-        }
-        return createCustomIcon('●', '#ff4d4d'); // По подразбиране
+        if (text.includes('missile') || text.includes('strike') || text.includes('drone')) return createCustomIcon('🚀', '#a366ff');
+        if (text.includes('ship') || text.includes('sea') || text.includes('navy')) return createCustomIcon('🚢', '#3498db');
+        if (text.includes('aid') || text.includes('food')) return createCustomIcon('📦', '#2ecc71');
+        if (text.includes('nuclear') || text.includes('atomic')) return createCustomIcon('☢️', '#ffea00');
+        if (text.includes('war') || text.includes('clash')) return createCustomIcon('⚔️', '#ff4d4d');
+        if (text.includes('warning') || text.includes('threat')) return createCustomIcon('⚠️', '#ffcc00');
+        return createCustomIcon('●', '#ff4d4d');
     }
 
-    // --- 4. ИНТЕЛИГЕНТНА ТЪРСАЧКА С ПОДМЕНЮ (DROPDOWN) ---
-    const searchInput = document.querySelector('input[placeholder*="Търсене"]');
-    
-    // Динамично създаваме контейнера за резултатите под търсачката
+    // --- 4. ТЪРСАЧКА И ДЕТАЙЛИ ---
+    const searchInput = document.querySelector('input[placeholder*="Search"]'); // Английски placeholder
     let resultsList = document.getElementById('search-results-list');
-    if (!resultsList) {
-        resultsList = document.createElement('div');
-        resultsList.id = 'search-results-list';
-        resultsList.className = 'search-dropdown'; // Сложи си CSS за това
-        resultsList.style = "position:absolute; background:rgba(15,15,15,0.95); color:white; width:220px; z-index:2000; border:1px solid #333; max-height:250px; overflow-y:auto; top:40px; left:0; font-family:sans-serif;";
-        if (searchInput && searchInput.parentNode) {
-            searchInput.parentNode.style.position = 'relative';
-            searchInput.parentNode.appendChild(resultsList);
-        }
-    }
-
+    
     if (searchInput) {
         searchInput.addEventListener('input', function() {
             const query = this.value.toLowerCase();
-            resultsList.innerHTML = ''; // Изчистваме старите резултати
-            
-            if (query.length < 2) {
-                resultsList.style.display = 'none';
-                return;
-            }
+            if (!resultsList) return;
+            resultsList.innerHTML = '';
+            if (query.length < 2) { resultsList.style.display = 'none'; return; }
 
             const matches = globalConflictData.filter(item => 
-                item.country.toLowerCase().includes(query) || 
-                item.title.toLowerCase().includes(query)
+                item.country.toLowerCase().includes(query) || item.title.toLowerCase().includes(query)
             );
 
             if (matches.length > 0) {
                 resultsList.style.display = 'block';
                 matches.forEach(match => {
                     const row = document.createElement('div');
-                    row.style = "padding:10px; cursor:pointer; border-bottom:1px solid #222; font-size:12px; transition: 0.2s;";
-                    row.innerHTML = `<span style="color:#ff4d4d; font-weight:bold;">[${match.country.toUpperCase()}]</span><br>${match.title}`;
-                    
-                    // Ефект при посочване
-                    row.onmouseover = () => row.style.background = "#222";
-                    row.onmouseout = () => row.style.background = "transparent";
-
-                    // Клик върху резултат от подменюто
+                    row.style = "padding:10px; cursor:pointer; border-bottom:1px solid #222; font-size:12px;";
+                    row.innerHTML = `<span style="color:#ff4d4d;">[${match.country.toUpperCase()}]</span><br>${match.title}`;
                     row.onclick = () => {
-                        map.flyTo([match.lat, match.lon], 8);
+                        map.flyTo([match.lat, match.lon], 7);
                         displayNewsDetails(match);
                         resultsList.style.display = 'none';
-                        searchInput.value = match.country;
                     };
                     resultsList.appendChild(row);
                 });
-            } else {
-                resultsList.style.display = 'none';
             }
-        });
-
-        // Скриваме менюто, ако кликнем извън него
-        document.addEventListener('click', (e) => {
-            if (e.target !== searchInput) resultsList.style.display = 'none';
         });
     }
 
-function displayNewsDetails(data) {
-    const panel = document.getElementById('news-content');
-    if (panel) {
-        // 1. Почистване на текста от HTML тагове и линкове
-        let cleanDescription = (data.description || "Няма допълнително описание.")
-            .replace(/<\/?[^>]+(>|$)/g, "") // Премахва <a href...>, <p> и т.н.
-            .trim();
-    // Добави това в началото на HTML-а в скрипта
-let statusTag = "";
-if (data.link.includes("zerohedge") || data.link.includes("halturner")) {
-    statusTag = `<span style="background: #ff0000; color: white; padding: 2px 5px; font-weight: bold; font-size: 10px; margin-left: 10px;">⚠️ Unconfirmed</span>`;
-}
-
-// И го вмъкни в заглавието
-panel.innerHTML = `<h3>${data.title} ${statusTag}</h3><p>${data.description || 'Няма описание.'}</p>`;
+    function displayNewsDetails(data) {
+        const panel = document.getElementById('news-content');
+        if (!panel) return;
         
-        // 2. Съкращаване, ако е твърде дълго
-        if (cleanDescription.length > 400) {
-            cleanDescription = cleanDescription.substring(0, 400) + "...";
-        }
+        let cleanDescription = (data.description || "No intel available.").replace(/<\/?[^>]+(>|$)/g, "").trim();
+        if (cleanDescription.length > 400) cleanDescription = cleanDescription.substring(0, 400) + "...";
 
         panel.innerHTML = `
             <div class="news-card animated-fade-in">
-                <div class="tag-row">
-                    <span class="country-tag">${data.country}</span>
-                    <span class="date-tag">${data.date || new Date().toLocaleDateString()}</span>
+                <div style="font-size:10px; margin-bottom:5px;">
+                    <span style="background:#ff4d4d; color:black; padding:2px 5px; font-weight:bold;">${data.country.toUpperCase()}</span>
+                    <span style="color:#888; margin-left:10px;">${data.date || 'LIVE'}</span>
                 </div>
-                <h3>${data.title}</h3>
-                <p style="line-height: 1.6; font-size: 14px; color: #ddd; margin-bottom: 15px;">
-                    ${cleanDescription}
-                </p>
-                <div style="margin-top: 10px;">
-                     <a href="${data.link || '#'}" target="_blank" style="color: #00ff00; text-decoration: none; font-weight: bold; font-size: 13px;">
-                        🔗 READ MORE
-                     </a>
+                <h3 style="color:#39FF14; margin:10px 0;">${data.title}</h3>
+                <p style="color:#ccc; font-size:13px;">${cleanDescription}</p>
+                <div style="margin-top:15px; border-top:1px solid #333; padding-top:10px;">
+                    <span style="color:#ff4d4d;">CASUALTIES: ${data.fatalities || 0}</span>
+                    <a href="${data.link || '#'}" target="_blank" style="float:right; color:#39FF14; text-decoration:none;">[ SOURCE ]</a>
                 </div>
-                <hr style="border:0; border-top:1px solid #333; margin:15px 0;">
-                <div class="meta-info">Жертви: <strong style="color: #ff4d4d;">${data.fatalities || 0}</strong></div>
             </div>`;
     }
-}
 
-    // --- 5. ФУНКЦИЯ ЗА ОПРЕСНЯВАНЕ НА ДАННИТЕ И СТАТИСТИКАТА ---
+    // --- 5. СИНХРОНИЗАЦИЯ НА ДАННИТЕ ---
     function fetchAndSyncData() {
-        console.log("Syncing with conflicts.json...");
-        
         fetch('conflicts.json?cache_bust=' + Date.now())
             .then(res => res.json())
             .then(data => {
-                globalConflictData = data; // Записваме в глобалната променлива за търсачката
+                globalConflictData = data;
                 markersLayer.clearLayers();
-                
                 let totalDeaths = 0;
                 let activeCountries = new Set();
-                let tickerContent = [];
 
                 data.forEach(item => {
-                    // Изчисляване на статистики
-                    let deathsCount = parseInt(item.fatalities);
-                    if (!isNaN(deathsCount)) totalDeaths += deathsCount;
-                    if (item.country) activeCountries.add(item.country);
-                    
-                    tickerContent.push(`[${item.country.toUpperCase()}]: ${item.title}`);
-
-                    // Създаване на маркер
+                    totalDeaths += parseInt(item.fatalities) || 0;
+                    activeCountries.add(item.country);
                     const icon = getIconForEvent(item.title, item.description);
-                    const marker = L.marker([item.lat, item.lon], { icon: icon });
-                    
-                    marker.addTo(markersLayer).on('click', () => {
-                        displayNewsDetails(item);
-                    });
+                    L.marker([item.lat, item.lon], { icon: icon }).addTo(markersLayer).on('click', () => displayNewsDetails(item));
                 });
 
-                // Обновяване на UI статистиката горе
-                updateUIElement('active-events', "Active events: " + data.length);
-                updateUIElement('total-fatalities', "Total fatalities: " + totalDeaths);
-                updateUIElement('countries-affected', "Countries affected: " + activeCountries.size);
-                updateUIElement('last-update', new Date().toLocaleTimeString());
-
-                // Обновяване на тикера (Зеления текст)
-                const ticker = document.getElementById('news-ticker');
-                if (ticker) {
-                    ticker.innerText = tickerContent.join('    •   ');
-                }
-
-                // АВТОМАТИЧНО ОБНОВЯВАНЕ НА ЛЕГЕНДАТА
-                const legend = document.getElementById('legend');
-                if (legend) {
-                    legend.innerHTML = `
-                        <div style="margin-bottom:10px; font-weight:bold; border-bottom:1px solid #444; padding-bottom:5px; color:#fff;">Легенда:</div>
-                        <div style="display:flex; align-items:center; margin-bottom:8px;"> <span style="width:25px; text-align:center; margin-right:10px;">⚔️</span> Сражения / Война</div>
-                        <div style="display:flex; align-items:center; margin-bottom:8px;"> <span style="width:25px; text-align:center; margin-right:10px;">🚀</span> Ракети / Удари</div>
-                        <div style="display:flex; align-items:center; margin-bottom:8px;"> <span style="width:25px; text-align:center; margin-right:10px;">🚢</span> Флот / Море</div>
-                        <div style="display:flex; align-items:center; margin-bottom:8px;"> <span style="width:25px; text-align:center; margin-right:10px;">☢️</span> Ядрена заплаха</div>
-                        <div style="display:flex; align-items:center; margin-bottom:8px;"> <span style="width:25px; text-align:center; margin-right:10px;">💻</span> Кибер атака</div>
-                        <div style="display:flex; align-items:center; margin-bottom:8px;"> <span style="width:25px; text-align:center; margin-right:10px;">⚠️</span> Други инциденти</div>
-                    `;
-                }
+                updateUIElement('active-events', data.length);
+                updateUIElement('total-fatalities', totalDeaths);
             })
-            .catch(err => console.error("Data Fetch Error:", err));
+            .catch(err => console.error("Sync Error:", err));
     }
 
     function updateUIElement(id, text) {
@@ -262,56 +166,12 @@ panel.innerHTML = `<h3>${data.title} ${statusTag}</h3><p>${data.description || '
         if (el) el.innerText = text;
     }
 
-    // Стартираме цикъла
     fetchAndSyncData();
-    setInterval(fetchAndSyncData, 60000); // Опресняване на всяка минута
+    setInterval(fetchAndSyncData, 60000);
 };
 
-// --- 6. UTC ЧАСОВНИК (Винаги работи отделно) ---
+// UTC Clock
 setInterval(() => {
-    const clock = document.getElementById('utc-clock');
-    if (clock) {
-        const now = new Date();
-        const h = now.getUTCHours().toString().padStart(2, '0');
-        const m = now.getUTCMinutes().toString().padStart(2, '0');
-        const s = now.getUTCSeconds().toString().padStart(2, '0');
-        clock.innerText = `${h}:${m}:${s} UTC`;
-    }
+    const clock = document.getElementById('header-time');
+    if (clock) clock.innerText = new Date().toISOString().substr(11, 8) + " UTC";
 }, 1000);
-// Логика за тактическия чат
-const chatInput = document.getElementById('chat-input');
-const sendBtn = document.getElementById('send-btn');
-const chatBox = document.getElementById('chat-box');
-
-function handleSendMessage() {
-    const text = chatInput.value.trim();
-    if (text !== "") {
-        const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        const newMessage = document.createElement('div');
-        newMessage.className = 'msg';
-        newMessage.innerHTML = `<span style="color: #666;">[${time}]</span> <span style="color: #fff;">User:</span> ${text}`;
-        
-        chatBox.appendChild(newMessage);
-        chatInput.value = ""; // Изчиства полето
-        chatBox.scrollTop = chatBox.scrollHeight; // Скролва автоматично до най-новото
-    }
-}
-
-// Слушател за клик на бутона
-sendBtn.addEventListener('click', handleSendMessage);
-
-// Слушател за натискане на Enter
-chatInput.addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-        handleSendMessage();
-    }
-});
-function updateOnlineStatus() {
-    const el = document.getElementById('online-users');
-    if (el) {
-        const fakeCount = Math.floor(Math.random() * (15 - 5 + 1)) + 5; // Симулира 5-15 човека
-        el.innerHTML = `USERS ONLINE: ${fakeCount}`;
-    }
-}
-setInterval(updateOnlineStatus, 15000); // Сменя се на всеки 15 секунди
-updateOnlineStatus();
