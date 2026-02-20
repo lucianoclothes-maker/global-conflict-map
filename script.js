@@ -25,21 +25,30 @@ window.onload = function() {
         });
     };
 
+    // Пътища за различните видове инциденти
     const explosionPath = '<path d="M7 2l2 4 5-2-1 5 6 2-5 3 3 6-6-2-4 5V15l-5 2 3-5-4-4 5-1z"/>'; 
     const clashPath = '<path d="M7 5l-2 2 5 5-5 5 2 2 5-5 5 5 2-2-5-5 5-5-2-2-5 5-5-5z"/>';
     const shipPath = '<path d="M2 17l2-2h16l2 2H2zM5 15V8l5-3v10M11 15V3h2v12M14 15V7l5 8"/>';
     const alertPath = '<path d="M12 2L1 21h22L12 2zm0 7v5m0 4h.01"/>';
+    const dronePath = '<path d="M21 16l-2-3h-5l-1-4h3V7h-3V4h-2v3h-3v2h3l1 4H7l-2 3v2h16v-2z"/>';
+    const airstrikePath = '<path d="M13 2v9h9L13 2zM11 22v-9H2l9 9z"/>';
 
-    const iconExplosion = createNeonIcon(explosionPath, '#e67e22');
-    const iconClash = createNeonIcon(clashPath, '#ff4d4d');
-    const iconShip = createNeonIcon(shipPath, '#5dade2');
-    const iconAlert = createNeonIcon(alertPath, '#f1c40f');
+    // Създаване на обектите за икони
+    const iconExplosion = createNeonIcon(explosionPath, '#e67e22'); // Оранжево
+    const iconClash = createNeonIcon(clashPath, '#ff4d4d');     // Червено
+    const iconShip = createNeonIcon(shipPath, '#5dade2');      // Синьо
+    const iconAlert = createNeonIcon(alertPath, '#f1c40f');     // Жълто
+    const iconDrone = createNeonIcon(dronePath, '#a569bd');     // Лилаво
+    const iconAirstrike = createNeonIcon(airstrikePath, '#ec7063'); // Светло червено
 
+    // Функцията вече разпознава новите типове от bot.py
     function getTacticalIcon(type) {
-        if (type === 'Carrier' || type === 'Warship') return iconShip;
-        if (type === 'Armed clash') return iconClash;
-        if (type === 'Airstrike' || type === 'Explosion') return iconExplosion;
-        return iconAlert;
+        if (type === 'Naval') return iconShip;
+        if (type === 'Clashes') return iconClash;
+        if (type === 'Airstrike') return iconAirstrike;
+        if (type === 'Explosion') return iconExplosion;
+        if (type === 'Drone') return iconDrone;
+        return iconAlert; 
     }
 
     // --- 3. ГЕОПОЛИТИЧЕСКИ ГРАНИЦИ ---
@@ -60,7 +69,8 @@ window.onload = function() {
 
     var oZone = [[46.0, 33.0], [47.2, 37.8], [50.0, 38.5], [44.0, 40.0], [44.0, 33.0]];
     L.polygon(oZone, { color: '#ff4d4d', fillColor: '#ff0000', fillOpacity: 0.08, weight: 1 }).addTo(map);
-// --- 5. ФУНКЦИЯ ЗА АВТОМАТИЧНО ОБНОВЯВАНЕ ---
+
+    // --- 5. ФУНКЦИЯ ЗА АВТОМАТИЧНО ОБНОВЯВАНЕ ---
     let allConflictData = [];
     let markersLayer = L.layerGroup().addTo(map);
 
@@ -80,8 +90,6 @@ window.onload = function() {
                     marker.on('click', () => {
                         map.setView([p.lat, p.lon], 6, { animate: true });
                         
-                        // ВРЪЩАМЕ ЛОГИКАТА ЗА ДЕТАЙЛИТЕ ТУК:
-                        let deathsHTML = p.fatalities > 0 ? `<p style="color:#ff4d4d; font-size:18px;">💀 Жертви: ${p.fatalities}</p>` : "";
                         let twitterHTML = p.twitter_link ? `<div style="margin-top: 15px; max-height: 400px; overflow-y: auto; border-radius: 8px;"><blockquote class="twitter-tweet" data-theme="dark"><a href="${p.twitter_link}"></a></blockquote></div>` : "";
 
                         document.getElementById('news-content').innerHTML = `
@@ -94,18 +102,15 @@ window.onload = function() {
                             </div>
                             ${twitterHTML}
                             <div style="margin-top: 25px;">
-                                ${deathsHTML}
                                 <a href="${p.link}" target="_blank" class="news-btn" style="display:block; text-align:center; text-decoration:none; border: 1px solid #ff4d4d; color: #ff4d4d; padding: 12px;">ДЕТАЙЛИ</a>
                             </div>`;
                         if (window.twttr) { window.twttr.widgets.load(); }
                     });
 
-                    deaths += (parseInt(p.fatalities) || 0);
                     countries.add(p.country);
                 });
 
                 document.getElementById('active-events').innerText = "Active events: " + data.length;
-                document.getElementById('total-fatalities').innerText = "Total fatalities: " + deaths;
                 document.getElementById('countries-affected').innerText = "Countries affected: " + countries.size;
                 document.getElementById('news-ticker').innerText = data.map(p => `[${p.country.toUpperCase()}: ${p.title}]`).join(' +++ ');
                 document.getElementById('last-update').innerText = "Last update: " + new Date().toLocaleTimeString();
@@ -152,9 +157,9 @@ window.onload = function() {
             }
         });
     }
-}; // Край на window.onload
+};
 
-// --- 7. ЧАСОВНИК (Извън всичко за стабилност) ---
+// --- 7. ЧАСОВНИК ---
 setInterval(() => {
     const clockEl = document.getElementById('utc-clock');
     if (clockEl) {
