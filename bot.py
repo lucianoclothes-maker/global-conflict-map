@@ -4,7 +4,6 @@ import re
 from geopy.geocoders import Nominatim
 import time
 
-# Списък с новинарски емисии
 FEEDS = [
     "https://www.politico.eu/rss", "https://rss.cnn.com/rss/edition_world.rss",
     "http://feeds.bbci.co.uk/news/world/rss.xml", "https://www.aljazeera.com/xml/rss/all.xml",
@@ -12,38 +11,38 @@ FEEDS = [
     "https://www.militarytimes.com/arc/outboundfeeds/rss/", "https://www.longwarjournal.org/feed"
 ]
 
-geolocator = Nominatim(user_agent="conflict_map_final_fix")
+geolocator = Nominatim(user_agent="conflict_map_final_v10")
 
 def extract_info(text):
-    text = text.lower()
-    
-    # Речник за локации
+    t = text.lower()
+    # Локации
     locations = {
-        "Ukraine": ["kyiv", "kharkiv", "donetsk", "crimea", "odesa", "kursk", "ukraine", "russia", "bakhmut"],
-        "Middle East": ["gaza", "israel", "lebanon", "iran", "yemen", "rafah", "tehran", "tel aviv", "beirut", "red sea"],
-        "Africa": ["sudan", "mali", "congo", "khartoum", "darfur", "somalia", "ethiopia"]
+        "Ukraine": ["kyiv", "kharkiv", "donetsk", "crimea", "odesa", "ukraine", "russia", "donbas"],
+        "Middle East": ["gaza", "israel", "lebanon", "iran", "yemen", "tehran", "tel aviv", "beirut", "red sea", "hamas", "idf"],
+        "Africa": ["sudan", "mali", "congo", "khartoum", "darfur", "somalia"]
     }
     
-    # СУПЕР АГРЕСИВНО КЛАСИФИЦИРАНЕ (това ще отключи иконките)
+    # КЛЮЧОВИ ДУМИ, КОИТО ВЕЧЕ СЪВПАДАТ СЪС SCRIPT.JS
+    # Добавих общи думи като 'attack' и 'killed', за да се сменят иконите по-често
     event_map = {
-        "Naval": ["ship", "vessel", "navy", "sea", "maritime", "boat", "port", "water", "crossing", "carrier"],
-        "Explosion": ["explosion", "blast", "shelling", "artillery", "pounding", "destroyed", "hit", "fire", "killed"],
-        "Airstrike": ["airstrike", "missile", "rocket", "bombing", "strikes", "attack", "intercepted", "air strike"],
-        "Clashes": ["clashes", "fighting", "battle", "infantry", "siege", "forces", "military", "war", "army", "clash", "offensive"]
+        "Naval": ["ship", "vessel", "navy", "sea", "maritime", "boat", "port", "water"],
+        "Airstrike": ["airstrike", "missile", "rocket", "bombing", "strikes", "attack", "hit", "targeted"],
+        "Explosion": ["explosion", "blast", "shelling", "artillery", "fire", "killed", "dead", "destroyed"],
+        "Drone": ["drone", "uav", "shahed", "quadcopter", "air"],
+        "Clashes": ["clashes", "fighting", "battle", "siege", "forces", "military", "war", "army", "offensive"]
     }
 
-    found_city = None
-    found_region = "World"
+    found_city, found_region = None, "World"
     for region, cities in locations.items():
         for city in cities:
-            if city in text:
+            if city in t:
                 found_city, found_region = city.capitalize(), region
                 break
         if found_city: break
 
     found_type = "Breaking News"
     for event, keywords in event_map.items():
-        if any(k in text for k in keywords):
+        if any(k in t for k in keywords):
             found_type = event
             break
             
@@ -51,28 +50,22 @@ def extract_info(text):
 
 def run_bot():
     all_events = []
-    print("🌍 Стартирам бота...")
-
     for url in FEEDS:
         try:
-            response = requests.get(url, timeout=15)
-            titles = re.findall(r'<title>(.*?)</title>', response.text)
-            links = re.findall(r'<link>(.*?)</link>', response.text)
-            
+            res = requests.get(url, timeout=15)
+            titles = re.findall(r'<title>(.*?)</title>', res.text)
+            links = re.findall(r'<link>(.*?)</link>', res.text)
             for i in range(len(titles)):
                 title = titles[i].replace("<![CDATA[", "").replace("]]>", "").strip()
                 if len(title) < 15: continue
-
                 city, region, event_type = extract_info(title)
-                
                 if city:
                     try:
-                        location = geolocator.geocode(city)
-                        if location:
+                        loc = geolocator.geocode(city)
+                        if loc:
                             all_events.append({
                                 "country": region,
-                                "lat": location.latitude,
-                                "lon": location.longitude,
+                                "lat": loc.latitude, "lon": loc.longitude,
                                 "date": time.strftime("%Y-%m-%d"),
                                 "type": event_type, 
                                 "title": title[:120],
@@ -81,12 +74,9 @@ def run_bot():
                     except: continue
         except: continue
     
-    # Махаме дубликати и записваме
     unique_events = { (e['lat'], e['lon']): e for e in all_events }.values()
     with open('conflicts.json', 'w', encoding='utf-8') as f:
         json.dump(list(unique_events), f, indent=4, ensure_ascii=False)
-    
-    print(f"✅ Готово! Намерени {len(unique_events)} събития.")
 
 if __name__ == "__main__":
     run_bot()
