@@ -4,62 +4,58 @@ import re
 from geopy.geocoders import Nominatim
 import time
 
-# Списък с новинарски RSS канали (работят без блокиране)
-RSS_FEEDS = [
-    "https://www.aljazeera.com/xml/rss/all.xml",
-    "http://feeds.bbci.co.uk/news/world/rss.xml",
-    "https://www.theguardian.com/world/rss"
-]
+# Портали (Nitter) - разширен списък
+INSTANCES = ["https://nitter.net", "https://nitter.cz", "https://nitter.privacydev.net", "https://nitter.poast.org", "https://nitter.moomoo.me"]
 
-geolocator = Nominatim(user_agent="conflict_tracker_stable")
+# Топ акаунти за история
+ACCOUNTS = ["OSINTtechnical", "DeepStateUA", "UAWeapons", "Liveuamap", "IAPonomarenko"]
+
+geolocator = Nominatim(user_agent="history_war_tracker_v4")
 
 def extract_data(text):
-    # Разширен списък с ключови думи и градове
-    cities = ["Kyiv", "Kharkiv", "Odesa", "Gaza", "Rafah", "Beirut", "Kherson", "Donetsk", "Bakhmut"]
+    cities = ["Kyiv", "Kharkiv", "Odesa", "Bakhmut", "Avdiivka", "Donetsk", "Lviv", "Zaporizhzhia", "Kherson", "Dnipro", "Mariupol", "Kursk", "Sudzha", "Belgorod", "Crimea"]
     found_city = next((c for c in cities if c.lower() in text.lower()), None)
-    
-    keywords = ["airstrike", "shelling", "explosion", "attack", "clashes", "drone"]
-    found_type = next((k.capitalize() for k in keywords if k.lower() in text.lower()), "Update")
-    
-    return found_city, found_type
+    return found_city
 
 def run_bot():
     all_events = []
-    print("🚀 Стартирам стабилно сканиране през RSS...")
+    print("📜 Започвам изтегляне на историята от акаунтите...")
 
-    for url in RSS_FEEDS:
-        try:
-            response = requests.get(url, timeout=15)
-            # Търсим заглавия и описания чрез прост режекс
-            items = re.findall(r'<title>(.*?)</title>', response.text)
-            for title in items[2:10]: # Вземаме последните заглавия
-                city, event_type = extract_data(title)
-                if city:
-                    location = geolocator.geocode(city)
-                    if location:
-                        all_events.append({
-                            "country": "World",
-                            "lat": location.latitude,
-                            "lon": location.longitude,
-                            "date": time.strftime("%Y-%m-%d"),
-                            "type": event_type,
-                            "title": title[:100],
-                            "link": url
-                        })
-        except: continue
+    for user in ACCOUNTS:
+        for instance in INSTANCES:
+            url = f"{instance}/{user}/rss"
+            try:
+                response = requests.get(url, timeout=10)
+                if response.status_code == 200:
+                    # Извличаме ВСИЧКИ заглавия от историята (обикновено последните 20)
+                    posts = re.findall(r'<title>(.*?)</title>', response.text)
+                    print(f"✅ Взех {len(posts)} поста от историята на {user}")
+                    
+                    for post in posts[1:]: # Прескачаме първото заглавие (името на акаунта)
+                        city = extract_data(post)
+                        if city:
+                            location = geolocator.geocode(city)
+                            if location:
+                                all_events.append({
+                                    "country": "Region",
+                                    "lat": location.latitude,
+                                    "lon": location.longitude,
+                                    "date": time.strftime("%Y-%m-%d"),
+                                    "type": "History Update",
+                                    "title": f"[{user}] {city}: {post[:60]}...",
+                                    "link": f"https://x.com/{user}"
+                                })
+                    break # Ако един портал работи за този акаунт, не хабим другите
+            except:
+                continue
 
-    # АКО НЯМА НОВИНИ, ВИНАГИ СЛАГАМЕ ЕДНА ТЕСТОВА ТОЧКА (за да видим картата жива)
-    if not all_events:
-        all_events.append({
-            "country": "Ukraine", "lat": 50.45, "lon": 30.52,
-            "date": time.strftime("%Y-%m-%d"), "type": "System OK",
-            "title": "Системата е онлайн (Тестова точка)",
-            "link": "https://google.com"
-        })
+    # Махаме дублиращи се точки за един и същ град, за да е чист мапа
+    unique_events = { (e['lat'], e['lon']): e for e in all_events }.values()
 
     with open('conflicts.json', 'w', encoding='utf-8') as f:
-        json.dump(all_events, f, indent=4, ensure_ascii=False)
-    print(f"✅ Готово! Записани {len(all_events)} точки.")
+        json.dump(list(unique_events), f, indent=4, ensure_ascii=False)
+    
+    print(f"🚀 Успех! Напълнихме картата с {len(unique_events)} исторически точки.")
 
 if __name__ == "__main__":
     run_bot()
