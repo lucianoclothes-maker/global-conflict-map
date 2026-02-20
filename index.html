@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html lang="bg">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Global Conflict Dashboard | Terminal</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
-        /* 1. Основен стил за Терминал */
+        /* 1. Terminal Core Styles */
         body, html { 
             margin: 0; padding: 0; height: 100%; 
             background: #050505; color: #39FF14; 
             font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; 
         }
 
-        /* 2. Картата като пълен фон */
+        /* 2. Map Background */
         #map { 
             position: absolute; top: 60px; bottom: 0; left: 0; right: 0; 
             z-index: 1; background: #0a0a0a;
         }
 
-        /* 3. Хедър в стил Glint */
+        /* 3. Tactical Header */
         header {
             height: 60px; background: rgba(0, 0, 0, 0.95); 
             border-bottom: 1px solid rgba(57, 255, 20, 0.3);
@@ -26,11 +26,11 @@
             position: relative; z-index: 2000;
         }
 
-        /* 4. СТЪКЛЕНИТЕ ПАНЕЛИ (Glassmorphism) */
+        /* 4. Glassmorphism Panels */
         .tactical-panel {
             position: fixed !important;
             z-index: 1000;
-            background: rgba(10, 10, 10, 0.2) !important; /* Максимална прозрачност */
+            background: rgba(10, 10, 10, 0.2) !important; 
             backdrop-filter: blur(15px) saturate(160%); 
             -webkit-backdrop-filter: blur(15px);
             border: 1px solid rgba(57, 255, 20, 0.2);
@@ -60,9 +60,9 @@
             border-radius: 20px; font-size: 10px; display: flex; gap: 10px;
         }
 
-        /* ФИКС ЗА ПРОЗРАЧНОСТ НА IFRAME */
+        /* Iframe Transparency Fix */
         iframe {
-            mix-blend-mode: screen; /* Прави черното прозрачно */
+            mix-blend-mode: screen; 
             background: transparent !important;
             filter: brightness(1.2) contrast(1.1);
             opacity: 0.9;
@@ -81,12 +81,12 @@
             <div style="text-align: center; flex: 1;">
                 <div style="font-size: 16px; font-weight: bold; letter-spacing: 2px;">🌐 GLOBAL CONFLICT DASHBOARD</div>
                 <div style="font-size: 9px; color: #39FF14; text-transform: uppercase; opacity: 0.8;">
-                    Система: Активна | Локация: <span style="color: #fff;">BULGARIA</span>
+                    STATUS: ACTIVE | LOCATION: <span style="color: #fff;">BULGARIA</span>
                 </div>
             </div>
 
             <div style="font-size: 10px; color: #888; text-transform: uppercase; text-align: right; flex: 1;">
-                СЪБИТИЯ (24H): <span id="active-events" style="color:#39FF14">11</span> | 
+                EVENTS (24H): <span id="active-events" style="color:#39FF14">11</span> | 
                 THREAT LEVEL: <span style="color: #ff3131;">ELEVATED</span>
             </div>
         </div>
@@ -95,22 +95,22 @@
     <div id="map"></div>
 
     <div class="map-legend">
-        <span style="color: #39FF14; font-weight: bold; margin-right: 5px;">СТАТУС:</span>
-        ⚔️ Сражения | 🚀 Удари | 🚢 Флот | ⚠️ Инциденти
+        <span style="color: #39FF14; font-weight: bold; margin-right: 5px;">STATUS:</span>
+        ⚔️ Combat | 🚀 Strikes | 🚢 Fleet | ⚠️ Incidents
     </div>
 
     <div id="chat-container" class="tactical-panel">
-        <div class="panel-header">📡 ТАКТИЧЕСКИ ЧАТ</div>
+        <div class="panel-header">📡 TACTICAL COMMS</div>
         <iframe src="https://www5.cbox.ws/box/?boxid=961439&boxtag=rRC1cC" 
                 width="100%" height="100%" frameborder="0" scrolling="auto"></iframe>
     </div>
 
     <div id="news-container" class="tactical-panel">
-        <div class="panel-header">📑 ТАКТИЧЕСКИ ДЕЙТА ФИЙД</div>
+        <div class="panel-header">📑 TACTICAL DATA FEED</div>
         <div id="news-content">
-            <p style="font-style: italic; color: #888;">Изберете маркер на картата за детайли...</p>
+            <p style="font-style: italic; color: #888;">Select a map marker for intelligence details...</p>
             <p style="font-size: 10px; color: #555; margin-top: 10px; font-style: italic;">
-                * Автоматично обновяване на разузнавателни данни...
+                * Automated intelligence stream active...
             </p>
         </div>
     </div>
@@ -118,7 +118,6 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="script.js"></script>
     <script>
-        // Бърз скрипт за часовника в хедъра
         function updateClock() {
             const now = new Date();
             const timeStr = now.getHours().toString().padStart(2, '0') + ":" + 
