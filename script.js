@@ -6,11 +6,12 @@
 window.onload = function() {
     // --- 1. ИНИЦИАЛИЗАЦИЯ НА КАРТАТА И ОСНОВНИТЕ СЛОЕВЕ ---
     // Настройваме центъра и зуума за глобален преглед
-    const map = L.map('map', { 
-        worldCopyJump: true, 
-        minZoom: 2,
-        zoomControl: true 
-    }).setView([30.0, 15.0], 3);
+    const map = L.map('map', {
+    worldCopyJump: true,
+    minZoom: 2,
+    zoomControl: true,
+    attributionControl: false // ТОВА ПРЕМАХВА НАДПИСИТЕ, КЪДЕТО БЯХА СТРЕЛКИТЕ
+}).setView([30.0, 15.0], 3);
 
     // Слой за маркерите - чистим го и го пълним динамично
     const markersLayer = L.layerGroup().addTo(map);
