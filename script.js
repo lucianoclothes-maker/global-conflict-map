@@ -30,7 +30,7 @@ window.onload = function() {
         });
     };
 
-    // Дефиниране според твоята легенда
+     // Дефиниране според твоята легенда
     const iconClash = createOldIcon('✖', '#ff4d4d');     // Червен хикс
     const iconExplosion = createOldIcon('⚠️', '#ffcc00'); // Жълт триъгълник
     const iconNaval = createOldIcon('🚢', '#3498db');     // Син кораб
