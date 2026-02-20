@@ -5,6 +5,34 @@
     <title>Global Conflict Tracker</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        /* Бърза корекция за подредбата: Лента вляво, Карта вдясно */
+        .main-container {
+            display: flex;
+            flex-direction: row-reverse; /* Това разменя местата им визуално */
+            height: calc(100vh - 120px);
+        }
+        #map { flex: 1; }
+        #news-sidebar {
+            width: 350px;
+            background: #111;
+            border-right: 2px solid #39FF14; /* Линията вече е отдясно на панела */
+            border-left: none;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        #news-content {
+            padding: 15px;
+            flex: 0 0 auto;
+            max-height: 40%;
+            overflow-y: auto;
+        }
+        #cbox-wrapper {
+            flex: 1;
+            border-top: 2px solid #39FF14;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -34,18 +62,18 @@
         <div id="map"></div>
         
         <div id="news-sidebar">
-            <h3>Детайли за събитието</h3>
+            <h3 style="padding: 10px; margin: 0; background: #222; font-size: 16px;">📑 ТАКТИЧЕСКИ ДЕЙТА ФИЙД</h3>
             <div id="news-content">
-                <p>Кликнете върху точка от картата, за да видите новината тук.</p>
+                <p>Изберете инцидент от картата...</p>
             </div>
 
-            <div id="cbox-wrapper" style="margin-top: 20px; border-top: 2px solid #39FF14;">
-                <iframe src="https://www5.cbox.ws/box/?boxid=961439&boxtag=rRC1cC" width="100%" height="450" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
+            <div id="cbox-wrapper">
+                <iframe src="https://www5.cbox.ws/box/?boxid=961439&boxtag=rRC1cC" width="100%" height="100%" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>
             </div>
         </div>
     </div>
 
-    <div class="map-legend" id="legend" style="color: #39FF14; font-weight: bold;">
+    <div class="map-legend" id="legend" style="color: #39FF14; font-weight: bold; left: 370px; right: auto;">
         <h4 style="color: #39FF14; border-bottom: 1px solid #39FF14; padding-bottom: 5px;">ЛЕГЕНДА</h4>
         <div class="legend-item" style="display: flex; align-items: center; margin-bottom: 8px;">
             <span style="margin-right: 10px; font-size: 20px;">⚔️</span>
