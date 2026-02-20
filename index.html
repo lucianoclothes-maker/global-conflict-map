@@ -2,85 +2,99 @@
 <html lang="bg">
 <head>
     <meta charset="UTF-8">
-    <title>Global Conflict Tracker</title>
+    <title>Global Conflict Dashboard | Terminal</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
-        body { margin: 0; padding: 0; background: #000; color: #39FF14; font-family: 'Courier New', monospace; overflow: hidden; }
-        
-        #map { position: absolute; top: 60px; bottom: 0; left: 0; right: 0; z-index: 1; }
-
-        /* ЧАТЪТ - ВЕЧЕ Е ДОЛУ ВЛЯВО */
-        #left-chat-floating {
-            position: absolute;
-            bottom: 20px; 
-            left: 20px;
-            width: 280px;
-            height: 40%; 
-            background: rgba(5, 5, 5, 0.9);
-            border: 1px solid #39FF14;
-            display: flex;
-            flex-direction: column;
-            z-index: 1000;
+        /* 1. Основен стил за Терминал */
+        body, html { 
+            margin: 0; padding: 0; height: 100%; 
+            background: #050505; color: #39FF14; 
+            font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; 
         }
 
-        /* НОВИНИТЕ - ОСТАВАТ ВДЯСНО */
-        #news-floating {
-            position: absolute;
-            top: 80px;
-            right: 20px;
-            width: 300px;
-            max-height: 60%;
-            background: rgba(17, 17, 17, 0.9);
-            border: 1px solid #39FF14;
-            display: flex;
-            flex-direction: column;
-            z-index: 1000;
+        /* 2. Картата като пълен фон */
+        #map { 
+            position: absolute; top: 60px; bottom: 0; left: 0; right: 0; 
+            z-index: 1; background: #0a0a0a;
         }
 
-        #news-content { padding: 12px; overflow-y: auto; color: #ccc; font-size: 13px; }
-
+        /* 3. Хедър в стил Glint */
         header {
-            height: 60px; background: #000; border-bottom: 1px solid #333;
+            height: 60px; background: rgba(0, 0, 0, 0.95); 
+            border-bottom: 1px solid rgba(57, 255, 20, 0.3);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            position: relative; z-index: 1001;
+            position: relative; z-index: 2000;
         }
 
-        .map-legend {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
+        /* 4. СТЪКЛЕНИТЕ ПАНЕЛИ (Glassmorphism) */
+        .tactical-panel {
+            position: fixed !important;
             z-index: 1000;
-            background: rgba(0, 0, 0, 0.9);
-            padding: 10px;
-            border: 1px solid #39FF14;
-            font-size: 11px;
+            background: rgba(10, 10, 10, 0.5) !important; /* Прозрачност */
+            backdrop-filter: blur(12px) saturate(150%); /* Замъгляване на картата */
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(57, 255, 20, 0.2);
+            border-radius: 4px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+            display: flex; flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Позиция: Чат - Долу вляво */
+        #chat-container {
+            bottom: 20px; left: 20px;
+            width: 300px; height: 35%;
+        }
+
+        /* Позиция: Новини - Горе вдясно */
+        #news-container {
+            top: 80px; right: 20px;
+            width: 320px; max-height: 50%;
+        }
+
+        .panel-header {
+            background: rgba(57, 255, 20, 0.1);
+            color: #39FF14; padding: 7px 12px;
+            font-size: 11px; font-weight: bold;
+            text-transform: uppercase; border-bottom: 1px solid rgba(57, 255, 20, 0.2);
+            letter-spacing: 1px;
+        }
+
+        #news-content { padding: 12px; overflow-y: auto; color: #eee; font-size: 13px; }
+
+        /* Легенда капсула */
+        .map-legend {
+            position: fixed; bottom: 20px; right: 20px; z-index: 1000;
+            background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(5px);
+            padding: 6px 15px; border: 1px solid rgba(57, 255, 20, 0.3);
+            border-radius: 20px; font-size: 10px; display: flex; gap: 10px;
         }
     </style>
 </head>
 <body>
     <header>
-        <div style="font-size: 18px; font-weight: bold;">🌐 Global Conflict Dashboard</div>
-        <div style="font-size: 11px; color: #888;">Active events: <span id="active-events" style="color:#39FF14">11</span> | ONLINE: <span style="color:#39FF14">1</span></div>
+        <div style="font-size: 16px; font-weight: bold; letter-spacing: 2px;">🌐 GLOBAL CONFLICT DASHBOARD</div>
+        <div style="font-size: 10px; color: #888; text-transform: uppercase;">Система: Активна | Събития: <span id="active-events" style="color:#39FF14">11</span></div>
     </header>
 
-    <div id="map">
-        <div class="map-legend">
-            <div style="border-bottom: 1px solid #39FF14; margin-bottom: 5px; font-weight: bold;">ЛЕГЕНДА</div>
-            ⚔️ Сражения | 🚀 Удари | 🚢 Флот | ⚠️ Инциденти
+    <div id="map"></div>
+
+    <div class="map-legend">
+        <span style="color: #39FF14; font-weight: bold; margin-right: 5px;">СТАТУС:</span>
+        ⚔️ Сражения | 🚀 Удари | 🚢 Флот | ⚠️ Инциденти
+    </div>
+
+    <div id="chat-container" class="tactical-panel">
+        <div class="panel-header">📡 ТАКТИЧЕСКИ ЧАТ</div>
+        <iframe src="https://www5.cbox.ws/box/?boxid=961439&boxtag=rRC1cC" width="100%" height="100%" frameborder="0" scrolling="auto" style="filter: invert(1) hue-rotate(180deg) brightness(0.8); mix-blend-mode: screen; background: transparent;"></iframe>
+    </div>
+
+    <div id="news-container" class="tactical-panel">
+        <div class="panel-header">📑 ТАКТИЧЕСКИ ДЕЙТА ФИЙД</div>
+        <div id="news-content">
+            <p style="font-style: italic; color: #888;">Изберете маркер на картата за детайли...</p>
         </div>
     </div>
-<div id="left-chat-floating">
-    <div id="left-chat-floating" class="tactical-panel">
-    <div class="panel-header">📡 ТАКТИЧЕСКИ ЧАТ</div>
-    <iframe src="https://www5.cbox.ws/box/?boxid=961439&boxtag=rRC1cC" width="100%" height="100%" frameborder="0" scrolling="auto" style="filter: invert(1) hue-rotate(180deg) brightness(0.8); mix-blend-mode: screen; background: transparent;"></iframe>
-</div>
-
-<div id="news-floating" class="tactical-panel">
-    <div class="panel-header">📑 ТАКТИЧЕСКИ ДЕЙТА ФИЙД</div>
-    <div id="news-content" style="padding: 12px; color: #eee; font-size: 13px; overflow-y: auto;">
-        <p style="font-style: italic; color: #888;">Изберете инцидент на картата...</p>
-    </div>
-</div>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="script.js"></script>
