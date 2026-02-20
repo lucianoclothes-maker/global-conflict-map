@@ -148,12 +148,10 @@ fetch('conflicts.json')
                 });
             } else {
                 resultsDiv.style.display = 'none';
-            }
-        });
-   }); // Затваря searchInput.addEventListener
-    } // Затваря if (searchInput)
-}; // ТАЗИ СКОБА ЗАТВАРЯ window.onload (твоят нов ред 155)
-
+        }
+    });
+}
+};
 // 3. ЧАСОВНИК (Извън onload, за да е независим)
 setInterval(() => {
     const clockEl = document.getElementById('utc-clock');
