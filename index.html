@@ -22,7 +22,7 @@
         header {
             height: 60px; background: rgba(0, 0, 0, 0.95); 
             border-bottom: 1px solid rgba(57, 255, 20, 0.3);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             position: relative; z-index: 2000;
         }
 
@@ -71,8 +71,25 @@
 </head>
 <body>
     <header>
-        <div style="font-size: 16px; font-weight: bold; letter-spacing: 2px;">🌐 GLOBAL CONFLICT DASHBOARD</div>
-        <div style="font-size: 10px; color: #888; text-transform: uppercase;">Система: Активна | Събития: <span id="active-events" style="color:#39FF14">11</span></div>
+        <div style="display: flex; justify-content: space-between; width: 95%; align-items: center;">
+            <div style="font-size: 10px; color: #888; text-transform: uppercase; flex: 1;">
+                <span id="header-time">00:00:00</span> | 
+                USER: <span style="color:#39FF14">BORISLAV</span> | 
+                ONLINE: <span style="color:#39FF14">1</span>
+            </div>
+
+            <div style="text-align: center; flex: 1;">
+                <div style="font-size: 16px; font-weight: bold; letter-spacing: 2px;">🌐 GLOBAL CONFLICT DASHBOARD</div>
+                <div style="font-size: 9px; color: #39FF14; text-transform: uppercase; opacity: 0.8;">
+                    Система: Активна | Локация: <span style="color: #fff;">BULGARIA</span>
+                </div>
+            </div>
+
+            <div style="font-size: 10px; color: #888; text-transform: uppercase; text-align: right; flex: 1;">
+                СЪБИТИЯ (24H): <span id="active-events" style="color:#39FF14">11</span> | 
+                THREAT LEVEL: <span style="color: #ff3131;">ELEVATED</span>
+            </div>
+        </div>
     </header>
 
     <div id="map"></div>
@@ -100,5 +117,17 @@
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="script.js"></script>
+    <script>
+        // Бърз скрипт за часовника в хедъра
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.getHours().toString().padStart(2, '0') + ":" + 
+                            now.getMinutes().toString().padStart(2, '0') + ":" + 
+                            now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('header-time').innerText = timeStr;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
 </body>
 </html>
