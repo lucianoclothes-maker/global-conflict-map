@@ -3,8 +3,9 @@ import json
 import re
 from geopy.geocoders import Nominatim
 import time
+import xml.etree.ElementTree as ET
 
-# Твоят списък с емисии
+# --- 1. РАЗШИРЕН СПИСЪК С ЕМИСИИ (OSINT ИЗТОЧНИЦИ) ---
 FEEDS = [
     "https://www.politico.eu/rss", 
     "https://rss.cnn.com/rss/edition_world.rss",
@@ -18,51 +19,57 @@ FEEDS = [
     "https://www.reutersagency.com/feed/?best-topics=political-general&post_type=best",
     "https://www.france24.com/en/rss", 
     "https://www.dw.com/en/top-stories/s-9097", 
-    "https://www.voanews.com/api/z_p-itevi-",
-    "https://www.voanews.com/api/z_p-itevi-", 
     "https://news.un.org/feed/subscribe/en/news/all/rss.xml",
-    "https://news.un.org/feed/subscribe/en/news/all/rss.xml",  
     "https://www.almasdarnews.com/article/category/syria/feed/",
     "https://warnews247.gr/feed/", 
     "https://www.zerohedge.com/feed", 
-    "https://halturnerradioshow.com/index.php/en/?format=feed&type=rss", 
-    "https://southfront.press/feed/", 
-    "https://nova.bg/",
+    "https://southfront.press/feed/",
+    "https://www.defense.gov/DesktopModules/ArticleCS/RSS.ashx?max=10",
+    "https://www.understandingwar.org/rss.xml" # ISW - Ключов за Украйна
 ]
 
-geolocator = Nominatim(user_agent="conflict_map_final_v12")
+# Координати за "горещи точки", които често се бъркат от Google/Nominatim
+HARDCODED_LOCATIONS = {
+    "gaza": {"lat": 31.5, "lon": 34.46},
+    "donetsk": {"lat": 48.01, "lon": 37.80},
+    "kharkiv": {"lat": 49.99, "lon": 36.23},
+    "bakhmut": {"lat": 48.59, "lon": 38.00},
+    "taipei": {"lat": 25.03, "lon": 121.56},
+    "khartoum": {"lat": 15.50, "lon": 32.55},
+    "beirut": {"lat": 33.89, "lon": 35.50}
+}
+
+geolocator = Nominatim(user_agent="military_intel_bot_v5")
 
 def clean_html(raw_html):
-    """Премахва HTML тагове и CDATA за чисто описание"""
     if not raw_html: return ""
+    # Премахва скриптове, стилове и HTML тагове
     cleanr = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
     cleantext = re.sub(cleanr, '', raw_html)
     return cleantext.replace("<![CDATA[", "").replace("]]>", "").strip()
 
 def extract_info(text):
     t = text.lower()
-    # ТВОЯТ ОРИГИНАЛЕН СПИСЪК С ЛОКАЦИИ (ЗАПАЗЕН НАПЪЛНО)
+    
+    # Разширен списък с локации и ключови думи за региони
     locations = {
-        "Ukraine": ["kyiv", "kharkiv", "donetsk", "crimea", "odesa", "donbas", "kursk", "zaporizhzhia"],
-        "Russia": ["moscow", "kremlin", "voronezh", "belgorod", "rostov", "st. petersburg", "novorossiysk"],
-        "Middle East": ["gaza", "israel", "lebanon", "iran", "yemen", "tehran", "tel aviv", "beirut", "red sea", "hamas", "idf", "palestinian"],
-        "Africa": ["sudan", "mali", "congo", "khartoum", "darfur", "somalia", "el fasher", "ethiopia"],
-        "USA": ["washington", "pentagon", "white house", "biden", "trump", "new york", "texas border"],
-        "China": ["beijing", "taiwan", "south china sea", "xi jinping", "shanghai", "fujian"],
-        "North Korea": ["pyongyang", "kim jong un", "north korea", "dprk"],
-        "Japan": ["tokyo", "sea of japan", "okinawa", "japanese"],
-        "Venezuela": ["caracas", "venezuela", "maduro", "essequibo"]
+        "Ukraine": ["kyiv", "kharkiv", "donetsk", "crimea", "odesa", "donbas", "kursk", "zaporizhzhia", "bakhmut", "avdiivka", "vovchansk"],
+        "Russia": ["moscow", "kremlin", "voronezh", "belgorod", "rostov", "novorossiysk", "tuapse", "engels"],
+        "Middle East": ["gaza", "israel", "lebanon", "iran", "yemen", "tehran", "tel aviv", "beirut", "red sea", "hamas", "idf", "hezbollah", "houthi"],
+        "Africa": ["sudan", "mali", "congo", "khartoum", "darfur", "somalia", "el fasher", "tigray", "niger"],
+        "USA": ["washington", "pentagon", "white house", "norfolk", "centcom", "eucom"],
+        "China": ["beijing", "taiwan", "south china sea", "strait", "pla", "manila"],
+        "North Korea": ["pyongyang", "kim jong un", "dprk", "missile test"]
     }
     
-    # ТВОИТЕ ОРИГИНАЛНИ КАТЕГОРИИ (ЗАПАЗЕНИ НАПЪЛНО)
+    # По-агресивно мапиране на събития
     event_map = {
-        "Naval": ["ship", "vessel", "navy", "sea", "maritime", "boat", "port", "carrier", "destroyer"],
-        "Airstrike": ["airstrike", "missile", "rocket", "bombing", "strikes", "attack", "hit", "intercepted", "ballistic"],
-        "Explosion": ["explosion", "blast", "shelling", "artillery", "fire", "killed", "dead", "destroyed", "fatalities"],
-        "Drone": ["drone", "uav", "shahed", "quadcopter", "unmanned"],
-        "Clashes": ["clashes", "fighting", "battle", "siege", "forces", "military", "war", "clash", "offensive", "army"],
-        "Nuclear": ["nuclear", "atomic", "radiation", "npp", "icbm", "warhead"],
-        "Cyber": ["cyber", "hacking", "hacker", "ddos", "malware", "cyberattack"]
+        "Naval": ["ship", "vessel", "navy", "maritime", "carrier", "destroyer", "frigate", "submarine", "black sea fleet"],
+        "Airstrike": ["airstrike", "missile", "rocket", "bombing", "strikes", "attack", "ballistic", "hypersonic", "f-16"],
+        "Explosion": ["explosion", "blast", "shelling", "artillery", "fire", "killed", "detonation", "ied"],
+        "Drone": ["drone", "uav", "shahed", "fpv", "kamikaze drone", "mavic"],
+        "Clashes": ["clashes", "fighting", "battle", "siege", "frontline", "infantry", "tank", "armored", "offensive"],
+        "Nuclear": ["nuclear", "atomic", "radiation", "npp", "icbm", "silo", "tactical nuke"]
     }
 
     found_city, found_region = None, "World"
@@ -83,67 +90,79 @@ def extract_info(text):
 
 def run_bot():
     all_events = []
-    print(f"Starting news sync at {time.strftime('%H:%M:%S')}...")
+    print(f"[{time.strftime('%H:%M:%S')}] INTEL SCAN STARTED...")
     
     for url in FEEDS:
         try:
-            res = requests.get(url, timeout=15)
-            # Взимаме целия блок на всяка новина
-            items = re.findall(r'<item>(.*?)</item>', res.text, re.DOTALL)
+            headers = {'User-Agent': 'Mozilla/5.0'}
+            res = requests.get(url, headers=headers, timeout=15)
+            # Използваме XML парсър вместо RegEx за стабилност
+            root = ET.fromstring(res.content)
             
-            for item in items:
-                # Търсим заглавие, описание и линк вътре в item-а
-                title = re.search(r'<title>(.*?)</title>', item)
-                desc = re.search(r'<description>(.*?)</description>', item)
-                link = re.search(r'<link>(.*?)</link>', item)
+            for item in root.findall('.//item'):
+                title = item.find('title').text if item.find('title') is not None else ""
+                desc = item.find('description').text if item.find('description') is not None else ""
+                link = item.find('link').text if item.find('link') is not None else ""
                 
-                if not title: continue
+                title_text = clean_html(title)
+                desc_text = clean_html(desc)
                 
-                title_text = clean_html(title.group(1))
-                # ТУК Е МАГИЯТА: Взимаме реалното описание, ако съществува
-                desc_text = clean_html(desc.group(1)) if desc else f"Latest report regarding {title_text}."
-                link_text = link.group(1) if link else url
+                if len(title_text) < 20: continue
                 
-                if len(title_text) < 15: continue
+                # Търсим локация
+                city_key, region, event_type = extract_info(title_text + " " + desc_text)
                 
-                # Проверяваме за локация в заглавието И описанието
-                city, region, event_type = extract_info(title_text + " " + desc_text)
-                
-                if city:
-                    try:
-                        loc = geolocator.geocode(city)
-                        if loc:
-                            death_match = re.search(r'(\d+)\s+(killed|dead|fatalities)', (title_text + " " + desc_text).lower())
-                            fatalities = death_match.group(1) if death_match else "0"
-                            
-                            all_events.append({
-                                "country": region,
-                                "lat": loc.latitude, 
-                                "lon": loc.longitude,
-                                "date": time.strftime("%Y-%m-%d"),
-                                "type": event_type, 
-                                "title": title_text, # Без рязане на символи
-                                "description": desc_text, # Дълго автоматично описание
-                                "fatalities": fatalities,
-                                "link": link_text
-                            })
-                    except: continue
-        except Exception as e: 
-            print(f"Error fetching {url}: {e}")
-            continue
+                if city_key:
+                    lat, lon = None, None
+                    
+                    # 1. Проверка в Hardcoded списъка (най-точно)
+                    low_city = city_key.lower()
+                    if low_city in HARDCODED_LOCATIONS:
+                        lat = HARDCODED_LOCATIONS[low_city]["lat"]
+                        lon = HARDCODED_LOCATIONS[low_city]["lon"]
+                    
+                    # 2. Ако не е там, питаме Geolocator
+                    if not lat:
+                        try:
+                            loc = geolocator.geocode(f"{city_key}, {region}")
+                            if loc:
+                                lat, lon = loc.latitude, loc.longitude
+                        except: continue
+
+                    if lat and lon:
+                        # Проверка за жертви
+                        death_match = re.search(r'(\d+)\s+(killed|dead|fatalities|casualties)', (title_text + " " + desc_text).lower())
+                        fatalities = death_match.group(1) if death_match else "0"
+                        
+                        all_events.append({
+                            "country": region,
+                            "lat": lat, 
+                            "lon": lon,
+                            "date": time.strftime("%Y-%m-%d"),
+                            "type": event_type, 
+                            "title": title_text[:120],
+                            "description": desc_text[:400] if desc_text else f"Tactical update from {region}.",
+                            "fatalities": fatalities,
+                            "link": link
+                        })
+        except Exception as e:
+            print(f"Skipping {url} due to connection/format issue.")
+
+    # Филтриране на дубликати (по заглавие, за да не се трупат еднакви новини)
+    seen_titles = set()
+    unique_events = []
+    for e in all_events:
+        if e['title'] not in seen_titles:
+            unique_events.append(e)
+            seen_titles.add(e['title'])
     
-    # Махаме дубликатите
-    unique_events = { (e['lat'], e['lon']): e for e in all_events }.values()
-    
-    # Записваме в JSON
+    # Запис в JSON
     with open('conflicts.json', 'w', encoding='utf-8') as f:
-        json.dump(list(unique_events), f, indent=4, ensure_ascii=False)
+        json.dump(unique_events, f, indent=4, ensure_ascii=False)
     
-    print(f"Sync complete. Found {len(unique_events)} unique events with full descriptions.")
+    print(f"[{time.strftime('%H:%M:%S')}] SCAN COMPLETE. ACTIVE EVENTS: {len(unique_events)}")
 
 if __name__ == "__main__":
-    run_bot()
-
-
-
-
+    while True:
+        run_bot()
+        time.sleep(600) # Изчакване 10 минути между сканиранията
