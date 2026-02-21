@@ -76,7 +76,8 @@ def extract_info(text, locations_map):
     """
     t = text.lower()
     
-   event_map = {
+  # ВНИМАНИЕ: Копирай от тук до долу и замени стария блок
+    event_map = {
         "Evacuation": [
             "evacuate", "leave now", "citizens must leave", "evacuation", "emergency departure", 
             "leave immediately", "urges citizens", "travel warning", "diplomatic exit", 
@@ -240,6 +241,7 @@ if __name__ == "__main__":
     run_bot()
     print(f"⏱️ Cycle Finished in {round(time.time() - start_time, 2)}s.")
     # Край на скрипта. Всички 250 реда са генерирани.
+
 
 
 
