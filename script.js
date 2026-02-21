@@ -113,7 +113,12 @@ fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/mast
         { name: "Muwaffaq Salti Air Base (Jordan)", type: "us-air", lat: 31.83, lon: 36.78 },
         { name: "USS Abraham Lincoln (CVN-72) Strike Group", type: "us-naval", lat: 21.00, lon: 61.50 }, 
         { name: "USS Gerald R. Ford (CVN-78) Strike Group", type: "us-naval", lat: 35.50, lon: 15.00 },  
-        { name: "USS George H.W. Bush (CVN-77)", type: "us-naval", lat: 37.00, lon: -75.00 },         
+        { name: "USS George H.W. Bush (CVN-77)", type: "us-naval", lat: 37.00, lon: -75.00 },
+        { name: "Bandar Abbas (Joint Drills)", type: "ir-pvo", lat: 27.20, lon: 56.37 },
+        { name: "Qeshm Island Drone Base", type: "ir-pvo", lat: 26.72, lon: 55.95 },
+        { name: "Kashan Drone Center", type: "ir-pvo", lat: 33.89, lon: 51.57 },
+        { name: "Haji Abad Missile Complex", type: "ir-pvo", lat: 28.04, lon: 55.91 },
+        { name: "IRIS Shahid Bagheri (Drone Carrier)", type: "ir-naval", lat: 27.00, lon: 56.10 },
     ];
 
     // --- СЕКЦИЯ 4: РАЗШИРЕН CSS СТИЛ (UI ОПТИМИЗАЦИЯ) ---
