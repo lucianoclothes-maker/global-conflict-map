@@ -1,5 +1,18 @@
 [
     {
+        "country": "Ukraine",
+        "city": "Kyiv",
+        "lat": 50.4501,
+        "lon": 30.5234,
+        "date": "2026-02-21 14:01:56",
+        "type": "Clashes",
+        "title": "Ukrainian Women Tell Their Stories of Sexual Violence by Russian Soldiers",
+        "description": "Hundreds of Ukrainian women and girls have reported sexual violence by Russian troops during the four-year war in Ukraine.",
+        "fatalities": "0",
+        "link": "https://www.nytimes.com/2026/02/20/world/europe/russian-soldiers-sexual-violence-ukraine.html",
+        "critical": false
+    },
+    {
         "country": "Israel",
         "city": "Tel Aviv",
         "lat": 32.0853,
@@ -244,19 +257,6 @@
         "description": "Iran’s extensive military abilities and network of regional proxies could draw the United States into a prolonged conflict.",
         "fatalities": "0",
         "link": "https://www.nytimes.com/2026/02/21/world/middleeast/iran-military-operation-venezuela.html",
-        "critical": false
-    },
-    {
-        "country": "Russia",
-        "city": "Moscow",
-        "lat": 55.7558,
-        "lon": 37.6173,
-        "date": "2026-02-21 12:32:25",
-        "type": "Breaking News",
-        "title": "Trump Official Backs Russia’s Return to Global Sports",
-        "description": "Paolo Zampolli, a special envoy for President Trump, endorsed Russia’s participation at next month’s Paralympics, a move greeted with dismay in European capitals.",
-        "fatalities": "0",
-        "link": "https://www.nytimes.com/2026/02/21/world/europe/trump-administration-russia-global-sports-return.html",
         "critical": false
     }
 ]
