@@ -28,9 +28,11 @@ function playTacticalPing() {
     oscillator.connect(gainNode);
     gainNode.connect(audioCtx.destination);
 
-    oscillator.start();
-    oscillator.stop(audioCtx.currentTime + 0.5);
-window.onload = function() {
+
+      oscillator.start();
+      oscillator.stop(audioCtx.currentTime + 0.5);
+  } 
+  window.onload = function() {
     
     // ПАМЕТ НА СИСТЕМАТА ЗА ГОРЕЩИ СЪБИТИЯ
     // Използва се за избягване на повторни звукови сигнали
