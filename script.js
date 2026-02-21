@@ -26,7 +26,7 @@ window.onload = function() {
     }).addTo(map);
 
     // --- 2. ГЕОПОЛИТИЧЕСКИ ЗОНИ ---
-    const warZones = ['Russia', 'Ukraine', 'Israel', 'Palestine', 'Sudan', 'Syria', ];
+    const warZones = ['Russia', 'Ukraine', 'Israel', 'Palestine', 'Sudan', 'Syria',];
     
     // Нова Синя Зона за Европа
     const blueZone = [
