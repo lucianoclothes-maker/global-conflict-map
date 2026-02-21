@@ -1,5 +1,57 @@
 [
     {
+        "country": "Ukraine",
+        "city": "Kyiv",
+        "lat": 50.4501,
+        "lon": 30.5234,
+        "date": "2026-02-21 20:53:07",
+        "type": "Drone",
+        "title": "Slovakia threatens to cut electricity to Ukraine over Russian oil spat",
+        "description": "Slovakia and Hungary vexed after Russian oil flows via Ukraine halted by alleged Russian drone strike last month.",
+        "fatalities": "0",
+        "link": "https://www.aljazeera.com/news/2026/2/21/slovakia-threatens-to-cut-electricity-to-ukraine-over-russian-oil-spat?traffic_source=rss",
+        "critical": false
+    },
+    {
+        "country": "Iran",
+        "city": "Tehran",
+        "lat": 35.6892,
+        "lon": 51.389,
+        "date": "2026-02-21 20:53:06",
+        "type": "Breaking News",
+        "title": "Iran students stage first anti-government protests since deadly crackdown",
+        "description": "The student protesters honoured thousands of those killed when nationwide mass protests were put down last month.",
+        "fatalities": "0",
+        "link": "https://www.bbc.com/news/articles/c5yj2kzkrj0o?at_medium=RSS&at_campaign=rss",
+        "critical": false
+    },
+    {
+        "country": "Russia",
+        "city": "Moscow",
+        "lat": 55.7558,
+        "lon": 37.6173,
+        "date": "2026-02-21 20:53:02",
+        "type": "Clashes",
+        "title": "Russia Takes the Gulag Out of the Gulag History Museum in Moscow",
+        "description": "The museum had preserved the history of brutality inflicted by the Soviet Union on its people. It will now focus on Nazi war crimes.",
+        "fatalities": "0",
+        "link": "https://www.nytimes.com/2026/02/20/world/europe/russia-gulag-history-museum-stalin.html",
+        "critical": false
+    },
+    {
+        "country": "Ukraine",
+        "city": "Kyiv",
+        "lat": 50.4501,
+        "lon": 30.5234,
+        "date": "2026-02-21 20:53:02",
+        "type": "Breaking News",
+        "title": "Hungary Poses Unexpected Hurdle to Europe’s 90-Billion Euro Loan to Ukraine",
+        "description": "While the delay may prove to be procedural, Hungary signaled that it could cause problems as the European Union works to send money to Ukraine.",
+        "fatalities": "0",
+        "link": "https://www.nytimes.com/2026/02/20/world/europe/euro-loan-ukraine-hungary-obstacle.html",
+        "critical": false
+    },
+    {
         "country": "Europe",
         "city": "Berlin",
         "lat": 48.8796039,
@@ -169,19 +221,6 @@
         "critical": false
     },
     {
-        "country": "China",
-        "city": "Beijing",
-        "lat": 39.9057136,
-        "lon": 116.3912972,
-        "date": "2026-02-21 18:41:07",
-        "type": "Breaking News",
-        "title": "China’s ‘King of Banned Films’ Wants to Change the Subject",
-        "description": "Acclaimed overseas for defying censors, Lou Ye is more interested in reaching Chinese audiences, as he holds up a cinematic mirror to their lives in modern China.",
-        "fatalities": "0",
-        "link": "https://www.nytimes.com/2026/02/20/world/asia/lou-ye-china-film-director.html",
-        "critical": false
-    },
-    {
         "country": "Russia",
         "city": "Moscow",
         "lat": 55.7558,
@@ -322,6 +361,19 @@
         "description": "Brazilian President Lula called the critical minerals and rare earths deal the core of the pioneering agreement.",
         "fatalities": "0",
         "link": "https://www.aljazeera.com/news/2026/2/21/india-brazil-sign-critical-minerals-deal-as-partners-seek-trade-growth?traffic_source=rss",
+        "critical": false
+    },
+    {
+        "country": "China",
+        "city": "Beijing",
+        "lat": 39.9057136,
+        "lon": 116.3912972,
+        "date": "2026-02-21 18:41:07",
+        "type": "Breaking News",
+        "title": "China’s ‘King of Banned Films’ Wants to Change the Subject",
+        "description": "Acclaimed overseas for defying censors, Lou Ye is more interested in reaching Chinese audiences, as he holds up a cinematic mirror to their lives in modern China.",
+        "fatalities": "0",
+        "link": "https://www.nytimes.com/2026/02/20/world/asia/lou-ye-china-film-director.html",
         "critical": false
     },
     {
