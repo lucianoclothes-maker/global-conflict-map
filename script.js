@@ -155,25 +155,33 @@ window.onload = function() {
                 });
             }).catch(err => console.error("INTEL ERROR: JSON format mismatch."));
     }
-    // --- НОВА СЕКЦИЯ: ТЕЛЕГРАМ РЕФРЕШ ENGINE ---
-    function refreshTelegram() {
-        // Намира контейнера на Телеграм (увери се, че класът в HTML е този)
-        const tgContainer = document.querySelector('.telegram-feed-container'); 
-        if (tgContainer) {
-            const currentHTML = tgContainer.innerHTML;
-            tgContainer.innerHTML = ""; // Изчистване
-            setTimeout(() => {
-                tgContainer.innerHTML = currentHTML; // Връщане обратно (рестартира джаджата)
-                console.log("Tactical Intel: Telegram Feed Refreshed.");
-            }, 50);
-        }
+function refreshTelegram() {
+    const container = document.querySelector('.telegram-feed-container');
+    if (container) {
+        // Вземаме всички скриптове вътре
+        const scripts = container.querySelectorAll('script');
+        const scriptData = Array.from(scripts).map(s => ({
+            src: s.src,
+            post: s.getAttribute('data-telegram-post'),
+            width: s.getAttribute('data-width'),
+            dark: s.getAttribute('data-dark')
+        }));
+
+        container.innerHTML = ''; // Чистим всичко
+
+        // Наливаме ги наново един по един
+        scriptData.forEach(data => {
+            const newScript = document.createElement('script');
+            newScript.async = true;
+            newScript.src = data.src;
+            newScript.setAttribute('data-telegram-post', data.post);
+            newScript.setAttribute('data-width', data.width);
+            newScript.setAttribute('data-dark', data.dark);
+            container.appendChild(newScript);
+        });
+        console.log("Tactical Telegram Intel: Full Reload Complete.");
     }
-
-    // Добавяме таймера за Телеграм към вече съществуващите
-    setInterval(refreshTelegram, 300000); // Рефреш на всеки 5 минути
-
-    syncIntel();
-    setInterval(syncIntel, 60000); // Освежаване на 60 сек.
+}
 };
 
 // --- 7. UTC ТАКТИЧЕСКИ ЧАСОВНИК ---
