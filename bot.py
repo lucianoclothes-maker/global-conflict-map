@@ -39,7 +39,9 @@ FEEDS = [
     "https://theaviationist.com/feed/",
     "https://www.defense.gov/DesktopModules/ArticleCS/RSS.ashx?max=10"
     "https://www.aljazeera.com/xml/rss/all.xml",
-    "https://p.dw.com/p/24CH"
+    "https://p.dw.com/p/24CH",
+    "https://www.axios.com/world",
+    "https://www.whitehouse.gov/briefing-room/"
 ]
 
 # КЕШ ЗА ЛОКАЦИИ: Подсигурява стабилността на картата
@@ -277,6 +279,7 @@ if __name__ == "__main__":
     run_bot()
     print(f"⏱️ Cycle Finished in {round(time.time() - start_time, 2)}s.")
     # Край на скрипта. Всички 250 реда са генерирани.
+
 
 
 
