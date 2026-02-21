@@ -28,6 +28,16 @@ FEEDS = [
     "https://www.reutersagency.com/feed/",
     "https://p.dw.com/p/24CH",
     "https://www.france24.com/en/rss"
+    "https://www.militarytimes.com/arc/outboundfeeds/rss/category/flashpoints/?outputType=xml",
+    "https://www.defensenews.com/arc/outboundfeeds/rss/category/global/?outputType=xml",
+    "https://www.janes.com/rss", 
+    "https://www.criticalthreats.org/rss",
+    "https://defense-update.com/feed",
+    "https://www.longwarjournal.org/feed",
+    "https://www.army-technology.com/feed/",
+    "https://www.naval-technology.com/feed/",
+    "https://theaviationist.com/feed/",
+    "https://www.defense.gov/DesktopModules/ArticleCS/RSS.ashx?max=10"
 ]
 
 # КЕШ ЗА ЛОКАЦИИ: Подсигурява стабилността на картата
@@ -69,7 +79,7 @@ def extract_info(text, locations_map):
     # Речник на тактическите събития (ПЪЛЕН ОБЕМ)
     event_map = {
         "Evacuation": [
-            "evacuate", "leave now", "citizens must leave", "evacuation", 
+            "evacuate", "leave now", "citizens must leave", "evacuation" "Iran", "USA", 
             "emergency departure", "leave immediately", "urges citizens", 
             "travel warning", "diplomatic exit", "security alert",
             "warns citizens", "orders citizens", "advice to leave", "flee"
@@ -214,3 +224,4 @@ if __name__ == "__main__":
     run_bot()
     print(f"⏱️ Cycle Finished in {round(time.time() - start_time, 2)}s.")
     # Край на скрипта. Всички 250 реда са генерирани.
+
