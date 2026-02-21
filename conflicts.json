@@ -11,6 +11,17 @@
         "link": "https://www.aljazeera.com/economy/2026/2/20/can-trump-still-impose-tariffs-after-the-supreme-court-ruling?traffic_source=rss"
     },
     {
+        "country": "Middle East",
+        "lat": 30.8124247,
+        "lon": 34.8594762,
+        "date": "2026-02-21",
+        "type": "Breaking News",
+        "title": "US envoy suggests it would be ‘fine’ if Israel expands across Middle East",
+        "description": "",
+        "fatalities": "0",
+        "link": "https://www.aljazeera.com/news/2026/2/20/us-envoy-suggests-it-would-be-fine-if-israel-expands-across-middle-east?traffic_source=rss"
+    },
+    {
         "country": "USA",
         "lat": 38.8976387,
         "lon": -77.0365528,
@@ -31,27 +42,5 @@
         "description": "",
         "fatalities": "0",
         "link": "https://www.aljazeera.com/news/2026/2/21/brazils-lula-says-maduro-should-face-trial-in-venezuela-not-us?traffic_source=rss"
-    },
-    {
-        "country": "Middle East",
-        "lat": 30.8124247,
-        "lon": 34.8594762,
-        "date": "2026-02-21",
-        "type": "Breaking News",
-        "title": "US envoy suggests it would be ‘fine’ if Israel expands across Middle East",
-        "description": "",
-        "fatalities": "0",
-        "link": "https://www.aljazeera.com/news/2026/2/20/us-envoy-suggests-it-would-be-fine-if-israel-expands-across-middle-east?traffic_source=rss"
-    },
-    {
-        "country": "Middle East",
-        "lat": -23.328398,
-        "lon": 32.8066057,
-        "date": "2026-02-21",
-        "type": "Breaking News",
-        "title": "What’s next for Gaza after Trump’s Board of Peace meets in Washington?",
-        "description": "",
-        "fatalities": "0",
-        "link": "https://www.aljazeera.com/video/inside-story/2026/2/20/whats-next-for-gaza-after-trumps-board-of-peace-meets-in-washington?traffic_source=rss"
     }
 ]
