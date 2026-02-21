@@ -130,6 +130,15 @@ fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/mast
         { name: "Anarak Drone Test Range", type: "ir-air", lat: 33.32, lon: 53.70 },
         { name: "Semnan Missile Port", type: "ir-missile", lat: 35.23, lon: 53.92 },
         { name: "Shahroud Space Center", type: "ir-missile", lat: 36.42, lon: 55.01 },
+        { name: "Al Dhafra Air Base (UAE)", type: "us-air", lat: 24.24, lon: 54.54 }, 
+        { name: "Prince Sultan Air Base (KSA)", type: "us-air", lat: 24.06, lon: 47.58 },
+        { name: "Ali Al Salem Air Base (Kuwait)", type: "us-air", lat: 29.34, lon: 47.52 },
+        { name: "Camp Arifjan (Kuwait)", type: "us-naval", lat: 28.88, lon: 48.16 },
+        { name: "USS McFaul (Hormuz Patrol)", type: "us-naval", lat: 26.50, lon: 56.50 }, 
+        { name: "USS Delbert D. Black (Red Sea)", type: "us-naval", lat: 20.00, lon: 39.00 }, 
+        { name: "Souda Bay Base (Crete)", type: "us-naval", lat: 35.48, lon: 24.14 },
+        { name: "Thumrait Air Base (Oman)", type: "us-air", lat: 17.66, lon: 54.02 },
+        { name: "RAF Akrotiri (Cyprus)", type: "us-air", lat: 34.59, lon: 32.98 },
     ];
 
     // --- СЕКЦИЯ 4: РАЗШИРЕН CSS СТИЛ (UI ОПТИМИЗАЦИЯ) ---
