@@ -4,22 +4,33 @@
         "lat": 39.6823264,
         "lon": -76.602191,
         "date": "2026-02-21",
+        "type": "Naval",
+        "title": "US says 11 people killed in latest strikes on alleged drug boats",
+        "description": "pThree boats targeted in eastern Pacific and Caribbean as Trump continues pursuit of alleged ‘narco-terrorists’/ppUS military officials have said American forces launched assaults on three alleged drug-smuggling boats, killing 11 in one of the deadliest days of the a href=\"https://www.theguardian.com/us-news/trump-administration\"Trump administration’s/a months-long campaign against alleged traffickers./ppThe military action on Monday brought the number of fatalities caused by US strikes to 145 since September, when a href=\"https://www.theguardian.com/us-news/donaldtrump\"Donald Trump/a called on American armed forces to attack people deemed “narco-terrorists” on small vessels. There have been 42 known strikes in notorious drug-trafficking routes such as the Caribbean Sea and eastern Pacific Ocean, according to the Associated Press a href=\"https://www.military.com/daily-news/2026/02/17/strikes-3-more-alleged-drug-boats-kill-11-people-us-military-says.html\"reported/a./p a href=\"https://www.theguardian.com/us-news/2026/feb/17/us-military-boats-strikes\"Continue reading.../a",
+        "fatalities": "0",
+        "link": "https://www.theguardian.com/us-news/2026/feb/17/us-military-boats-strikes"
+    },
+    {
+        "country": "Venezuela",
+        "lat": 8.0018709,
+        "lon": -66.1109318,
+        "date": "2026-02-21",
         "type": "Breaking News",
-        "title": "Trump suggests he won’t refund tariffs after Supreme Court ruling",
+        "title": "Brazil’s Lula says Maduro should face trial in Venezuela, not US",
         "description": "",
         "fatalities": "0",
-        "link": "https://www.aljazeera.com/video/newsfeed/2026/2/20/trump-suggests-he-wont-refund-tariffs-after-supreme-court-ruling?traffic_source=rss"
+        "link": "https://www.aljazeera.com/news/2026/2/21/brazils-lula-says-maduro-should-face-trial-in-venezuela-not-us?traffic_source=rss"
     },
     {
         "country": "Middle East",
         "lat": 30.8124247,
         "lon": 34.8594762,
         "date": "2026-02-21",
-        "type": "Airstrike",
-        "title": "Israeli attacks across Lebanon kill at least eight people",
-        "description": "",
+        "type": "Naval",
+        "title": "Kenyan authorities used Israeli tech to crack activist’s phone, report claims",
+        "description": "pCitizen Lab report suggests Cellebrite software was used to break into Boniface Mwangi’s phone while he was under arrest/ppWhen Boniface Mwangi, the prominent Kenyan pro-democracy activist who plans to run a href=\"https://www.reuters.com/world/africa/kenyan-rights-activist-plans-run-president-2027-2025-08-27/\"for president in 2027/a, had his phones returned to him by Kenyan authorities after his a href=\"https://www.theguardian.com/world/2025/jul/20/arrested-kenyan-activist-boniface-mwangi-faces-terror-charges\"controversial arrest last July/a, he immediately noticed a problem: one of the phones was no longer password protected and could be opened without one./ppIt was Mwangi’s personal phone, which he used to communicate with friends and mentors, and contained photos of private family moments with his wife and children. Knowing that its contents could be in the hands of the Kenyan government made Mwangi – who has described harassment and a href=\"https://www.theguardian.com/world/2025/jun/29/activists-boniface-mwangi-agather-atuhaire-tanzania\"even torture/a – feel unsafe and “exposed”, he told the Guardian./p a href=\"https://www.theguardian.com/world/2026/feb/17/trim-slugs-to-kenya-authorities-israel-tech-crack-activists-phone-report\"Continue reading.../a",
         "fatalities": "0",
-        "link": "https://www.aljazeera.com/news/2026/2/20/one-killed-in-israeli-strike-on-largest-palestinian-refugee-camp-in-lebanon?traffic_source=rss"
+        "link": "https://www.theguardian.com/world/2026/feb/17/trim-slugs-to-kenya-authorities-israel-tech-crack-activists-phone-report"
     },
     {
         "country": "Middle East",
@@ -37,11 +48,11 @@
         "lat": 14.5844444,
         "lon": 29.4917691,
         "date": "2026-02-21",
-        "type": "Drone",
-        "title": "How are killer drones reshaping the conflict in Sudan",
-        "description": "",
+        "type": "Naval",
+        "title": "RSF siege of El Fasher in Sudan has ‘hallmarks of genocide’, UN mission finds",
+        "description": "pReport details harrowing 18-month occupation of North Darfur capital, showing destruction aimed at ethnic communities/ppThe a href=\"https://www.theguardian.com/world/2025/oct/27/fears-civilians-sudan-paramilitary-rsf-capture-el-fasher\"siege and capture/a of the Sudanese city of El Fasher by the paramilitary Rapid Support Forces group last October bore “the hallmarks of genocide”, a UN-mandated fact-finding mission has said./ppIn a report detailing the harrowing 18-month occupation of the capital of North Darfur, investigators concluded that the RSF and allied militias deliberately inflicted conditions calculated to bring about the physical destruction of the Zaghawa and Fur ethnic communities./p a href=\"https://www.theguardian.com/world/2026/feb/19/rsf-siege-el-fasher-sudan-hallmarks-of-genocide-un-mission-north-darfur\"Continue reading.../a",
         "fatalities": "0",
-        "link": "https://www.aljazeera.com/video/the-take-2/2026/2/20/aje-onl-aj_tt_sdn_alfashir_av_v1-200226?traffic_source=rss"
+        "link": "https://www.theguardian.com/world/2026/feb/19/rsf-siege-el-fasher-sudan-hallmarks-of-genocide-un-mission-north-darfur"
     },
     {
         "country": "Middle East",
@@ -53,5 +64,16 @@
         "description": "",
         "fatalities": "0",
         "link": "https://www.aljazeera.com/video/newsfeed/2026/2/20/trump-considering-limited-strikes-on-iran?traffic_source=rss"
+    },
+    {
+        "country": "Japan",
+        "lat": 36.6,
+        "lon": 138.65,
+        "date": "2026-02-21",
+        "type": "Naval",
+        "title": "Osaka stunned by anonymous gift of gold bars to fix ageing water pipes",
+        "description": "pMayor says Japanese city will respect donor’s specification that £2.7m gift must be used to repair dilapidated system/ppOsaka has received a hefty gift of gold bars worth 560m yen (£2.7m) from an anonymous donor and a request for its specific use: to fix the Japanese city’s dilapidated water pipes./ppThe gold bars, weighing a total of 21kg (46lb), were given to the Osaka City Waterworks Bureau in November by the donor who wants to help improve ageing water pipes, the mayor, Hideyuki Yokoyama, told reporters on Thursday./p a href=\"https://www.theguardian.com/world/2026/feb/20/osaka-stunned-by-anonymous-gift-of-36m-in-gold-to-fix-ageing-water-pipes\"Continue reading.../a",
+        "fatalities": "0",
+        "link": "https://www.theguardian.com/world/2026/feb/20/osaka-stunned-by-anonymous-gift-of-36m-in-gold-to-fix-ageing-water-pipes"
     }
 ]
