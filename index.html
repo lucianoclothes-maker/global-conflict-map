@@ -2,30 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Global Conflict Dashboard | Terminal</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
-        body, html { 
-            margin: 0; padding: 0; height: 100%; 
-            background: #050505; color: #39FF14; 
-            font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; 
-        }
-  <div class="news-ticker-container">
-    <div class="news-ticker" id="newsTicker">
-        ⚠️ FOX NEWS: IRAN MOVED DRONES TO OFFENSIVE POSITIONS AND READY TO LAUNCH ••• 
-        🚢 US CARRIER GROUPS REPOSITIONING IN ARABIAN SEA ••• 
-        🚀 TENSIONS ESCALATING: 10-DAY ULTIMATUM IN EFFECT ••• 
-        🪖 FRONT LINE UPDATE: HEAVY FIGHTING IN KUPIANSK AND GULIAIPOLE SECTORS
-    </div>
-</div>
-        #map { position: absolute; top: 60px; bottom: 0; left: 0; right: 0; z-index: 1; background: #0a0a0a; }
-
+        body, html { margin: 0; padding: 0; height: 100%; background: #050505; color: #39FF14; font-family: monospace; overflow: hidden; }
+        
         header {
             height: 60px; background: rgba(0, 0, 0, 0.95); 
             border-bottom: 1px solid rgba(57, 255, 20, 0.3);
             display: flex; align-items: center; justify-content: center;
             position: relative; z-index: 2000;
         }
+
+        .news-ticker-container { 
+            position: absolute; top: 60px; left: 0; width: 100%; height: 30px; 
+            background: #000; border-bottom: 1px solid #ff4444; 
+            overflow: hidden; z-index: 2001; display: flex; align-items: center; 
+        }
+        
+        .news-ticker { 
+            white-space: nowrap; display: inline-block; padding-left: 100%; 
+            animation: marquee 35s linear infinite; color: #ff4444; font-weight: bold; font-size: 14px; 
+        }
+        
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+
+        #map { position: absolute; top: 90px; bottom: 0; left: 0; right: 0; z-index: 1; background: #0a0a0a; }
 
         .tactical-panel {
             position: fixed !important; z-index: 1000;
@@ -36,10 +39,9 @@
             display: flex; flex-direction: column; overflow: hidden;
         }
 
-        /* Позициониране на панелите */
         #chat-container { bottom: 20px; left: 20px; width: 300px; height: 35%; }
-        #video-container { top: 80px; right: 20px; width: 350px; height: 35%; }
-        #intel-list-container { top: calc(80px + 35% + 20px); right: 20px; width: 350px; height: 30%; }
+        #video-container { top: 100px; right: 20px; width: 350px; height: 35%; }
+        #intel-list-container { top: calc(100px + 35% + 20px); right: 20px; width: 350px; height: 30%; }
         #intel-details-container { bottom: 20px; right: 20px; width: 350px; height: 15%; }
 
         .panel-header {
@@ -52,7 +54,6 @@
 
         .panel-content { padding: 12px; overflow-y: auto; color: #eee; font-size: 13px; height: 100%; }
 
-        /* Зелен тактически скролер */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: #39FF14; border-radius: 10px; }
@@ -72,7 +73,7 @@
     <header>
         <div style="display: flex; justify-content: space-between; width: 95%; align-items: center;">
             <div style="font-size: 10px; color: #888; text-transform: uppercase; flex: 1;">
-                <span id="header-time">00:00:00</span> | USER: <span style="color:#39FF14">BORISLAV</span>
+                <span id="header-time">17:12:00</span> | USER: <span style="color:#39FF14">BORISLAV</span>
             </div>
             <div style="text-align: center; flex: 1;">
                 <div style="font-size: 16px; font-weight: bold; letter-spacing: 2px;">🌐 GLOBAL CONFLICT DASHBOARD</div>
@@ -83,6 +84,12 @@
             </div>
         </div>
     </header>
+
+    <div class="news-ticker-container">
+        <div class="news-ticker">
+            ⚠️ FOX NEWS: IRAN MOVED DRONES TO OFFENSIVE POSITIONS ••• USS GERALD FORD & ABRAHAM LINCOLN POSITIONED ••• RUSSIA - STATUS: IN WAR •••
+        </div>
+    </div>
 
     <div id="map"></div>
 
@@ -102,11 +109,7 @@
             <span><span class="live-dot">●</span>LIVE</span>
         </div>
         <div style="position: relative; padding-bottom: 56.25%; height: 0; background: #000;">
-            <iframe 
-                src="https://www.youtube.com/embed/Ekn58CZ_YU0?autoplay=1&mute=1" 
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
-                allowfullscreen>
-            </iframe>
+            <iframe src="https://www.youtube.com/embed/Ekn58CZ_YU0?autoplay=1&mute=1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
         </div>
         <div style="padding: 10px; background: #000; font-family: monospace; font-size: 10px; color: #39FF14;">
             >> FREQUENCY: 12.4 GHz | ENCRYPTION: AES-256<br>
