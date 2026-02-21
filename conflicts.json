@@ -986,5 +986,19 @@
         "fatalities": "0",
         "link": "https://www.militarytimes.com/global/europe/2025/12/16/ukraines-first-underwater-drone-strike-caught-on-hacked-cameras/",
         "critical": false
+    },
+]
+
+        "country": "Ukraine",
+        "city": "Kyiv",
+        "lat": 50.4501,
+        "lon": 30.5234,
+        "date": "2026-02-21 18:28:46",
+        "type": "Naval",
+        "title": "Ukrane is ready for counter offensive",
+        "description": "Thats what Zelensky told",
+        "fatalities": "0",
+        "link": "https://www.militarytimes.com/global/europe/2025/12/16/ukraines-first-underwater-drone-strike-caught-on-hacked-cameras/",
+        "critical": false
     }
 ]
