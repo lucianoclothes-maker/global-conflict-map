@@ -22,55 +22,57 @@
 
         .tactical-panel {
             position: fixed !important; z-index: 1000;
-            background: rgba(10, 10, 10, 0.6) !important; 
+            background: rgba(10, 10, 10, 0.8) !important; 
             backdrop-filter: blur(15px) saturate(160%); 
             border: 1px solid rgba(57, 255, 20, 0.2);
             border-radius: 4px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
             display: flex; flex-direction: column; overflow: hidden;
         }
 
-        /* Позициониране */
+        /* Позициониране на панелите */
         #chat-container { bottom: 20px; left: 20px; width: 300px; height: 35%; }
-        #news-container { top: 80px; right: 20px; width: 320px; height: 40%; }
-        #intel-container { bottom: 80px; right: 20px; width: 320px; height: 35%; }
+        #video-container { top: 80px; right: 20px; width: 350px; height: 35%; }
+        #intel-list-container { top: calc(80px + 35% + 20px); right: 20px; width: 350px; height: 30%; }
+        #intel-details-container { bottom: 20px; right: 20px; width: 350px; height: 15%; }
 
         .panel-header {
             background: rgba(57, 255, 20, 0.1);
             color: #39FF14; padding: 7px 12px;
             font-size: 11px; font-weight: bold;
             text-transform: uppercase; border-bottom: 1px solid rgba(57, 255, 20, 0.2);
-            letter-spacing: 1px;
+            letter-spacing: 1px; display: flex; justify-content: space-between;
         }
 
         .panel-content { padding: 12px; overflow-y: auto; color: #eee; font-size: 13px; height: 100%; }
 
         /* Зелен тактически скролер */
-        .telegram-feed-container::-webkit-scrollbar { width: 5px; }
-        .telegram-feed-container::-webkit-scrollbar-track { background: #000; }
-        .telegram-feed-container::-webkit-scrollbar-thumb { background: #39FF14; border-radius: 10px; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #39FF14; border-radius: 10px; }
 
         .map-legend {
-            position: fixed; bottom: 20px; right: 20px; z-index: 1000;
+            position: fixed; bottom: 20px; left: 340px; z-index: 1000;
             background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(5px);
             padding: 6px 15px; border: 1px solid rgba(57, 255, 20, 0.3);
             border-radius: 20px; font-size: 10px; display: flex; gap: 10px;
         }
 
-        iframe { mix-blend-mode: screen; background: transparent !important; filter: brightness(1.2) contrast(1.1); opacity: 0.9; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+        .live-dot { color: #ff3131; animation: blink 1s infinite; margin-right: 5px; }
     </style>
 </head>
 <body>
     <header>
         <div style="display: flex; justify-content: space-between; width: 95%; align-items: center;">
             <div style="font-size: 10px; color: #888; text-transform: uppercase; flex: 1;">
-                <span id="header-time">00:00:00</span> | USER: <span style="color:#39FF14">BORISLAV</span> | ONLINE: <span style="color:#39FF14">1</span>
+                <span id="header-time">00:00:00</span> | USER: <span style="color:#39FF14">BORISLAV</span>
             </div>
             <div style="text-align: center; flex: 1;">
                 <div style="font-size: 16px; font-weight: bold; letter-spacing: 2px;">🌐 GLOBAL CONFLICT DASHBOARD</div>
                 <div style="font-size: 9px; color: #39FF14; text-transform: uppercase; opacity: 0.8;">STATUS: ACTIVE | LOCATION: BULGARIA</div>
             </div>
             <div style="font-size: 10px; color: #888; text-transform: uppercase; text-align: right; flex: 1;">
-                EVENTS (24H): <span id="active-events" style="color:#39FF14">11</span> | THREAT LEVEL: <span style="color: #ff3131;">ELEVATED</span>
+                EVENTS (24H): <span id="active-events" style="color:#39FF14">11</span> | THREAT: <span style="color: #ff3131;">ELEVATED</span>
             </div>
         </div>
     </header>
@@ -78,7 +80,7 @@
     <div id="map"></div>
 
     <div class="map-legend">
-        <span style="color: #39FF14; font-weight: bold; margin-right: 5px;">STATUS:</span>
+        <span style="color: #39FF14; font-weight: bold;">LEGEND:</span>
         ⚔️ Combat | 🚀 Strikes | 🚢 Fleet | ⚠️ Incidents
     </div>
 
@@ -87,20 +89,38 @@
         <iframe src="https://www5.cbox.ws/box/?boxid=961439&boxtag=rRC1cC" width="100%" height="100%" frameborder="0"></iframe>
     </div>
 
-    <div id="news-container" class="tactical-panel">
-        <div class="panel-header">📝 MULTI-SOURCE INTEL FEED</div>
-  <div class="panel-header">📢 LIVE INTEL UPDATE</div>
-<div id="intel-list" class="panel-content" style="overflow-y: auto; height: 100%; font-family: monospace; font-size: 12px; color: #39FF14; padding: 10px;">
-    <div style="border-left: 2px solid #39FF14; padding-left: 10px; margin-bottom: 15px;">
-        <small>[21.02.2026 14:20]</small><br>
-        <strong>SYSTEM READY:</strong> Waiting for incoming intelligence data...
+    <div id="video-container" class="tactical-panel">
+        <div class="panel-header">
+            <span>📹 LIVE FEED: CNN-NEWS18</span>
+            <span><span class="live-dot">●</span>LIVE</span>
+        </div>
+        <div style="position: relative; padding-bottom: 56.25%; height: 0; background: #000;">
+            <iframe 
+                src="https://www.youtube.com/embed/Ekn58CZ_YU0?autoplay=1&mute=1" 
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" 
+                allowfullscreen>
+            </iframe>
+        </div>
+        <div style="padding: 10px; background: #000; font-family: monospace; font-size: 10px; color: #39FF14;">
+            >> FREQUENCY: 12.4 GHz | ENCRYPTION: AES-256<br>
+            >> SIGNAL: STABLE | SOURCE: SAT-LINK-CNN
+        </div>
     </div>
-</div>
 
-    <div id="intel-container" class="tactical-panel">
+    <div id="intel-list-container" class="tactical-panel">
+        <div class="panel-header">📢 LIVE INTEL UPDATE</div>
+        <div id="intel-list" class="panel-content" style="font-family: monospace; font-size: 12px; color: #39FF14;">
+            <div style="border-left: 2px solid #39FF14; padding-left: 10px; margin-bottom: 15px;">
+                <small>[21.02.2026 14:20]</small><br>
+                <strong>SYSTEM READY:</strong> Waiting for incoming intelligence data...
+            </div>
+        </div>
+    </div>
+
+    <div id="intel-details-container" class="tactical-panel">
         <div class="panel-header">🔍 OBJECTIVE DETAILS</div>
         <div id="news-content" class="panel-content">
-            <p style="font-style: italic; color: #888;">Select a map marker for intelligence analysis...</p>
+            <p style="font-style: italic; color: #888; font-size: 11px;">Select a map marker for analysis...</p>
         </div>
     </div>
 
