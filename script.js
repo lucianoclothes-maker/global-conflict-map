@@ -1,9 +1,10 @@
 /**
  * =============================================================================
- * GLOBAL CONFLICT DASHBOARD v5.1 - STRATEGIC COMMAND
+ * GLOBAL CONFLICT DASHBOARD v6.0 - STRATEGIC COMMAND (ICONS UPDATED)
  * =============================================================================
- * ОБЕКТ: Фикс на "LIVE INTEL UPDATE" панела + Динамичен списък от JSON
+ * ОБЕКТ: Интеграция на тактически икони от легендата + Пулсиращ ефект
  * ДАТА НА ВАЛИДАЦИЯ: 2026-02-21
+ * АВТОР: Gemini Tactical AI (Personalized for Borislav)
  * =============================================================================
  */
 
@@ -20,7 +21,7 @@ window.onload = function() {
     const markersLayer = L.layerGroup().addTo(map);   
     const militaryLayer = L.layerGroup().addTo(map);  
 
-    // ТЪМЕН ТАКТИЧЕСКИ СЛОЙ
+    // ТЪМЕН ТАКТИЧЕСКИ СЛОЙ (CartoDB Dark Matter)
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
         maxZoom: 18,
         minZoom: 2
@@ -64,7 +65,7 @@ window.onload = function() {
         { name: "Al Udeid Air Base", type: "us-hq", lat: 25.11, lon: 51.21, info: "US CENTCOM HQ" }
     ];
 
-    // --- 4. КРИТИЧЕН CSS ---
+    // --- 4. КРИТИЧЕН CSS (Обновен за иконите) ---
     const styleSheet = document.createElement("style");
     styleSheet.innerText = `
         .mil-icon { display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.7); }
@@ -74,13 +75,34 @@ window.onload = function() {
         .read-more-btn { display: inline-block !important; margin-top: 15px !important; padding: 12px 24px !important; background: #39FF14 !important; color: #000 !important; font-weight: bold !important; text-decoration: none !important; border-radius: 4px; font-family: 'Courier New', monospace; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
         .read-more-btn:hover { background: #fff !important; box-shadow: 0 0 20px #39FF14; transform: scale(1.05); }
         .pulse-intel { animation: pulse-red 2.5s infinite; }
-        @keyframes pulse-red { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        @keyframes pulse-red { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.2); } 100% { opacity: 1; transform: scale(1); } }
         .intel-entry { border-left: 2px solid #39FF14; padding-left: 10px; margin-bottom: 15px; cursor: pointer; transition: 0.2s; }
         .intel-entry:hover { background: rgba(57, 255, 20, 0.1); }
+        .tactical-marker { text-shadow: 0 0 15px red; filter: drop-shadow(0 0 5px black); }
     `;
     document.head.appendChild(styleSheet);
 
-    // --- 5. ФУНКЦИЯ ЗА СИМВОЛИ ---
+    // --- 5. ФУНКЦИЯ ЗА СИМВОЛИ (Legend Matching Logic) ---
+    // Тази функция превръща текстовия тип от бота в икона от легендата
+    function getIntelIcon(type) {
+        let symbol = '⚠️'; // По подразбиране
+        const t = type.toLowerCase();
+        
+        if (t.includes('airstrike') || t.includes('missile')) symbol = '🚀';
+        else if (t.includes('clashes') || t.includes('fighting')) symbol = '⚔️';
+        else if (t.includes('naval') || t.includes('ship')) symbol = '🚢';
+        else if (t.includes('drone') || t.includes('uav')) symbol = '🛸';
+        else if (t.includes('explosion') || t.includes('blast')) symbol = '💥';
+        else if (t.includes('nuclear')) symbol = '☢️';
+        
+        return L.divIcon({
+            html: `<div class="pulse-intel tactical-marker" style="font-size:28px; width:40px; text-align:center;">${symbol}</div>`,
+            className: '',
+            iconSize: [40, 40],
+            iconAnchor: [20, 20]
+        });
+    }
+
     function getTacticalIcon(type) {
         let sym = '✈️'; let cls = 'mil-icon ';
         if (type.includes('naval')) sym = '⚓';
@@ -103,16 +125,12 @@ window.onload = function() {
             .then(data => {
                 markersLayer.clearLayers();
                 const listContainer = document.getElementById('intel-list');
-                if (listContainer) listContainer.innerHTML = ''; // Чистим списъка
+                if (listContainer) listContainer.innerHTML = ''; 
 
                 data.forEach(item => {
-                    // А. Поставяне на точка на картата
-                    const icon = L.divIcon({
-                        html: `<div class="pulse-intel" style="color:#ff4d4d; font-size:24px; text-shadow:0 0 10px red;">●</div>`,
-                        className: '', iconSize: [25, 25]
-                    });
-                    
-                    const marker = L.marker([item.lat, item.lon], { icon: icon }).addTo(markersLayer);
+                    // А. Поставяне на ДИНАМИЧНА ИКОНА на картата (Вместо само червена точка)
+                    const tacticalIcon = getIntelIcon(item.type);
+                    const marker = L.marker([item.lat, item.lon], { icon: tacticalIcon }).addTo(markersLayer);
                     
                     // Дефинираме функция за показване на детайли
                     const showDetails = () => {
@@ -124,25 +142,25 @@ window.onload = function() {
                                     <h3 style="color:#39FF14; text-transform:uppercase; margin-bottom:10px;">${item.title}</h3>
                                     <p style="color:#bbb; font-size:14px; line-height:1.5;">${item.description || "Monitoring situation in " + item.country + "."}</p>
                                     <div style="margin: 10px 0; color:#ff4d4d; font-family:monospace;">
-                                        <strong>TYPE:</strong> ${item.type} | <strong>FATALITIES:</strong> ${item.fatalities}
+                                        <strong>TYPE:</strong> ${item.type.toUpperCase()} | <strong>FATALITIES:</strong> ${item.fatalities}
                                     </div>
                                     <div style="font-size:11px; color:#666;">DATE: ${item.date} UTC</div>
                                     <a href="${finalUrl}" target="_blank" rel="noopener noreferrer" class="read-more-btn">READ FULL REPORT »</a>
                                 </div>`;
                         }
-                        map.flyTo([item.lat, item.lon], 6); // Фокусира картата върху събитието
+                        map.flyTo([item.lat, item.lon], 7, { animate: true, duration: 1.5 });
                     };
 
                     marker.on('click', showDetails);
 
-                    // Б. Добавяне в списъка LIVE INTEL UPDATE
+                    // Б. Добавяне в списъка LIVE INTEL UPDATE (С детайли за тип)
                     if (listContainer) {
                         const entry = document.createElement('div');
                         entry.className = 'intel-entry';
                         entry.innerHTML = `
                             <small style="color: #888;">[${item.date}]</small><br>
-                            <strong style="text-transform: uppercase;">${item.title}</strong><br>
-                            <span style="font-size: 10px; color: #ff4d4d;">LOCATION: ${item.country.toUpperCase()}</span>
+                            <strong style="text-transform: uppercase; color:#eee;">${item.title}</strong><br>
+                            <span style="font-size: 10px; color: #ff4d4d;">TYPE: ${item.type} | LOC: ${item.country.toUpperCase()}</span>
                         `;
                         entry.onclick = showDetails;
                         listContainer.appendChild(entry);
@@ -153,7 +171,6 @@ window.onload = function() {
 
     // --- 7. ТЕЛЕГРАМ / ВИДЕО REFRESH (ФОРСИРАН) ---
     function refreshFeeds() {
-        // Тук можем да добавим рефреш на видеото, ако е нужно
         console.log("Tactical Reload: Feeds synchronized.");
     }
 
@@ -176,8 +193,7 @@ setInterval(() => {
     }
 }, 1000);
 
-/** * ПРОВЕРКА ЗА СЪВМЕСТИМОСТ НА БРАУЗЪРА 
- * Система за автоматично следене на грешки
+/** * СИСТЕМА ЗА ГРЕШКИ И СЪВМЕСТИМОСТ 
  */
 window.onerror = function(msg, url, line) {
     console.log("%c ALERT: SYSTEM ERROR AT LINE " + line, "color: red; font-weight: bold;");
