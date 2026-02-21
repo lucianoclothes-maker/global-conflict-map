@@ -32,7 +32,7 @@ window.onload = function() {
     const highTension = [
         'Iran', 'North Korea', 'China', 'Taiwan', 'Venezuela', 
         'USA', 'United States', 'United States of America', 
-        'Germany', 'Turkey', 'Serbia', 'Bulgaria'
+        'Germany', 'Turkey', 
     ];
 
     fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson')
