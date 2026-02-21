@@ -377,10 +377,10 @@ function updateDashboardStats() {
             // Автоматична промяна на THREAT LEVEL
             const threatLevel = document.querySelector('header span[style*="#ff3131"]');
             if (threatLevel) {
-                if (count > 20) {
+                if (count > 71) {
                     threatLevel.innerText = "CRITICAL";
                     threatLevel.style.textShadow = "0 0 10px #ff3131";
-                } else if (count > 10) {
+                } else if (count > 40) {
                     threatLevel.innerText = "ELEVATED";
                     threatLevel.style.textShadow = "none";
                 } else {
