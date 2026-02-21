@@ -123,6 +123,13 @@ fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/mast
         { name: "Fordow Underground Facility", type: "ir-pvo", lat: 34.88, lon: 50.99 },
         { name: "Arak Heavy Water Plant", type: "ir-pvo", lat: 34.37, lon: 49.24 },
         { name: "Bushehr Nuclear Plant", type: "ir-pvo", lat: 28.82, lon: 50.88 },
+        { name: "Khorramabad Missile Base", type: "ir-missile", lat: 33.45, lon: 48.35 }, 
+        { name: "Tabriz Missile Silos", type: "ir-missile", lat: 38.08, lon: 46.29 }, 
+        { name: "Kermanshah Missile Site", type: "ir-missile", lat: 34.31, lon: 47.07 },
+        { name: "Eagle 44 Underground Base", type: "ir-air", lat: 28.05, lon: 55.51 }, 
+        { name: "Anarak Drone Test Range", type: "ir-air", lat: 33.32, lon: 53.70 },
+        { name: "Semnan Missile Port", type: "ir-missile", lat: 35.23, lon: 53.92 },
+        { name: "Shahroud Space Center", type: "ir-missile", lat: 36.42, lon: 55.01 },
     ];
 
     // --- СЕКЦИЯ 4: РАЗШИРЕН CSS СТИЛ (UI ОПТИМИЗАЦИЯ) ---
