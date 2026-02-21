@@ -1,205 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Global Conflict Dashboard | Terminal</title>
+    <meta charset="UTF-8">
+    <title>Global Conflict Dashboard | Terminal</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body, html { 
+            margin: 0; padding: 0; height: 100%; 
+            background: #050505; color: #39FF14; 
+            font-family: 'Segoe UI', Tahoma, sans-serif; overflow: hidden; 
+        }
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+        #map { position: absolute; top: 60px; bottom: 0; left: 0; right: 0; z-index: 1; background: #0a0a0a; }
 
-<style>
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    background: #050505;
-    color: #39FF14;
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-    overflow: hidden;
-}
+        header {
+            height: 60px; background: rgba(0, 0, 0, 0.95); 
+            border-bottom: 1px solid rgba(57, 255, 20, 0.3);
+            display: flex; align-items: center; justify-content: center;
+            position: relative; z-index: 2000;
+        }
 
-#map {
-    position: absolute;
-    top: 60px;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 1;
-    background: #0a0a0a;
-}
+        .tactical-panel {
+            position: fixed !important; z-index: 1000;
+            background: rgba(10, 10, 10, 0.6) !important; 
+            backdrop-filter: blur(15px) saturate(160%); 
+            border: 1px solid rgba(57, 255, 20, 0.2);
+            border-radius: 4px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+            display: flex; flex-direction: column; overflow: hidden;
+        }
 
-header {
-    height: 60px;
-    background: rgba(0, 0, 0, 0.95);
-    border-bottom: 1px solid rgba(57, 255, 20, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    z-index: 2000;
-}
+        /* Позициониране */
+        #chat-container { bottom: 20px; left: 20px; width: 300px; height: 35%; }
+        #news-container { top: 80px; right: 20px; width: 320px; height: 40%; }
+        #intel-container { bottom: 80px; right: 20px; width: 320px; height: 35%; }
 
-.tactical-panel {
-    position: fixed !important;
-    z-index: 1000;
-    background: rgba(10, 10, 10, 0.6) !important;
-    backdrop-filter: blur(15px) saturate(160%);
-    border: 1px solid rgba(57, 255, 20, 0.2);
-    border-radius: 4px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
+        .panel-header {
+            background: rgba(57, 255, 20, 0.1);
+            color: #39FF14; padding: 7px 12px;
+            font-size: 11px; font-weight: bold;
+            text-transform: uppercase; border-bottom: 1px solid rgba(57, 255, 20, 0.2);
+            letter-spacing: 1px;
+        }
 
-/* Позициониране */
-#chat-container { bottom: 20px; left: 20px; width: 300px; height: 35%; }
-#news-container { top: 80px; right: 20px; width: 320px; height: 40%; }
-#intel-container { bottom: 80px; right: 20px; width: 320px; height: 35%; }
+        .panel-content { padding: 12px; overflow-y: auto; color: #eee; font-size: 13px; height: 100%; }
 
-.panel-header {
-    background: rgba(57, 255, 20, 0.1);
-    color: #39FF14;
-    padding: 7px 12px;
-    font-size: 11px;
-    font-weight: bold;
-    text-transform: uppercase;
-    border-bottom: 1px solid rgba(57, 255, 20, 0.2);
-    letter-spacing: 1px;
-}
+        /* Зелен тактически скролер */
+        .telegram-feed-container::-webkit-scrollbar { width: 5px; }
+        .telegram-feed-container::-webkit-scrollbar-track { background: #000; }
+        .telegram-feed-container::-webkit-scrollbar-thumb { background: #39FF14; border-radius: 10px; }
 
-.panel-content {
-    padding: 8px;
-    overflow: hidden;
-    color: #eee;
-    font-size: 13px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
+        .map-legend {
+            position: fixed; bottom: 20px; right: 20px; z-index: 1000;
+            background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(5px);
+            padding: 6px 15px; border: 1px solid rgba(57, 255, 20, 0.3);
+            border-radius: 20px; font-size: 10px; display: flex; gap: 10px;
+        }
 
-/* Scrollbar */
-.telegram-feed-container::-webkit-scrollbar { width: 5px; }
-.telegram-feed-container::-webkit-scrollbar-track { background: #000; }
-.telegram-feed-container::-webkit-scrollbar-thumb { background: #39FF14; border-radius: 10px; }
-
-.map-legend {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
-    background: rgba(10, 10, 10, 0.7);
-    backdrop-filter: blur(5px);
-    padding: 6px 15px;
-    border: 1px solid rgba(57, 255, 20, 0.3);
-    border-radius: 20px;
-    font-size: 10px;
-    display: flex;
-    gap: 10px;
-}
-
-/* Telegram iframe styling */
-.telegram-frame {
-    flex: 1;
-    width: 100%;
-    border: none;
-    background: #000;
-}
-</style>
+        iframe { mix-blend-mode: screen; background: transparent !important; filter: brightness(1.2) contrast(1.1); opacity: 0.9; }
+    </style>
 </head>
-
 <body>
-
-<header>
-<div style="display:flex; justify-content:space-between; width:95%; align-items:center;">
-    <div style="font-size:10px; color:#888; text-transform:uppercase; flex:1;">
-        <span id="header-time">00:00:00</span> | USER:
-        <span style="color:#39FF14">BORISLAV</span> | ONLINE:
-        <span style="color:#39FF14">1</span>
-    </div>
-
-    <div style="text-align:center; flex:1;">
-        <div style="font-size:16px; font-weight:bold; letter-spacing:2px;">
-            🌐 GLOBAL CONFLICT DASHBOARD
+    <header>
+        <div style="display: flex; justify-content: space-between; width: 95%; align-items: center;">
+            <div style="font-size: 10px; color: #888; text-transform: uppercase; flex: 1;">
+                <span id="header-time">00:00:00</span> | USER: <span style="color:#39FF14">BORISLAV</span> | ONLINE: <span style="color:#39FF14">1</span>
+            </div>
+            <div style="text-align: center; flex: 1;">
+                <div style="font-size: 16px; font-weight: bold; letter-spacing: 2px;">🌐 GLOBAL CONFLICT DASHBOARD</div>
+                <div style="font-size: 9px; color: #39FF14; text-transform: uppercase; opacity: 0.8;">STATUS: ACTIVE | LOCATION: BULGARIA</div>
+            </div>
+            <div style="font-size: 10px; color: #888; text-transform: uppercase; text-align: right; flex: 1;">
+                EVENTS (24H): <span id="active-events" style="color:#39FF14">11</span> | THREAT LEVEL: <span style="color: #ff3131;">ELEVATED</span>
+            </div>
         </div>
-        <div style="font-size:9px; color:#39FF14; text-transform:uppercase; opacity:0.8;">
-            STATUS: ACTIVE | LOCATION: BULGARIA
+    </header>
+
+    <div id="map"></div>
+
+    <div class="map-legend">
+        <span style="color: #39FF14; font-weight: bold; margin-right: 5px;">STATUS:</span>
+        ⚔️ Combat | 🚀 Strikes | 🚢 Fleet | ⚠️ Incidents
+    </div>
+
+    <div id="chat-container" class="tactical-panel">
+        <div class="panel-header">📡 TACTICAL COMMS</div>
+        <iframe src="https://www5.cbox.ws/box/?boxid=961439&boxtag=rRC1cC" width="100%" height="100%" frameborder="0"></iframe>
+    </div>
+
+    <div id="news-container" class="tactical-panel">
+        <div class="panel-header">📝 MULTI-SOURCE INTEL FEED</div>
+  <div class="panel-content telegram-feed-container" style="padding:0; overflow-y: auto; height: 100%; background: #000;">
+    <iframe src="https://t.me/s/liveuamap" width="100%" height="450" frameborder="0" scrolling="yes" style="border-bottom: 2px solid #39FF14; margin-bottom: 10px;"></iframe>
+    
+    <iframe src="https://t.me/s/flash_ua" width="100%" height="450" frameborder="0" scrolling="yes" style="border-bottom: 2px solid #39FF14; margin-bottom: 10px;"></iframe>
+    
+    <iframe src="https://t.me/s/MiddleEastSpectator" width="100%" height="450" frameborder="0" scrolling="yes" style="border-bottom: 2px solid #39FF14; margin-bottom: 10px;"></iframe>
+    
+    <iframe src="https://t.me/s/intelslava" width="100%" height="450" frameborder="0" scrolling="yes" style="border-bottom: 2px solid #39FF14; margin-bottom: 10px;"></iframe>
+</div>
+    </div>
+
+    <div id="intel-container" class="tactical-panel">
+        <div class="panel-header">🔍 OBJECTIVE DETAILS</div>
+        <div id="news-content" class="panel-content">
+            <p style="font-style: italic; color: #888;">Select a map marker for intelligence analysis...</p>
         </div>
     </div>
 
-    <div style="font-size:10px; color:#888; text-transform:uppercase; text-align:right; flex:1;">
-        EVENTS (24H): <span id="active-events" style="color:#39FF14">11</span>
-        | THREAT LEVEL: <span style="color:#ff3131;">ELEVATED</span>
-    </div>
-</div>
-</header>
-
-<div id="map"></div>
-
-<div class="map-legend">
-<span style="color:#39FF14; font-weight:bold; margin-right:5px;">STATUS:</span>
-⚔️ Combat | 🚀 Strikes | 🚢 Fleet | ⚠️ Incidents
-</div>
-
-<!-- CHAT -->
-<div id="chat-container" class="tactical-panel">
-<div class="panel-header">📡 TACTICAL COMMS</div>
-<iframe src="https://www5.cbox.ws/box/?boxid=961439&boxtag=rRC1cC"
-        width="100%" height="100%" frameborder="0"></iframe>
-</div>
-
-<!-- INTEL FEED -->
-<div id="news-container" class="tactical-panel">
-<div class="panel-header">📝 MULTI-SOURCE INTEL FEED</div>
-
-<div class="panel-content telegram-feed-container">
-
-<select id="channelSelect"
-        style="background:#111; color:#39FF14; border:1px solid #39FF14;
-               padding:5px; font-size:11px; text-transform:uppercase; margin-bottom:8px;">
-    <option value="liveuamap">LIVEUAMAP</option>
-    <option value="flash_ua">FLASH_UA</option>
-    <option value="MiddleEastSpectator">MIDDLE EAST</option>
-    <option value="intelslava">INTELSLAVA</option>
-</select>
-
-<iframe id="tgFrame"
-        class="telegram-frame"
-        src="https://t.me/s/liveuamap"
-        loading="lazy">
-</iframe>
-
-</div>
-</div>
-
-<!-- OBJECTIVE DETAILS -->
-<div id="intel-container" class="tactical-panel">
-<div class="panel-header">🔍 OBJECTIVE DETAILS</div>
-<div id="news-content" class="panel-content">
-<p style="font-style:italic; color:#888;">
-Select a map marker for intelligence analysis...
-</p>
-</div>
-</div>
-
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="script.js"></script>
-
-<script>
-/* Channel Switch */
-document.getElementById("channelSelect").addEventListener("change", function () {
-    document.getElementById("tgFrame").src =
-        "https://t.me/s/" + this.value;
-});
-
-/* Live Clock */
-function updateClock() {
-    const now = new Date();
-    document.getElementById("header-time").textContent =
-        now.toUTCString().split(" ")[4] + " UTC";
-}
-setInterval(updateClock, 1000);
-updateClock();
-</script>
-
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
