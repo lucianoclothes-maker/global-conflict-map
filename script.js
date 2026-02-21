@@ -139,6 +139,14 @@ fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/mast
         { name: "Souda Bay Base (Crete)", type: "us-naval", lat: 35.48, lon: 24.14 },
         { name: "Thumrait Air Base (Oman)", type: "us-air", lat: 17.66, lon: 54.02 },
         { name: "RAF Akrotiri (Cyprus)", type: "us-air", lat: 34.59, lon: 32.98 },
+        { name: "UA 3rd Assault Brigade (Avdiivka Sector)", type: "ua-infantry", lat: 48.13, lon: 37.74 },
+        { name: "UA Defense Line (Kupiansk)", type: "ua-infantry", lat: 49.71, lon: 37.61 },
+        { name: "UA Marine Corps (Krinky Bridgehead)", type: "ua-infantry", lat: 46.73, lon: 33.09 },
+        { name: "Chasiv Yar Fortifications", type: "ua-infantry", lat: 48.58, lon: 37.83 },
+        { name: "RU 1st Guards Tank Army (Lyman Direction)", type: "ru-infantry", lat: 49.01, lon: 37.99 },
+        { name: "RU Assault Units (Bakhmut Sector)", type: "ru-infantry", lat: 48.59, lon: 38.00 },
+        { name: "RU 58th Army (Robotyne Front)", type: "ru-infantry", lat: 47.44, lon: 35.83 },
+        { name: "Donetsk Grouping", type: "ru-infantry", lat: 47.99, lon: 37.67 },
     ];
 
     // --- СЕКЦИЯ 4: РАЗШИРЕН CSS СТИЛ (UI ОПТИМИЗАЦИЯ) ---
@@ -173,23 +181,29 @@ fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/mast
     function createAssetIcon(type) {
         let symbol = '✈️'; 
         let styleClass = 'mil-icon-box ';
-        
-        if (type.startsWith('us-')) {
-            styleClass += 'icon-us-nato';
-            symbol = type.includes('naval') ? '⚓' : '🦅';
-        } else if (type.startsWith('ir-')) {
-            styleClass += 'icon-iran-tension';
-            symbol = type.includes('pvo') ? '📡' : '☢️';
-        } else {
-            styleClass += 'icon-ru-ua';
-            symbol = type.includes('naval') ? '⚓' : '🚢';
-        }
-
-        return L.divIcon({ 
-            html: `<div class="${styleClass}" style="font-size:18px; width:34px; height:34px;">${symbol}</div>`, 
-            iconSize: [34, 34] 
-        });
+       
+        function createAssetIcon(type) {
+    let symbol = '⚪'; 
+    let styleClass = 'mil-icon-box ';
+    
+    if (type === 'ua-infantry') { 
+        symbol = '🪖'; 
+        styleClass += 'icon-us-nato'; // Синьо/Зелено за Украйна
+    } 
+    else if (type === 'ru-infantry') { 
+        symbol = '🪖'; 
+        styleClass += 'icon-ru-ua'; // Червено за Русия
     }
+    else if (type === 'ir-nuclear') { symbol = '☢️'; styleClass += 'icon-iran-tension'; }
+    else if (type === 'ir-missile') { symbol = '🚀'; styleClass += 'icon-iran-tension'; }
+    else if (type.includes('naval')) { symbol = '⚓'; }
+    else if (type.includes('air')) { symbol = '🦅'; }
+
+    return L.divIcon({ 
+        html: `<div class="${styleClass}" style="font-size:18px;">${symbol}</div>`, 
+        iconSize: [32, 32] 
+    });
+}
 
     // Поставяне на статичните обекти върху картата
     strategicAssets.forEach(asset => {
