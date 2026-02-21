@@ -27,7 +27,7 @@ FEEDS = [
     "https://www.aljazeera.com/xml/rss/all.xml",
     "https://www.reutersagency.com/feed/",
     "https://p.dw.com/p/24CH",
-    "https://www.france24.com/en/rss"
+    "https://www.france24.com/en/rss",
     "https://www.militarytimes.com/arc/outboundfeeds/rss/category/flashpoints/?outputType=xml",
     "https://www.defensenews.com/arc/outboundfeeds/rss/category/global/?outputType=xml",
     "https://www.janes.com/rss", 
@@ -240,6 +240,7 @@ if __name__ == "__main__":
     run_bot()
     print(f"⏱️ Cycle Finished in {round(time.time() - start_time, 2)}s.")
     # Край на скрипта. Всички 250 реда са генерирани.
+
 
 
 
