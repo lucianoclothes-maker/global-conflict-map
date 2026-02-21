@@ -209,7 +209,7 @@ def run_bot():
         "China": ["Beijing", "Shanghai", "Taiwan Strait", "South China Sea", "Hainan", "Fujian"],
         "Europe": ["Brussels", "Warsaw", "Rzeszow", "Bucharest", "Berlin", "Paris", "London", "Poland", "Romania", "Finland", "Sweden" "Bulgaria"],
         "Middle East": ["Beirut", "Tyre", "Sidon", "Damascus", "Aleppo", "Latakia", "Red Sea", "Yemen", "Sanaa"],
-        "Asia": ["Tokyo", "Seoul", "Pyongyang", "Manila", "South China Sea"]
+        "Asia": ["Tokyo", "Seoul", "Pyongyang", "Manila", "South China Sea"],
         "Africa": ["Khartoum", "Mogadishu", "Niamey", "Bamako", "Ouagadougou", "Sudan", "Somalia", "Mali", "Niger", "Burkina Faso", "Libya", "Tripoli"],
         "Red Sea Region": ["Bab el-Mandeb", "Djibouti", "Eritrea"]
     }
@@ -277,6 +277,7 @@ if __name__ == "__main__":
     run_bot()
     print(f"⏱️ Cycle Finished in {round(time.time() - start_time, 2)}s.")
     # Край на скрипта. Всички 250 реда са генерирани.
+
 
 
 
