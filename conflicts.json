@@ -1,5 +1,18 @@
 [
     {
+        "country": "Europe",
+        "city": "Berlin",
+        "lat": 48.8796039,
+        "lon": 2.3270446,
+        "date": "2026-02-21 20:10:22",
+        "type": "Clashes",
+        "title": "Turkish-language drama \"Yellow Letters\" wins Berlin Film Festival's top prize",
+        "description": "Turkish-German director Ilker Catak's film \"Yellow ⁠Letters\" – a ​drama about what happens to a ​marriage under extraordinary political pressure – was awarded the Berlin Film Festival's Golden Bear ​top ‌prize on Saturday ⁠night. Catak's film tells the story of a Turkish director and his actor wife, suddenly barred from working because of their political opinions.",
+        "fatalities": "0",
+        "link": "https://www.france24.com/en/europe/20260221-turkish-language-drama-yellow-letters-wins-berlin-film-festival-s-top-prize",
+        "critical": false
+    },
+    {
         "country": "Israel",
         "city": "Tel Aviv",
         "lat": 32.0853,
@@ -949,19 +962,6 @@
         "critical": false
     },
     {
-        "country": "USA",
-        "city": "Washington",
-        "lat": 38.8951,
-        "lon": -77.0364,
-        "date": "2026-02-21 18:28:46",
-        "type": "Breaking News",
-        "title": "US businesses welcome Supreme Court ruling overturning Trump's tariffs",
-        "description": "Thousands of businesses won a hard-fought victory when the US Supreme Court ruled to overturn the White House's emergency tariffs, but the process of getting refunds has only just begun. In a decision that could ripple throughout the global economy for years, the court ruled that US President Donald Trump was not allowed to use the 1977 International Emergency Economic Powers Act to levy broad tariffs on imports.",
-        "fatalities": "0",
-        "link": "https://www.france24.com/en/video/20260221-us-businesses-welcome-supreme-court-ruling-overturning-trump-s-tariffs",
-        "critical": false
-    },
-    {
         "country": "Russia",
         "city": "Moscow",
         "lat": 55.7558,
@@ -998,6 +998,19 @@
         "description": "A video on an official government affiliated website reportedly showed the Sub Sea Baby drone striking a part of a Russian Kilo-class submarine.",
         "fatalities": "0",
         "link": "https://www.militarytimes.com/global/europe/2025/12/16/ukraines-first-underwater-drone-strike-caught-on-hacked-cameras/",
+        "critical": false
+    },
+    {
+        "country": "USA",
+        "city": "Washington",
+        "lat": 38.8951,
+        "lon": -77.0364,
+        "date": "2026-02-21 18:28:46",
+        "type": "Breaking News",
+        "title": "US businesses welcome Supreme Court ruling overturning Trump's tariffs",
+        "description": "Thousands of businesses won a hard-fought victory when the US Supreme Court ruled to overturn the White House's emergency tariffs, but the process of getting refunds has only just begun. In a decision that could ripple throughout the global economy for years, the court ruled that US President Donald Trump was not allowed to use the 1977 International Emergency Economic Powers Act to levy broad tariffs on imports.",
+        "fatalities": "0",
+        "link": "https://www.france24.com/en/video/20260221-us-businesses-welcome-supreme-court-ruling-overturning-trump-s-tariffs",
         "critical": false
     },
     {
