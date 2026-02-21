@@ -1,5 +1,18 @@
 [
     {
+        "country": "Iran",
+        "city": "Tehran",
+        "lat": 35.6892,
+        "lon": 51.389,
+        "date": "2026-02-21 22:55:58",
+        "type": "Breaking News",
+        "title": "Iran students stage first large anti-government protests since deadly crackdown",
+        "description": "The student protesters honoured thousands of those killed when nationwide mass protests were put down last month.",
+        "fatalities": "0",
+        "link": "https://www.bbc.com/news/articles/c5yj2kzkrj0o?at_medium=RSS&at_campaign=rss",
+        "critical": false
+    },
+    {
         "country": "Israel",
         "city": "Tel Aviv",
         "lat": 32.0853,
