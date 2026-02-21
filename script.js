@@ -351,7 +351,7 @@ setInterval(() => {
  * =============================================================================
  */
 
-// 1. Добавяме памет за броя събития (извън функцията)
+// 1. Добавяме памет за броя събития (извън основната функция за обновяване)
 let lastCount = 0; 
 
 function updateDashboardStats() {
@@ -380,9 +380,11 @@ function updateDashboardStats() {
                     threatLevel.style.textShadow = "0 0 10px #ff3131";
                 } else if (count > 10) {
                     threatLevel.innerText = "ELEVATED";
+                    threatLevel.style.textShadow = "none";
                 } else {
                     threatLevel.innerText = "LOW";
                     threatLevel.style.color = "#39FF14";
+                    threatLevel.style.textShadow = "none";
                 }
             }
         })
@@ -392,4 +394,5 @@ function updateDashboardStats() {
 // Извиквай функцията на всеки 30 секунди, за да е винаги актуално
 setInterval(updateDashboardStats, 30000);
 updateDashboardStats(); // Първоначално извикване
-};
+
+}; // ТАЗИ СКОБА ЗАТВАРЯ WINDOW.ONLOAD ОТ РЕД 33
