@@ -1,5 +1,31 @@
 [
     {
+        "country": "Ukraine",
+        "city": "Kharkiv",
+        "lat": 50.0017,
+        "lon": 36.2304,
+        "date": "2026-02-21 14:54:49",
+        "type": "Airstrike",
+        "title": "Russian attack on Kharkiv kills two, Ukraine hits missile plant",
+        "description": "Kharkiv regional administration head, Oleh Syniehubov, reported that 175 combat clashes were recorded.",
+        "fatalities": "0",
+        "link": "https://www.aljazeera.com/news/2026/2/21/russian-attack-on-kharkiv-kills-two-ukraine-hits-missile-plant?traffic_source=rss",
+        "critical": false
+    },
+    {
+        "country": "Iran",
+        "city": "Tehran",
+        "lat": 35.6892,
+        "lon": 51.389,
+        "date": "2026-02-21 14:54:48",
+        "type": "Airstrike",
+        "title": "Why Attacking Iran Could Be Riskier Than Capturing Maduro",
+        "description": "Iran’s extensive military abilities and network of regional proxies could draw the United States into a prolonged conflict.",
+        "fatalities": "0",
+        "link": "https://www.nytimes.com/2026/02/21/world/middleeast/iran-military-operation-venezuela.html",
+        "critical": false
+    },
+    {
         "country": "Russia",
         "city": "Moscow",
         "lat": 55.7558,
@@ -231,32 +257,6 @@
         "description": "These are the key developments from day 1,458 of Russias war on Ukraine.",
         "fatalities": "0",
         "link": "https://www.aljazeera.com/news/2026/2/21/russia-ukraine-war-list-of-key-events-day-1458?traffic_source=rss",
-        "critical": false
-    },
-    {
-        "country": "Israel",
-        "city": "Tel Aviv",
-        "lat": 32.0853,
-        "lon": 34.7818,
-        "date": "2026-02-21 12:32:26",
-        "type": "Breaking News",
-        "title": "US envoy suggests it would be ‘fine’ if Israel expands across Middle East",
-        "description": "It would be fine if they took it all, Mike Huckabee says when asked about expanding Israel from Nile to Euphrates.",
-        "fatalities": "0",
-        "link": "https://www.aljazeera.com/news/2026/2/20/us-envoy-suggests-it-would-be-fine-if-israel-expands-across-middle-east?traffic_source=rss",
-        "critical": false
-    },
-    {
-        "country": "Ukraine",
-        "city": "Kyiv",
-        "lat": 50.4501,
-        "lon": 30.5234,
-        "date": "2026-02-21 12:32:25",
-        "type": "Breaking News",
-        "title": "Uncertainty in Europe After Trump’s Supreme Court Tariff Loss",
-        "description": "The decision could distract from other challenges facing the continent, like issues with China and the war in Ukraine.",
-        "fatalities": "0",
-        "link": "https://www.nytimes.com/2026/02/21/world/europe/political-uncertainty-trump-tariff-loss.html",
         "critical": false
     }
 ]
