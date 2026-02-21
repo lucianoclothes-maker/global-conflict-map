@@ -87,7 +87,7 @@ LOCATION_CACHE = {
     "somalia": [5.1521, 46.1996],
     "libya": [26.3351, 17.2283],
     "tripoli": [32.8872, 13.1913],
-    "djibouti": [11.5721, 43.1456]
+    "djibouti": [11.5721, 43.1456],
     "kabul": [34.5553, 69.1770],
     "islamabad": [33.6844, 73.0479],
     "karachi": [24.8607, 67.0011],
@@ -284,6 +284,7 @@ if __name__ == "__main__":
     run_bot()
     print(f"⏱️ Cycle Finished in {round(time.time() - start_time, 2)}s.")
     # Край на скрипта. Всички 250 реда са генерирани.
+
 
 
 
