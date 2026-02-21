@@ -1,6 +1,19 @@
 [
     {
         "country": "Israel",
+        "city": "Tel Aviv",
+        "lat": 32.0853,
+        "lon": 34.7818,
+        "date": "2026-02-21 13:54:29",
+        "type": "Airstrike",
+        "title": "Palestinian-American Teenager Killed in West Bank Is Laid to Rest",
+        "description": "Nasrallah Abu Siyam, 19, was shot dead by an Israeli settler, according to a witness and Palestinian health officials, amid rising violent settler attacks in the Israeli-occupied territory.",
+        "fatalities": "0",
+        "link": "https://www.nytimes.com/2026/02/20/world/middleeast/palestinian-american-teenager-killed-west-bank.html",
+        "critical": false
+    },
+    {
+        "country": "Israel",
         "city": "Gaza",
         "lat": 31.5047,
         "lon": 34.4648,
@@ -117,19 +130,6 @@
         "critical": false
     },
     {
-        "country": "Israel",
-        "city": "Tel Aviv",
-        "lat": 32.0853,
-        "lon": 34.7818,
-        "date": "2026-02-21 12:32:26",
-        "type": "Breaking News",
-        "title": "Hamas holds vote to choose new interim leader, source tells BBC",
-        "description": "The armed group is electing a new head after its top leaders were killed by Israel.",
-        "fatalities": "0",
-        "link": "https://www.bbc.com/news/articles/c23z0kdypm3o?at_medium=RSS&at_campaign=rss",
-        "critical": false
-    },
-    {
         "country": "Iran",
         "city": "Tehran",
         "lat": 35.6892,
@@ -179,6 +179,19 @@
         "description": "Police confronted protesters in Albania’s capital Tirana after demonstrators shot fireworks and threw petrol bombs.",
         "fatalities": "0",
         "link": "https://www.aljazeera.com/video/newsfeed/2026/2/21/protesters-shoot-fireworks-at-albania-prime-ministers-office?traffic_source=rss",
+        "critical": false
+    },
+    {
+        "country": "Israel",
+        "city": "Tel Aviv",
+        "lat": 32.0853,
+        "lon": 34.7818,
+        "date": "2026-02-21 12:32:26",
+        "type": "Breaking News",
+        "title": "Hamas holds vote to choose new interim leader, source tells BBC",
+        "description": "The armed group is electing a new head after its top leaders were killed by Israel.",
+        "fatalities": "0",
+        "link": "https://www.bbc.com/news/articles/c23z0kdypm3o?at_medium=RSS&at_campaign=rss",
         "critical": false
     },
     {
@@ -244,19 +257,6 @@
         "description": "Paolo Zampolli, a special envoy for President Trump, endorsed Russia’s participation at next month’s Paralympics, a move greeted with dismay in European capitals.",
         "fatalities": "0",
         "link": "https://www.nytimes.com/2026/02/21/world/europe/trump-administration-russia-global-sports-return.html",
-        "critical": false
-    },
-    {
-        "country": "Ukraine",
-        "city": "Kyiv",
-        "lat": 50.4501,
-        "lon": 30.5234,
-        "date": "2026-02-21 12:32:25",
-        "type": "Clashes",
-        "title": "Ukrainian Women Tell Their Stories of Sexual Violence by Russian Soldiers",
-        "description": "Hundreds of Ukrainian women and girls have reported sexual violence by Russian troops during the four-year war in Ukraine.",
-        "fatalities": "0",
-        "link": "https://www.nytimes.com/2026/02/20/world/europe/russian-soldiers-sexual-violence-ukraine.html",
         "critical": false
     }
 ]
