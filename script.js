@@ -32,7 +32,7 @@ window.onload = function() {
     // Европа остава СИНЯ
     const blueZone = [
         'France', 'Germany', 'United Kingdom', 'Italy', 'Poland', 
-        'Spain', 'Bulgaria', 'Serbia', 'Romania', 'Greece', 'Norway', 'Belgium'
+        'Spain', 'Bulgaria', 'Romania', 'Greece', 'Norway', 'Belgium'
     ];
 
     // САЩ и Иран остават в Напрежение
