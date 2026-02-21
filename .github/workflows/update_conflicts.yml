@@ -1,7 +1,7 @@
 name: Update Conflict Map
 on:
   schedule:
-    - cron: '0 * * * *' # Автоматично на всеки час
+    - cron: '*/10 * * * *' # Автоматично на всеки час
   workflow_dispatch: # Ръчен бутон
 
 jobs:
