@@ -1,6 +1,97 @@
 [
     {
         "country": "Europe",
+        "city": "Paris",
+        "lat": 48.8787706,
+        "lon": 2.3222823,
+        "date": "2026-02-22 09:57:05",
+        "type": "Breaking News",
+        "title": "France's annual agricultural show gets underway in Paris",
+        "description": "The annual Paris agricultural show has gotten off to a rocky start this year, with the absence of cows for the first time in its history, following the outbreak of lumpy skin disease in 2025. But they're not the only ones missing, two major farmer unions have boycotted the traditional unions' meeting with President Macron, in protest over unstable incomes and the controversial EU-Mercorsur trade deal, which has pushed the farmers to a breaking po",
+        "fatalities": "0",
+        "link": "https://www.france24.com/en/france-s-annual-agricultural-show-gets-underway-in-paris",
+        "critical": false
+    },
+    {
+        "country": "Israel",
+        "city": "Tel Aviv",
+        "lat": 32.0853,
+        "lon": 34.7818,
+        "date": "2026-02-22 09:57:05",
+        "type": "Airstrike",
+        "title": "Hezbollah says 'resistance' is the only choice after deadly Israeli strike",
+        "description": "A Hezbollah official on Saturday said that \"resistance\" was the only option after Israeli strikes in Lebanon killed eight of its operatives. On Friday, the Israeli military said it had hit Hezbollah command centres in eastern Lebanon and targets linked to the Palestinian group Hamas in the south.",
+        "fatalities": "0",
+        "link": "https://www.france24.com/en/middle-east/20260221-hezbollah-says-resistance-is-the-only-choice-after-deadly-israeli-strike",
+        "critical": false
+    },
+    {
+        "country": "Iran",
+        "city": "Tehran",
+        "lat": 35.6892,
+        "lon": 51.389,
+        "date": "2026-02-22 09:57:05",
+        "type": "Nuclear",
+        "title": "Iran says will not 'bow' to pressure amid US nuclear talks as anti-govt protests reported in Tehran",
+        "description": "⁠President ​Masoud Pezeshkian said on ​Saturday that Iran \"will not ​bow\" ‌to pressure from world powers amid nuclear talks with the US. Meanwhile, Iranian students chanted anti-government slogans at rallies for the thousands killed during last month's demonstrations, local and diaspora media reported.",
+        "fatalities": "0",
+        "link": "https://www.france24.com/en/middle-east/20260221-iran-says-will-not-bow-to-pressure-amid-us-nuclear-talks-as-anti-govt-protests-reported-in-tehran",
+        "critical": false
+    },
+    {
+        "country": "Russia",
+        "city": "Moscow",
+        "lat": 55.7558,
+        "lon": 37.6173,
+        "date": "2026-02-22 09:57:05",
+        "type": "Clashes",
+        "title": "US and Russia agree to reestablish military dialogue after Ukraine talks",
+        "description": "High-level military communication was suspended in late 2021, as tension between Moscow and Washington rose ahead of the Russian invasion of Ukraine.",
+        "fatalities": "0",
+        "link": "https://www.militarytimes.com/global/europe/2026/02/05/us-and-russia-agree-to-reestablish-military-dialogue-after-ukraine-talks/",
+        "critical": false
+    },
+    {
+        "country": "USA",
+        "city": "Pentagon",
+        "lat": 38.8719,
+        "lon": -77.0563,
+        "date": "2026-02-22 09:57:05",
+        "type": "Explosion",
+        "title": "Trump’s new national defense strategy downgrades China threat",
+        "description": "The Pentagon declared on Friday that the U.S. military’s top priority is to defend the homeland and Western Hemisphere.",
+        "fatalities": "0",
+        "link": "https://www.militarytimes.com/news/pentagon-congress/2026/01/26/trumps-new-national-defense-strategy-downgrades-china-threat/",
+        "critical": false
+    },
+    {
+        "country": "Ukraine",
+        "city": "Kyiv",
+        "lat": 50.4501,
+        "lon": 30.5234,
+        "date": "2026-02-22 09:57:05",
+        "type": "Drone",
+        "title": "Ukraine’s first underwater drone strike caught on hacked cameras",
+        "description": "A video on an official government affiliated website reportedly showed the Sub Sea Baby drone striking a part of a Russian Kilo-class submarine.",
+        "fatalities": "0",
+        "link": "https://www.militarytimes.com/global/europe/2025/12/16/ukraines-first-underwater-drone-strike-caught-on-hacked-cameras/",
+        "critical": false
+    },
+    {
+        "country": "Iran",
+        "city": "Tehran",
+        "lat": 35.6892,
+        "lon": 51.389,
+        "date": "2026-02-22 09:56:59",
+        "type": "Nuclear",
+        "title": "Iranian students protest at universities amid tensions with US",
+        "description": "Iranian students chanted anti-government slogans and scuffled with counter-protesters on Saturday in the latest display of anger at the country's clerical leaders, who also face a US military build-up aimed at pressuring them into a nuclear deal. The gatherings at universities, which were reported by both local and diaspora media outlets, followed a mass protest movement that was met with a government crackdown last month that left thousands dead",
+        "fatalities": "0",
+        "link": "https://www.france24.com/en/iranian-students-protest-at-universities-amid-tensions-with-us",
+        "critical": false
+    },
+    {
+        "country": "Europe",
         "city": "Sweden",
         "lat": 59.7630561,
         "lon": 15.5040584,
@@ -39,19 +130,6 @@
         "critical": false
     },
     {
-        "country": "Iran",
-        "city": "Tehran",
-        "lat": 35.6892,
-        "lon": 51.389,
-        "date": "2026-02-22 09:53:32",
-        "type": "Nuclear",
-        "title": "Anti-government protests in Iran",
-        "description": "In Iran, students staged anti-government protests at several universities in the capital, Tehran.These were the first major rallies since last month’s brutal crackdown by the authorities, which reportedly left thousands dead. The unrest initially broke out in December over a severe economic crisis and the collapse of the Iranian currency, before escalating into mass anti-government demonstrations. The crackdown prompted the United States presiden",
-        "fatalities": "0",
-        "link": "https://www.france24.com/en/anti-government-protests-in-iran",
-        "critical": false
-    },
-    {
         "country": "Ukraine",
         "city": "Kyiv",
         "lat": 50.4501,
@@ -65,6 +143,19 @@
         "critical": false
     },
     {
+        "country": "Iran",
+        "city": "Tehran",
+        "lat": 35.6892,
+        "lon": 51.389,
+        "date": "2026-02-22 09:53:32",
+        "type": "Nuclear",
+        "title": "Anti-government protests in Iran",
+        "description": "In Iran, students staged anti-government protests at several universities in the capital, Tehran.These were the first major rallies since last month’s brutal crackdown by the authorities, which reportedly left thousands dead. The unrest initially broke out in December over a severe economic crisis and the collapse of the Iranian currency, before escalating into mass anti-government demonstrations. The crackdown prompted the United States presiden",
+        "fatalities": "0",
+        "link": "https://www.france24.com/en/anti-government-protests-in-iran",
+        "critical": false
+    },
+    {
         "country": "Asia",
         "city": "Afghanistan",
         "lat": 34.686023,
@@ -75,19 +166,6 @@
         "description": "Pakistan says the strikes were retaliation for recent suicide bombings in the country.",
         "fatalities": "0",
         "link": "https://www.bbc.com/news/articles/cdxgln3gnd6o?at_medium=RSS&at_campaign=rss",
-        "critical": false
-    },
-    {
-        "country": "Asia",
-        "city": "Afghanistan",
-        "lat": 34.686023,
-        "lon": 69.13693,
-        "date": "2026-02-22 09:53:30",
-        "type": "Airstrike",
-        "title": "Pakistan ‘kills dozens’ in air strikes on Afghanistan",
-        "description": "Pakistan’s military has carried out air strikes in Afghanistan, targeting what it called camps and hideouts.",
-        "fatalities": "0",
-        "link": "https://www.aljazeera.com/video/newsfeed/2026/2/22/pakistan-kills-dozens-in-air-strikes-on-afghanistan?traffic_source=rss",
         "critical": false
     },
     {
@@ -114,6 +192,19 @@
         "description": "From Mahatma Gandhis support for Palestine to Modis Netanyahu embrace, how Indias ties have evolved over the decades.",
         "fatalities": "0",
         "link": "https://www.aljazeera.com/news/2026/2/22/modis-israel-visit-timeline-of-indias-relations-with-israel-palestine?traffic_source=rss",
+        "critical": false
+    },
+    {
+        "country": "Asia",
+        "city": "Afghanistan",
+        "lat": 34.686023,
+        "lon": 69.13693,
+        "date": "2026-02-22 09:53:30",
+        "type": "Airstrike",
+        "title": "Pakistan ‘kills dozens’ in air strikes on Afghanistan",
+        "description": "Pakistan’s military has carried out air strikes in Afghanistan, targeting what it called camps and hideouts.",
+        "fatalities": "0",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/2/22/pakistan-kills-dozens-in-air-strikes-on-afghanistan?traffic_source=rss",
         "critical": false
     },
     {
@@ -1206,97 +1297,6 @@
         "description": "The Baltic nations are installing a variety of border security features meant to repel an invasion from Russia or Belarus.",
         "fatalities": "0",
         "link": "https://www.defensenews.com/global/europe/2026/02/20/estonia-begins-buying-hundreds-of-pop-up-bunkers-to-fortify-border-with-russia/",
-        "critical": false
-    },
-    {
-        "country": "USA",
-        "city": "Hawaii",
-        "lat": 19.5938015,
-        "lon": -155.4283701,
-        "date": "2026-02-21 18:28:48",
-        "type": "Breaking News",
-        "title": "New Army unit seeks to disrupt ‘malign influence’ in Indo-Pacific",
-        "description": "The 1st Theater Information Advantage Detachment in Hawaii is the first of three such units to activate, with two units planned for Georgia and Germany.",
-        "fatalities": "0",
-        "link": "https://www.militarytimes.com/news/your-army/2025/11/19/new-army-unit-seeks-to-disrupt-malign-influence-in-indo-pacific/",
-        "critical": false
-    },
-    {
-        "country": "China",
-        "city": "Beijing",
-        "lat": 39.9057136,
-        "lon": 116.3912972,
-        "date": "2026-02-21 18:28:48",
-        "type": "Naval",
-        "title": "Top US admiral says he’s watching China’s rapid naval buildup closely",
-        "description": "Adm. Daryl Caudle has called China’s shipbuilding capability “impressive” as Beijing moves ahead with a rapid buildup of the world’s largest navy.",
-        "fatalities": "0",
-        "link": "https://www.militarytimes.com/global/asia-pacific/2025/11/17/top-us-admiral-says-hes-watching-chinas-rapid-naval-buildup-closely/",
-        "critical": false
-    },
-    {
-        "country": "Ukraine",
-        "city": "Kyiv",
-        "lat": 50.4501,
-        "lon": 30.5234,
-        "date": "2026-02-21 18:28:48",
-        "type": "Clashes",
-        "title": "Trump says he’ll meet with Putin in Hungary",
-        "description": "President Donald Trump is redoubling his efforts to end the war in Ukraine, announcing a second meeting with Russia’s Vladimir Putin.",
-        "fatalities": "0",
-        "link": "https://www.militarytimes.com/global/europe/2025/10/16/trump-says-hell-meet-with-putin-in-hungary/",
-        "critical": false
-    },
-    {
-        "country": "Ukraine",
-        "city": "Kyiv",
-        "lat": 50.4501,
-        "lon": 30.5234,
-        "date": "2026-02-21 18:28:48",
-        "type": "Clashes",
-        "title": "Trump says he now thinks Ukraine can win back all land lost to Russia",
-        "description": "It's a dramatic shift from the U.S. leader’s repeated calls on Kyiv to make concessions to end the war.",
-        "fatalities": "0",
-        "link": "https://www.militarytimes.com/global/europe/2025/09/24/trump-says-he-now-thinks-ukraine-can-win-back-all-land-lost-to-russia/",
-        "critical": false
-    },
-    {
-        "country": "Russia",
-        "city": "Moscow",
-        "lat": 55.7558,
-        "lon": 37.6173,
-        "date": "2026-02-21 18:28:48",
-        "type": "Clashes",
-        "title": "China and Russia conduct joint sub patrols — should America worry?",
-        "description": "While the exercise only involved two subs, the warning was clear: America should contemplate the prospect of confronting a China-Russia alliance.",
-        "fatalities": "0",
-        "link": "https://www.militarytimes.com/global/asia-pacific/2025/09/22/china-and-russia-conduct-joint-sub-patrols-should-america-worry/",
-        "critical": false
-    },
-    {
-        "country": "Ukraine",
-        "city": "Kyiv",
-        "lat": 50.4501,
-        "lon": 30.5234,
-        "date": "2026-02-21 18:28:48",
-        "type": "Clashes",
-        "title": "Ukraine expects $3.5 billion fund for US weapons, Zelenskyy says",
-        "description": "Ukraine expects to have a $3.5 billion fund by next month to buy weapons from the U.S. and sustain its fight against Russia's invasion.",
-        "fatalities": "0",
-        "link": "https://www.militarytimes.com/global/europe/2025/09/17/ukraine-expects-35-billion-fund-for-us-weapons-zelenskyy-says/",
-        "critical": false
-    },
-    {
-        "country": "Ukraine",
-        "city": "Kyiv",
-        "lat": 50.4501,
-        "lon": 30.5234,
-        "date": "2026-02-21 18:28:48",
-        "type": "Airstrike",
-        "title": "Attacking these targets could cripple Russia’s war machine: Experts",
-        "description": "Striking eight targets across Russia could enable Ukraine to break the current stalemate and affect the course of the war, some U.S. experts argue.",
-        "fatalities": "0",
-        "link": "https://www.militarytimes.com/global/europe/2025/09/09/attacking-these-targets-could-cripple-russias-war-machine-experts/",
         "critical": false
     }
 ]
