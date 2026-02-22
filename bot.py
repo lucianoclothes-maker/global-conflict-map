@@ -286,18 +286,23 @@ for url in FEEDS:
     if len(new_found_events) > 0:
         unique_events = {}
         if os.path.exists('conflicts.json'):
-            with open('conflicts.json', 'r') as f:
-                old_data = json.load(f)
-                for event in old_data:
-                    unique_events[event['title']] = event
+            with open('conflicts.json', 'r', encoding='utf-8') as f:
+                try:
+                    old_data = json.load(f)
+                    for event in old_data:
+                        unique_events[event['title']] = event
+                except:
+                    pass
         
         for event in new_found_events:
             unique_events[event['title']] = event
             
-        with open('conflicts.json', 'w') as f:
-            json.dump(list(unique_events.values())[-100:], f, indent=4)
+        with open('conflicts.json', 'w', encoding='utf-8') as f:
+            json.dump(list(unique_events.values())[-100:], f, indent=4, ensure_ascii=False)
         print(f"📝 Map updated with {len(new_found_events)} new events.")
 
+if __name__ == "__main__":
+    run_bot()
 
 
 
