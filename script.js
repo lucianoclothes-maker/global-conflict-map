@@ -380,69 +380,55 @@ strategicAssets.forEach(asset => {
         });
     }
 
- // --- СЕКЦИЯ 7: СИНХРОНИЗАЦИЯ И ТАКТИЧЕСКИ ДАННИ (FIXED) ---
-    function syncTacticalData() {
-        fetch('conflicts.json?v=' + Date.now())
-            .then(res => res.json())
-            .then(data => {
-                if (!Array.isArray(data)) return;
-                markersLayer.clearLayers();
-                const sidebar = document.getElementById('intel-list');
-                if (sidebar) sidebar.innerHTML = '';
-
-                data.forEach(item => {
-                    const marker = L.marker([parseFloat(item.lat), parseFloat(item.lon)], {
-                        icon: L.divIcon({ 
-                            className: 'alert-pulse', 
-                            html: `<div style="font-size:28px;">⚠️</div>`, 
-                            iconSize: [40, 40] 
-                        })
-                    }).addTo(markersLayer);
-
-                    // ТОВА Е КЛЮЧЪТ ЗА ТЪРСАЧКАТА - БЕЗ НЕГО НЕ МОЖЕШ ДА ТЪРСИШ
-                    marker.tacticalSearchKey = (item.title + " " + (item.type || "") + " " + (item.country || "")).toLowerCase();
-                    marker.on('click', () => showIntelDetails(item));
-
-                    if (sidebar) {
-                        const entry = document.createElement('div');
-                        entry.className = 'intel-list-item';
-                        entry.setAttribute('data-search', marker.tacticalSearchKey);
-                        entry.innerHTML = `<strong>${item.title}</strong><br><small>${item.date || ""}</small>`;
-                        entry.onclick = () => showIntelDetails(item);
-                        sidebar.appendChild(entry);
-                    }
-                });
-            });
-    }
-
-    // --- СЕКЦИЯ 8: ЛОГИКА НА ТЪРСАЧКАТА (АКТИВИРАНЕ) ---
-    const searchBar = document.getElementById('tactical-search');
-    if (searchBar) {
-        searchBar.addEventListener('input', function(e) {
+// --- СЕКЦИЯ 8: ЛОГИКА НА ТЪРСАЧКАТА (FIXED) ---
+    // Използваме твоя searchBar, но го свързваме с атрибутите от горните секции
+    const searchBarElement = document.getElementById('tactical-search');
+    if (searchBarElement) {
+        searchBarElement.addEventListener('input', function(e) {
             const query = e.target.value.toLowerCase().trim();
             
-            // Филтриране на списъка вдясно
+            // 1. Филтриране на списъка вдясно (гледаме и двата възможни атрибута)
             document.querySelectorAll('.intel-list-item').forEach(el => {
-                const searchData = el.getAttribute('data-search') || "";
-                el.style.display = searchData.includes(query) ? 'block' : 'none';
+                const searchKey = el.getAttribute('data-search-key') || el.getAttribute('data-search') || "";
+                el.style.display = searchKey.includes(query) ? 'block' : 'none';
             });
 
-            // Филтриране на маркерите върху картата
+            // 2. Филтриране на маркерите върху картата
             markersLayer.eachLayer(layer => {
-                if (layer.tacticalSearchKey) {
-                    if (layer.tacticalSearchKey.includes(query)) {
-                        if (!map.hasLayer(layer)) layer.addTo(map);
-                    } else {
-                        map.removeLayer(layer);
-                    }
+                // Проверяваме всички ключове, които си дефинирал по-горе в кода
+                const info = layer.tacticalInfo || {};
+                const title = info.title || "";
+                const type = info.type || "";
+                const legacyKey = layer.tacticalSearchKey || "";
+                
+                const isMatch = title.includes(query) || type.includes(query) || legacyKey.includes(query);
+                
+                if (isMatch) {
+                    if (!map.hasLayer(layer)) map.addLayer(layer);
+                } else {
+                    map.removeLayer(layer);
                 }
             });
         });
     }
 
-    // --- СЕКЦИЯ 9: СТАРТИРАНЕ ---
+    // --- СЕКЦИЯ 9: СТАРТИРАНЕ И АВТОМАТИЗАЦИЯ ---
+    // Тук само ИЗВИКВАМЕ функциите, не ги дефинираме пак, за да няма SyntaxError
     updateDashboardStats();
     syncTacticalData();
-    setInterval(() => { updateDashboardStats(); syncTacticalData(); }, 30000);
 
-}; // <--- ТОВА Е ФИНАЛНАТА СКОБА НА РЕД 250 (ПРИБЛИЗИТЕЛНО)
+    // Настройваме интервалите за опресняване
+    setInterval(updateDashboardStats, 30000);
+    setInterval(syncTacticalData, 30000);
+
+    // Часовник за хедъра
+    setInterval(() => {
+        const timeDisplay = document.getElementById('header-time');
+        if (timeDisplay) {
+            timeDisplay.innerText = new Date().toUTCString().split(' ')[4] + " UTC";
+        }
+    }, 1000);
+
+    console.log(">> System: All tactical systems online.");
+
+}; // КРАЙ НА WINDOW.ONLOAD - ТОВА ЗАТВАРЯ ЦЕЛИЯ СКРИПТ ПРАВИЛНО
