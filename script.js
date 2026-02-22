@@ -253,11 +253,20 @@ strategicAssets.forEach(asset => {
         });
     }
 
-    strategicAssets.forEach(asset => {
-        L.marker([asset.lat, asset.lon], { icon: createAssetIcon(asset.type) })
-         .addTo(militaryLayer)
-         .bindTooltip(asset.name);
-    });
+   strategicAssets.forEach(asset => {
+    const assetMarker = L.marker([asset.lat, asset.lon], { icon: createAssetIcon(asset.type) })
+        .addTo(militaryLayer)
+        .bindTooltip(asset.name);
+
+    // ТОВА Е НОВИЯТ РЕД, КОЙТО ТИ ТРЯБВА:
+    assetMarker.bindPopup(`
+        <div style="background:#000; color:#fff; padding:10px; border:1px solid #39FF14; font-family:monospace;">
+            <strong style="color:#39FF14; font-size:14px;">${asset.name}</strong><br>
+            <hr style="border:0; border-top:1px solid #333; margin:5px 0;">
+            <span style="font-size:12px; color:#ccc;">${asset.description || "No assets listed"}</span>
+        </div>
+    `);
+});
 
     // --- СЕКЦИЯ 6: МОДАЛЕН ДИСПЛЕЙ ---
     const showIntelDetails = (data) => {
