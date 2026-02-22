@@ -380,30 +380,37 @@ strategicAssets.forEach(asset => {
         });
     }
 
-// --- СЕКЦИЯ 8: ЛОГИКА НА ТЪРСАЧКАТА (FIXED) ---
-    // Използваме твоя searchBar, но го свързваме с атрибутите от горните секции
-    const searchBarElement = document.getElementById('tactical-search');
-    if (searchBarElement) {
-        searchBarElement.addEventListener('input', function(e) {
+// --- СЕКЦИЯ 8: ФИНАЛНА ЛОГИКА НА ТЪРСАЧКАТА (UNIVERSAL FIX) ---
+    const tacticalInput = document.getElementById('tactical-search');
+    
+    if (tacticalInput) {
+        tacticalInput.addEventListener('input', function(e) {
             const query = e.target.value.toLowerCase().trim();
-            
-            // 1. Филтриране на списъка вдясно (гледаме и двата възможни атрибута)
-            document.querySelectorAll('.intel-list-item').forEach(el => {
-                const searchKey = el.getAttribute('data-search-key') || el.getAttribute('data-search') || "";
-                el.style.display = searchKey.includes(query) ? 'block' : 'none';
+            console.log("Searching for: " + query); // Дебъг конзола
+
+            // 1. Филтриране на списъка в страничния панел
+            const listItems = document.querySelectorAll('.intel-list-item');
+            listItems.forEach(el => {
+                // Проверява всички възможни атрибути, които може да си ползвал нагоре
+                const content = (
+                    el.getAttribute('data-search') || 
+                    el.getAttribute('data-search-key') || 
+                    el.innerText
+                ).toLowerCase();
+                
+                el.style.display = content.includes(query) ? 'block' : 'none';
             });
 
-            // 2. Филтриране на маркерите върху картата
+            // 2. Филтриране на маркерите върху самата карта
             markersLayer.eachLayer(layer => {
-                // Проверяваме всички ключове, които си дефинирал по-горе в кода
-                const info = layer.tacticalInfo || {};
-                const title = info.title || "";
-                const type = info.type || "";
-                const legacyKey = layer.tacticalSearchKey || "";
-                
-                const isMatch = title.includes(query) || type.includes(query) || legacyKey.includes(query);
-                
-                if (isMatch) {
+                // Вземаме информацията от маркера, независимо как е кръстена
+                const searchData = (
+                    layer.tacticalSearchKey || 
+                    (layer.tacticalInfo ? (layer.tacticalInfo.title + " " + layer.tacticalInfo.type) : "") ||
+                    ""
+                ).toLowerCase();
+
+                if (searchData.includes(query)) {
                     if (!map.hasLayer(layer)) map.addLayer(layer);
                 } else {
                     map.removeLayer(layer);
@@ -412,16 +419,18 @@ strategicAssets.forEach(asset => {
         });
     }
 
-    // --- СЕКЦИЯ 9: СТАРТИРАНЕ И АВТОМАТИЗАЦИЯ ---
-    // Тук само ИЗВИКВАМЕ функциите, не ги дефинираме пак, за да няма SyntaxError
-    updateDashboardStats();
-    syncTacticalData();
+    // --- СЕКЦИЯ 9: СТАРТИРАНЕ НА СИСТЕМИТЕ ---
+    // ВАЖНО: Тук само викаме функциите, които вече си дефинирал нагоре
+    if (typeof updateDashboardStats === 'function') updateDashboardStats();
+    if (typeof syncTacticalData === 'function') syncTacticalData();
 
-    // Настройваме интервалите за опресняване
-    setInterval(updateDashboardStats, 30000);
-    setInterval(syncTacticalData, 30000);
+    // Автоматично опресняване на всеки 30 секунди
+    setInterval(() => {
+        if (typeof updateDashboardStats === 'function') updateDashboardStats();
+        if (typeof syncTacticalData === 'function') syncTacticalData();
+    }, 30000);
 
-    // Часовник за хедъра
+    // Системен часовник
     setInterval(() => {
         const timeDisplay = document.getElementById('header-time');
         if (timeDisplay) {
@@ -429,6 +438,6 @@ strategicAssets.forEach(asset => {
         }
     }, 1000);
 
-    console.log(">> System: All tactical systems online.");
+    console.log(">> Tactical Search System: Operational");
 
-}; // КРАЙ НА WINDOW.ONLOAD - ТОВА ЗАТВАРЯ ЦЕЛИЯ СКРИПТ ПРАВИЛНО
+}; // КРАЙ НА WINDOW.ONLOAD
