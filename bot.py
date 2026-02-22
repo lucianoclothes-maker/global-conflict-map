@@ -142,7 +142,7 @@ def run_bot():
                 if city:
                     lat, lon = get_coordinates(city, region)
                     if lat and lon:
-                    if lat and lon:
+                   
                         # Логика за определяне на нивата на опасност
                         severity = "normal"
                         if event_type in ["Nuclear", "Airstrike", "Evacuation"]:
@@ -175,6 +175,7 @@ def run_bot():
 if __name__ == "__main__":
     run_bot()
     # End of Script - 250 Lines Precise.
+
 
 
 
