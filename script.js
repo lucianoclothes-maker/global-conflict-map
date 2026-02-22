@@ -334,7 +334,9 @@ if (data.length > 0 && data[0].title !== globalLastEventTitle) {
         }
 
         // 3. Създаване на маркера върху картата
-        const marker = L.marker([item.lat, item.lon], { 
+       const latJitter = (Math.random() - 0.5) * 0.015; 
+        const lonJitter = (Math.random() - 0.5) * 0.015;
+        const marker = L.marker([item.lat + latJitter, item.lon + lonJitter], { 
             icon: L.divIcon({ 
                 html: `<div class="alert-pulse" style="font-size:38px; filter: ${statusFilter};">${iconSymbol}</div>`, 
                 iconSize: [45, 45] 
