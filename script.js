@@ -380,9 +380,69 @@ strategicAssets.forEach(asset => {
         });
     }
 
-    // СТАРТИРАНЕ
+ // --- СЕКЦИЯ 7: СИНХРОНИЗАЦИЯ И ТАКТИЧЕСКИ ДАННИ (FIXED) ---
+    function syncTacticalData() {
+        fetch('conflicts.json?v=' + Date.now())
+            .then(res => res.json())
+            .then(data => {
+                if (!Array.isArray(data)) return;
+                markersLayer.clearLayers();
+                const sidebar = document.getElementById('intel-list');
+                if (sidebar) sidebar.innerHTML = '';
+
+                data.forEach(item => {
+                    const marker = L.marker([parseFloat(item.lat), parseFloat(item.lon)], {
+                        icon: L.divIcon({ 
+                            className: 'alert-pulse', 
+                            html: `<div style="font-size:28px;">⚠️</div>`, 
+                            iconSize: [40, 40] 
+                        })
+                    }).addTo(markersLayer);
+
+                    // ТОВА Е КЛЮЧЪТ ЗА ТЪРСАЧКАТА - БЕЗ НЕГО НЕ МОЖЕШ ДА ТЪРСИШ
+                    marker.tacticalSearchKey = (item.title + " " + (item.type || "") + " " + (item.country || "")).toLowerCase();
+                    marker.on('click', () => showIntelDetails(item));
+
+                    if (sidebar) {
+                        const entry = document.createElement('div');
+                        entry.className = 'intel-list-item';
+                        entry.setAttribute('data-search', marker.tacticalSearchKey);
+                        entry.innerHTML = `<strong>${item.title}</strong><br><small>${item.date || ""}</small>`;
+                        entry.onclick = () => showIntelDetails(item);
+                        sidebar.appendChild(entry);
+                    }
+                });
+            });
+    }
+
+    // --- СЕКЦИЯ 8: ЛОГИКА НА ТЪРСАЧКАТА (АКТИВИРАНЕ) ---
+    const searchBar = document.getElementById('tactical-search');
+    if (searchBar) {
+        searchBar.addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase().trim();
+            
+            // Филтриране на списъка вдясно
+            document.querySelectorAll('.intel-list-item').forEach(el => {
+                const searchData = el.getAttribute('data-search') || "";
+                el.style.display = searchData.includes(query) ? 'block' : 'none';
+            });
+
+            // Филтриране на маркерите върху картата
+            markersLayer.eachLayer(layer => {
+                if (layer.tacticalSearchKey) {
+                    if (layer.tacticalSearchKey.includes(query)) {
+                        if (!map.hasLayer(layer)) layer.addTo(map);
+                    } else {
+                        map.removeLayer(layer);
+                    }
+                }
+            });
+        });
+    }
+
+    // --- СЕКЦИЯ 9: СТАРТИРАНЕ ---
     updateDashboardStats();
     syncTacticalData();
     setInterval(() => { updateDashboardStats(); syncTacticalData(); }, 30000);
 
-} // КРАЙ НА WINDOW.ONLOAD
+}; // <--- ТОВА Е ФИНАЛНАТА СКОБА НА РЕД 250 (ПРИБЛИЗИТЕЛНО)
