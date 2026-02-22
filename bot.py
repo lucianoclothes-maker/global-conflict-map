@@ -225,83 +225,81 @@ def run_bot():
     print(f"📡 --- STARTING GLOBAL INTELLIGENCE SCAN ---")
     
 for url in FEEDS:
-        domain = url.split('/')[2]
-        print(f"🔍 Analyzing: {domain}")
-        try:
-            res = requests.get(url, headers={'User-Agent': USER_AGENT}, timeout=15)
-            if res.status_code != 200:
-                print(f"⚠️ Skip {domain}: Status {res.status_code}")
-                continue
-            
-            items = []
-            content_type = res.headers.get('Content-Type', '').lower()
-            is_xml = "xml" in content_type or url.endswith('.xml') or res.text.strip().startswith('<')
-            
-            if is_xml:
-                root = ET.fromstring(res.content)
-                for i in root.findall('.//item')[:15]:
-                    t_el = i.find('title')
-                    d_el = i.find('description')
-                    l_el = i.find('link')
-                    if t_el is not None:
-                        items.append({
-                            'title': clean_html(t_el.text),
-                            'desc': clean_html(d_el.text) if d_el is not None else "",
-                            'link': l_el.text if l_el is not None else url
-                        })
-            else:
-                soup = BeautifulSoup(res.content, 'html.parser')
-                for tag in soup.find_all(['h2', 'h3']):
-                    title_text = clean_html(tag.text)
-                    if len(title_text) > 35:
-                        items.append({
-                            'title': title_text,
-                            'desc': f"Intelligence report from {domain}",
-                            'link': url
-                        })
-
-            for item in items:
-                title, desc, link = item['title'], item['desc'], item['link']
-                if len(title) < 20: continue
-
-                city, region, event_type = extract_info(title + " " + desc, locations_db)
-                if city:
-                    lat, lon = get_coordinates(city, region)
-                    if lat and lon:
-                        event_data = {
-                            "country": region, "city": city, "lat": lat, "lon": lon,
-                            "date": time.strftime("%Y-%m-%d %H:%M:%S"),
-                            "type": event_type, "title": title[:120],
-                            "description": desc[:450] if desc else f"Update for {city}.",
-                            "fatalities": "0", "link": link,
-                            "critical": True if event_type in ["Evacuation", "Missile Strike"] else False
-                        }
-                        new_found_events.append(event_data)
-                        print(f"✅ Captured: {event_type} - {city}")
-
-        except Exception as e:
-            print(f"❌ Error on {domain}: {str(e)}")
-
-    # СЛЕД КАТО СВЪРШИ ЦИКЪЛА (подравнено точно под 'for url in FEEDS')
-    if len(new_found_events) > 0:
-        unique_events = {}
-        if os.path.exists('conflicts.json'):
-            try:
-                with open('conflicts.json', 'r', encoding='utf-8') as f:
-                    old_data = json.load(f)
-                    for event in old_data:
-                        unique_events[event['title']] = event
-            except:
-                pass
+    domain = url.split('/')[2]
+    print(f"🔍 Analyzing: {domain}")
+    try:
+        res = requests.get(url, headers={'User-Agent': USER_AGENT}, timeout=15)
+        if res.status_code != 200:
+            print(f"⚠️ Skip {domain}: Status {res.status_code}")
+            continue
         
-        for event in new_found_events:
-            unique_events[event['title']] = event
-            
-        with open('conflicts.json', 'w', encoding='utf-8') as f:
-            json.dump(list(unique_events.values())[-120:], f, indent=4, ensure_ascii=False)
-        print(f"📝 Map updated with {len(new_found_events)} new events.")
-    else:
-        print("ℹ️ No new tactical events found in this cycle.")
+        items = []
+        content_type = res.headers.get('Content-Type', '').lower()
+        is_xml = "xml" in content_type or url.endswith('.xml') or res.text.strip().startswith('<')
+        
+        if is_xml:
+            root = ET.fromstring(res.content)
+            for i in root.findall('.//item')[:15]:
+                t_el = i.find('title')
+                d_el = i.find('description')
+                l_el = i.find('link')
+                if t_el is not None:
+                    items.append({
+                        'title': clean_html(t_el.text),
+                        'desc': clean_html(d_el.text) if d_el is not None else "",
+                        'link': l_el.text if l_el is not None else url
+                    })
+        else:
+            soup = BeautifulSoup(res.content, 'html.parser')
+            for tag in soup.find_all(['h2', 'h3']):
+                title_text = clean_html(tag.text)
+                if len(title_text) > 35:
+                    items.append({
+                        'title': title_text,
+                        'desc': f"Intelligence report from {domain}",
+                        'link': url
+                    })
+
+        for item in items:
+            title, desc, link = item['title'], item['desc'], item['link']
+            if len(title) < 20: continue
+
+            city, region, event_type = extract_info(title + " " + desc, locations_db)
+            if city:
+                lat, lon = get_coordinates(city, region)
+                if lat and lon:
+                    event_data = {
+                        "country": region, "city": city, "lat": lat, "lon": lon,
+                        "date": time.strftime("%Y-%m-%d %H:%M:%S"),
+                        "type": event_type, "title": title[:120],
+                        "description": desc[:450] if desc else f"Update for {city}.",
+                        "fatalities": "0", "link": link,
+                        "critical": True if event_type in ["Evacuation", "Missile Strike"] else False
+                    }
+                    new_found_events.append(event_data)
+                    print(f"✅ Captured: {event_type} - {city}")
+
+    except Exception as e:
+        print(f"❌ Error on {domain}: {str(e)}")
+
+# КРАЙ НА ЦИКЪЛА - ТОЗИ БЛОК ТРЯБВА ДА Е ПОДРАВНЕН С 'for'
+if len(new_found_events) > 0:
+    unique_events = {}
+    if os.path.exists('conflicts.json'):
+        try:
+            with open('conflicts.json', 'r', encoding='utf-8') as f:
+                old_data = json.load(f)
+                for event in old_data:
+                    unique_events[event['title']] = event
+        except:
+            pass
+    
+    for event in new_found_events:
+        unique_events[event['title']] = event
+        
+    with open('conflicts.json', 'w', encoding='utf-8') as f:
+        json.dump(list(unique_events.values())[-120:], f, indent=4, ensure_ascii=False)
+    print(f"📝 Map updated with {len(new_found_events)} new events.")
 
 if __name__ == "__main__":
     run_bot()
