@@ -1,5 +1,19 @@
 [
     {
+        "country": "USA",
+        "city": "Washington",
+        "lat": 38.86649705556895,
+        "lon": -77.01526741044796,
+        "date": "2026-02-22 12:00:53",
+        "type": "Naval",
+        "severity": "normal",
+        "title": "Faith leaders accuse White House Faith Office of stonewalling them",
+        "description": "Some faith leaders say they're being shut out by the White House Faith Office, alleging the administration provides access only to those in political lockstep while ignoring the impact of ICE raids on religious attendance.Why it matters: The office is taxpayer-funded and ostensibly represents the full breadth of American religious life. Critics argue it has instead become a political arm for conservative Christians.Catch up quick: President Trump",
+        "fatalities": "0",
+        "link": "https://www.axios.com/2026/02/22/faith-leaders-white-house-faith-office-ice",
+        "critical": false
+    },
+    {
         "country": "Israel",
         "city": "Tel Aviv",
         "lat": 32.08447697390207,
