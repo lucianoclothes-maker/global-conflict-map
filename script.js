@@ -359,7 +359,8 @@ if (data.length > 0 && data[0].title !== globalLastEventTitle) {
             sidebar.appendChild(entry);
         }
     });
-
+});
+        }
     // Първоначално стартиране и настройка на интервал
     syncTacticalData(); 
     setInterval(syncTacticalData, 60000); 
