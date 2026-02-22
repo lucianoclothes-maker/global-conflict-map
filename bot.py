@@ -224,102 +224,103 @@ def run_bot():
 
     print(f"📡 --- STARTING GLOBAL INTELLIGENCE SCAN ---")
     
-  for url in FEEDS:
-        domain = url.split('/')[2]
-        print(f"🔍 Analyzing: {domain}")
-        try:
-            res = requests.get(url, headers={'User-Agent': USER_AGENT}, timeout=15)
-            if res.status_code != 200:
-                print(f"⚠️ Skip {domain}: Status {res.status_code}")
-                continue
-            
-            items = []
-            # Проверка за тип на съдържанието
-            content_type = res.headers.get('Content-Type', '').lower()
-            is_xml = "xml" in content_type or url.endswith('.xml') or res.text.strip().startswith('<')
-            
-            if is_xml:
-                # Стандартен RSS/XML парсинг
-                root = ET.fromstring(res.content)
-                for i in root.findall('.//item')[:15]:
-                    t_el = i.find('title')
-                    d_el = i.find('description')
-                    l_el = i.find('link')
-                    
-                    if t_el is not None:
-                        items.append({
-                            'title': clean_html(t_el.text),
-                            'desc': clean_html(d_el.text) if d_el is not None else "",
-                            'link': l_el.text if l_el is not None else url
-                        })
-            else:
-                # BeautifulSoup за Axios и White House
-                soup = BeautifulSoup(res.content, 'html.parser')
-                # Търсим заглавия в h2, h3 и статии
-                for tag in soup.find_all(['h2', 'h3']):
-                    title_text = clean_html(tag.text)
-                    if len(title_text) > 35: # Филтрираме кратки менюта/бутони
-                        items.append({
-                            'title': title_text,
-                            'desc': f"Intelligence report from {domain}",
-                            'link': url
-                        })
-
-            # Обработка на събраните данни
-            for item in items:
-                title = item['title']
-                desc = item['desc']
-                link = item['link']
-                
-                if len(title) < 20: continue
-
-                # Твоята оригинална функция за разпознаване на локации
-                city, region, event_type = extract_info(title + " " + desc, locations_db)
-                
-                if city:
-                    lat, lon = get_coordinates(city, region)
-                    if lat and lon:
-                        event_data = {
-                            "country": region,
-                            "city": city,
-                            "lat": lat,
-                            "lon": lon,
-                            "date": time.strftime("%Y-%m-%d %H:%M:%S"),
-                            "type": event_type,
-                            "title": title[:120],
-                            "description": desc[:450] if desc else f"Urgent diplomatic update for {city} region.",
-                            "fatalities": "0",
-                            "link": link,
-                            "critical": True if event_type in ["Evacuation", "Missile Strike"] else False
-                        }
-                        new_found_events.append(event_data)
-                        print(f"✅ Captured: {event_type} - {city}")
-
-        except Exception as e:
-            print(f"❌ Error on {domain}: {str(e)}")
-            continue # Продължава със следващия сайт дори при грешка
-
-    # ИНТЕГРИРАНЕ: Комбинираме без да трием нищо
-    all_combined = new_found_events + existing_events
-    unique_events = {}
-    for event in all_combined:
-        unique_events[event['title']] = event
+for url in FEEDS:
+domain = url.split('/')[2]
+print(f"🔍 Analyzing: {domain}")
+try:
+    res = requests.get(url, headers={'User-Agent': USER_AGENT}, timeout=15)
+    if res.status_code != 200:
+        print(f"⚠️ Skip {domain}: Status {res.status_code}")
+        continue
     
-    # ФИНАЛНО СОРТИРАНЕ И ОГРАНИЧАВАНЕ ДО 20 НОВИНИ
-    final_list = sorted(list(unique_events.values()), key=lambda x: x['date'], reverse=True)[:100]
+    items = []
+    # Проверка за тип на съдържанието
+    content_type = res.headers.get('Content-Type', '').lower()
+    is_xml = "xml" in content_type or url.endswith('.xml') or res.text.strip().startswith('<')
+    
+    if is_xml:
+        # Стандартен RSS/XML парсинг
+        root = ET.fromstring(res.content)
+        for i in root.findall('.//item')[:15]:
+            t_el = i.find('title')
+            d_el = i.find('description')
+            l_el = i.find('link')
+            
+            if t_el is not None:
+                items.append({
+                    'title': clean_html(t_el.text),
+                    'desc': clean_html(d_el.text) if d_el is not None else "",
+                    'link': l_el.text if l_el is not None else url
+                })
+    else:
+        # BeautifulSoup за Axios и White House
+        soup = BeautifulSoup(res.content, 'html.parser')
+        # Търсим заглавия в h2, h3 и статии
+        for tag in soup.find_all(['h2', 'h3']):
+            title_text = clean_html(tag.text)
+            if len(title_text) > 35: # Филтрираме кратки менюта/бутони
+                items.append({
+                    'title': title_text,
+                    'desc': f"Intelligence report from {domain}",
+                    'link': url
+                })
 
-    try:
-        with open('conflicts.json', 'w', encoding='utf-8') as f:
-            json.dump(final_list, f, indent=4, ensure_ascii=False)
-        print(f"🚀 DEPLOYMENT READY. DATABASE SIZE: {len(final_list)}")
-    except IOError as e:
-        print(f"📁 Write Failure: {e}")
+    # Обработка на събраните данни
+    for item in items:
+        title = item['title']
+        desc = item['desc']
+        link = item['link']
+        
+        if len(title) < 20: continue
+
+        # Твоята оригинална функция за разпознаване на локации
+        city, region, event_type = extract_info(title + " " + desc, locations_db)
+        
+        if city:
+            lat, lon = get_coordinates(city, region)
+            if lat and lon:
+                event_data = {
+                    "country": region,
+                    "city": city,
+                    "lat": lat,
+                    "lon": lon,
+                    "date": time.strftime("%Y-%m-%d %H:%M:%S"),
+                    "type": event_type,
+                    "title": title[:120],
+                    "description": desc[:450] if desc else f"Urgent diplomatic update for {city} region.",
+                    "fatalities": "0",
+                    "link": link,
+                    "critical": True if event_type in ["Evacuation", "Missile Strike"] else False
+                }
+                new_found_events.append(event_data)
+                print(f"✅ Captured: {event_type} - {city}")
+
+except Exception as e:
+    print(f"❌ Error on {domain}: {str(e)}")
+    continue # Продължава със следващия сайт дори при грешка
+
+# ИНТЕГРИРАНЕ: Комбинираме без да трием нищо
+all_combined = new_found_events + existing_events
+unique_events = {}
+for event in all_combined:
+unique_events[event['title']] = event
+
+# ФИНАЛНО СОРТИРАНЕ И ОГРАНИЧАВАНЕ ДО 20 НОВИНИ
+final_list = sorted(list(unique_events.values()), key=lambda x: x['date'], reverse=True)[:100]
+
+try:
+with open('conflicts.json', 'w', encoding='utf-8') as f:
+    json.dump(final_list, f, indent=4, ensure_ascii=False)
+print(f"🚀 DEPLOYMENT READY. DATABASE SIZE: {len(final_list)}")
+except IOError as e:
+print(f"📁 Write Failure: {e}")
 
 if __name__ == "__main__":
-    start_time = time.time()
-    run_bot()
-    print(f"⏱️ Cycle Finished in {round(time.time() - start_time, 2)}s.")
-    # Край на скрипта. Всички 250 реда са генерирани.
+start_time = time.time()
+run_bot()
+print(f"⏱️ Cycle Finished in {round(time.time() - start_time, 2)}s.")
+# Край на скрипта. Всички 250 реда са генерирани.
+
 
 
 
