@@ -1,5 +1,75 @@
 [
     {
+        "country": "Africa",
+        "city": "Mali",
+        "lat": 12.555569362678256,
+        "lon": -7.9222999463648325,
+        "date": "2026-02-22 11:00:59",
+        "type": "Breaking News",
+        "severity": "normal",
+        "title": "Somaliland minister says US may access its minerals, military bases: Report",
+        "description": "Minister of the presidency says exclusive rights offered to US are part of Somalilands push for global recognition.",
+        "fatalities": "0",
+        "link": "https://www.aljazeera.com/news/2026/2/22/somaliland-minister-says-us-may-access-its-minerals-military-bases-report?traffic_source=rss",
+        "critical": false
+    },
+    {
+        "country": "Africa",
+        "city": "Khartoum",
+        "lat": 15.439164990530205,
+        "lon": 32.56414903459073,
+        "date": "2026-02-22 11:00:59",
+        "type": "Breaking News",
+        "severity": "normal",
+        "title": "LIVE: India vs South Africa – T20 World Cup",
+        "description": "Follow our live build-up, team news, score, toss and full text and photo stream from todays Super Eight match.",
+        "fatalities": "0",
+        "link": "https://www.aljazeera.com/sports/liveblog/2026/2/22/live-india-vs-south-africa-t20-world-cup?traffic_source=rss",
+        "critical": false
+    },
+    {
+        "country": "Asia",
+        "city": "Afghanistan",
+        "lat": 34.75104120802648,
+        "lon": 69.11456091428145,
+        "date": "2026-02-22 11:00:59",
+        "type": "Airstrike",
+        "severity": "critical",
+        "title": "The aftermath of Pakistan’s air strikes in Afghanistan",
+        "description": "Attacks kill civilians, deepen border dispute and prompt threat of retaliation from Kabul.",
+        "fatalities": "0",
+        "link": "https://www.aljazeera.com/gallery/2026/2/22/the-aftermath-of-pakistan-air-strikes-in-in-afghanistan?traffic_source=rss",
+        "critical": true
+    },
+    {
+        "country": "Asia",
+        "city": "Afghanistan",
+        "lat": 34.71880798154897,
+        "lon": 69.20646390351631,
+        "date": "2026-02-22 11:00:57",
+        "type": "Airstrike",
+        "severity": "critical",
+        "title": "Pakistan launches deadly strikes on Afghanistan",
+        "description": "Pakistan says the strikes were retaliation for recent suicide bombings in the country.",
+        "fatalities": "0",
+        "link": "https://www.bbc.com/news/articles/cdxgln3gnd6o?at_medium=RSS&at_campaign=rss",
+        "critical": true
+    },
+    {
+        "country": "Iran",
+        "city": "Tehran",
+        "lat": 35.68038203244355,
+        "lon": 51.35297491377085,
+        "date": "2026-02-22 11:00:53",
+        "type": "Airstrike",
+        "severity": "critical",
+        "title": "Inside Iran’s Preparations for War and Plans for Survival",
+        "description": "Ayatollah Ali Khamenei has entrusted Ali Larijani, the top national security official, to ensure the Islamic Republic endures any military attacks and targeted killings.",
+        "fatalities": "0",
+        "link": "https://www.nytimes.com/2026/02/22/world/middleeast/iran-larijani-khamenei-pezeshkian.html",
+        "critical": true
+    },
+    {
         "country": "Middle East",
         "city": "Red sea",
         "lat": 27.255410208750817,
@@ -318,19 +388,6 @@
         "lon": 69.13693,
         "date": "2026-02-22 09:53:30",
         "type": "Airstrike",
-        "title": "Pakistan launches strikes on Afghanistan, with Taliban saying dozens killed",
-        "description": "Pakistan says the strikes were retaliation for recent suicide bombings in the country.",
-        "fatalities": "0",
-        "link": "https://www.bbc.com/news/articles/cdxgln3gnd6o?at_medium=RSS&at_campaign=rss",
-        "critical": false
-    },
-    {
-        "country": "Asia",
-        "city": "Afghanistan",
-        "lat": 34.686023,
-        "lon": 69.13693,
-        "date": "2026-02-22 09:53:30",
-        "type": "Airstrike",
         "title": "Pakistan ‘kills dozens’ in air strikes on Afghanistan",
         "description": "Pakistan’s military has carried out air strikes in Afghanistan, targeting what it called camps and hideouts.",
         "fatalities": "0",
@@ -361,6 +418,19 @@
         "description": "From Mahatma Gandhis support for Palestine to Modis Netanyahu embrace, how Indias ties have evolved over the decades.",
         "fatalities": "0",
         "link": "https://www.aljazeera.com/news/2026/2/22/modis-israel-visit-timeline-of-indias-relations-with-israel-palestine?traffic_source=rss",
+        "critical": false
+    },
+    {
+        "country": "Asia",
+        "city": "Afghanistan",
+        "lat": 34.686023,
+        "lon": 69.13693,
+        "date": "2026-02-22 09:53:30",
+        "type": "Airstrike",
+        "title": "Pakistan launches strikes on Afghanistan, with Taliban saying dozens killed",
+        "description": "Pakistan says the strikes were retaliation for recent suicide bombings in the country.",
+        "fatalities": "0",
+        "link": "https://www.bbc.com/news/articles/cdxgln3gnd6o?at_medium=RSS&at_campaign=rss",
         "critical": false
     },
     {
@@ -416,19 +486,6 @@
         "critical": false
     },
     {
-        "country": "Iran",
-        "city": "Tehran",
-        "lat": 35.6892,
-        "lon": 51.389,
-        "date": "2026-02-22 07:28:22",
-        "type": "Clashes",
-        "title": "Inside Iran’s Preparation for War and Plans for Survival",
-        "description": "Supreme Leader Ayatollah Ali Khamenei has entrusted Ali Larijani, the top national security official, to ensure the Islamic Republic endures possible war and assassination.",
-        "fatalities": "0",
-        "link": "https://www.nytimes.com/2026/02/22/world/middleeast/iran-larijani-khamenei-pezeshkian.html",
-        "critical": false
-    },
-    {
         "country": "Ukraine",
         "city": "Kyiv",
         "lat": 50.4501,
@@ -439,6 +496,19 @@
         "description": "Russia has struck Ukraines energy grid 2,500 times in four years, leaving millions without heat in freezing weather.",
         "fatalities": "0",
         "link": "https://www.aljazeera.com/video/by-the-numbers-3/2026/2/22/how-russia-has-weaponised-winter-against-people-in-ukraine?traffic_source=rss",
+        "critical": false
+    },
+    {
+        "country": "Iran",
+        "city": "Tehran",
+        "lat": 35.6892,
+        "lon": 51.389,
+        "date": "2026-02-22 07:28:22",
+        "type": "Clashes",
+        "title": "Inside Iran’s Preparation for War and Plans for Survival",
+        "description": "Supreme Leader Ayatollah Ali Khamenei has entrusted Ali Larijani, the top national security official, to ensure the Islamic Republic endures possible war and assassination.",
+        "fatalities": "0",
+        "link": "https://www.nytimes.com/2026/02/22/world/middleeast/iran-larijani-khamenei-pezeshkian.html",
         "critical": false
     },
     {
