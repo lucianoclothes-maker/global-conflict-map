@@ -312,27 +312,53 @@ if (data.length > 0 && data[0].title !== globalLastEventTitle) {
 }
 
 
-   // Обработка на всяка новина
-            data.forEach(item => {
-                const icon = (item.critical || item.type === "Evacuation") ? '🚨' : '⚠️';
-                const marker = L.marker([item.lat, item.lon], { 
-                    icon: L.divIcon({ html: `<div class="alert-pulse" style="font-size:38px;">${icon}</div>`, iconSize:[45,45] }) 
-                }).addTo(markersLayer);
+   // --- ОБНОВЕНА СЕКЦИЯ 7: ОБРАБОТКА НА НОВИНИТЕ С ЦВЕТОВЕ И ИКОНИ ---
+    data.forEach(item => {
+        // 1. Избор на символ (Emoji) според типа на събитието
+        let iconSymbol = '⚠️'; 
+        if (item.type === "Nuclear" || item.type === "Airstrike") iconSymbol = '🚀';
+        else if (item.type === "Drone") iconSymbol = '🛸';
+        else if (item.type === "Evacuation") iconSymbol = '🚨';
+        else if (item.type === "Clashes") iconSymbol = '⚔️';
 
-                // Фикс: Директно подаване на текущия обект (item) към функцията
-                marker.on('click', () => showIntelDetails(item));
+        // 2. Дефиниране на филтър за цвят (светещ ефект) според опасността
+        let statusFilter = "";
+        let severityLabel = item.severity || (item.critical ? 'critical' : 'normal');
 
-                if (sidebar) {
-                    const entry = document.createElement('div');
-                    entry.className = 'intel-list-item';
-                    entry.innerHTML = `<small style="color:#888;">[${item.date}]</small><br><strong style="color:#39FF14;">${item.title}</strong>`;
-                    entry.onclick = () => showIntelDetails(item);
-                    sidebar.appendChild(entry);
-                }
-            });
-        // Тук се затваря fetch/data блока
-        });
-    }
+        if (severityLabel === 'critical') {
+            statusFilter = "drop-shadow(0 0 12px #ff3131)"; // Силно червено
+        } else if (severityLabel === 'middle') {
+            statusFilter = "drop-shadow(0 0 10px #ff8c00) sepia(1) hue-rotate(-50deg)"; // Оранжево
+        } else {
+            statusFilter = "drop-shadow(0 0 5px #00a2ff) grayscale(0.4)"; // Синьо/Сиво
+        }
+
+        // 3. Създаване на маркера върху картата
+        const marker = L.marker([item.lat, item.lon], { 
+            icon: L.divIcon({ 
+                html: `<div class="alert-pulse" style="font-size:38px; filter: ${statusFilter};">${iconSymbol}</div>`, 
+                iconSize: [45, 45] 
+            }) 
+        }).addTo(markersLayer);
+
+        marker.on('click', () => showIntelDetails(item));
+
+        // 4. Добавяне в страничния списък (Sidebar) с динамичен цвят на текста
+        if (sidebar) {
+            const entry = document.createElement('div');
+            entry.className = 'intel-list-item';
+            
+            // Определяме цвета на заглавието в списъка
+            let titleColor = (severityLabel === 'critical') ? '#ff3131' : (severityLabel === 'middle' ? '#ff8c00' : '#39FF14');
+            
+            entry.innerHTML = `
+                <small style="color:#888;">[${item.date}]</small><br>
+                <strong style="color:${titleColor};">${item.title}</strong>
+            `;
+            entry.onclick = () => showIntelDetails(item);
+            sidebar.appendChild(entry);
+        }
+    });
 
     // Първоначално стартиране и настройка на интервал
     syncTacticalData(); 
